@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PePre（ペプレ）| 愛犬にぴったりの"一皿"が見つかるフード診断</title>
+
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            beige: '#FDFBF7',
+                            orange: '#F6AD55',
+                            dark: '#4A3728',
+                            accent: '#ED8936'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Helvetica Neue', 'Arial', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #FDFBF7;
+            color: #4A3728;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Custom scrollbar for breed list */
+        .breed-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .breed-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .breed-scroll::-webkit-scrollbar-thumb {
+            background: #F6AD55;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useMemo } = React;
+
+        // --- Mock Data ---
+        const PRODUCTS = [
+            {
+                id: 1,
+                name: "Nature's Gold Puppy",
+                tags: { age: 'puppy', concern: 'appetite', size: 'small' },
+                img: "https://placehold.co/400x300/F6AD55/white?text=Nature's+Gold",
+                description: "成長期の子犬に必要な高タンパク＆良質な脂質を配合。食いつき抜群の香りで完食間違いなし。",
+                ownerVoice: "食いつきが全然違います！毛並みもフワフワになってきました。",
+                price: "¥4,500"
+            },
+            {
+                id: 2,
+                name: "Vitality Senior Care",
+                tags: { age: 'senior', concern: 'obesity', size: 'medium' },
+                img: "https://placehold.co/400x300/ED8936/white?text=Vitality+Senior",
+                description: "シニア犬の代謝に合わせた低カロリー設計。関節サポート成分もたっぷり。",
+                ownerVoice: "最近太り気味だったうちの子も、これなら無理なく体重管理できています。",
+                price: "¥5,200"
+            },
+            {
+                id: 3,
+                name: "Pure White Care",
+                tags: { age: 'adult', concern: 'tear_burn', size: 'small' },
+                img: "https://placehold.co/400x300/E2E8F0/4A3728?text=Pure+White",
+                description: "涙やけの原因となる添加物を徹底排除。消化吸収の良い原材料を使用。",
+                ownerVoice: "長年悩んでいた涙やけが、このフードに変えてから驚くほど綺麗に！",
+                price: "¥6,000"
+            },
+            {
+                id: 4,
+                name: "Active Balance General",
+                tags: { age: 'adult', concern: 'cost', size: 'medium' },
+                img: "https://placehold.co/400x300/48BB78/white?text=Active+Balance",
+                description: "高品質ながら、続けやすい価格を実現。毎日の食事に最適な栄養バランス。",
+                ownerVoice: "この品質でこの価格は助かります。多頭飼いの我が家には必須です。",
+                price: "¥3,800"
+            },
+            {
+                id: 5,
+                name: "Giant Strong",
+                tags: { age: 'adult', concern: 'none', size: 'large' },
+                img: "https://placehold.co/400x300/2B6CB0/white?text=Giant+Strong",
+                description: "大型犬の大きな顎に合わせた大粒設計。噛み応えがあり満足感が高いです。",
+                ownerVoice: "やっと満足してくれる大粒フードに出会えました。",
+                price: "¥7,500"
+            }
+        ];
+
+        const BREEDS = {
+            "あ行": [
+                "アーフェンピンシャー", "アイリッシュ・ウォーター・スパニエル", "アイリッシュ・ウルフハウンド",
+                "アイリッシュ・セター", "アイリッシュ・ソフトコーテッド・ウィートン・テリア", "アイリッシュ・テリア",
+                "アイリッシュ・レッド・アンド・ホワイト・セター", "秋田", "アフガン・ハウンド", "アメリカン・アキタ",
+                "アメリカン・コッカー・スパニエル", "アメリカン・スタッフォードシャー・テリア", "アメリカン・フォックスハウンド",
+                "アラスカン・マラミュート", "イタリアン・グレーハウンド", "イビザン・ハウンド",
+                "イングリッシュ・コッカー・スパニエル", "イングリッシュ・スプリンガー・スパニエル", "イングリッシュ・セター",
+                "イングリッシュ・ポインター", "ウィペット", "ウエスト・ハイランド・ホワイト・テリア",
+                "ウェルシュ・コーギー・カーディガン", "ウェルシュ・コーギー・ペンブローク", "ウェルシュ・スプリンガー・スパニエル",
+                "ウェルシュ・テリア", "エアデール・テリア", "オーストラリアン・キャトル・ドッグ", "オーストラリアン・ケルピー",
+                "オーストラリアン・シェパード", "オーストラリアン・シルキー・テリア", "オーストラリアン・テリア",
+                "オールド・イングリッシュ・シープドッグ"
+            ],
+            "か行": [
+                "カーリーコーテッド・レトリーバー", "甲斐", "カニーンヘン・ダックスフンド", "紀州",
+                "キースホンド（ジャーマン・ウルフスピッツ）", "キャバリア・キング・チャールズ・スパニエル",
+                "キング・チャールズ・スパニエル", "クランバー・スパニエル", "グレート・デーン", "グレート・ピレニーズ",
+                "グレーハウンド", "ケアーン・テリア", "ケリー・ブルー・テリア", "コーイケルホンディエ",
+                "ゴードン・セター", "ゴールデン・レトリーバー", "コモンドール"
+            ],
+            "さ行": [
+                "サモエド", "サルーキ", "シー・ズー", "シーリハム・テリア", "シェットランド・シープドッグ",
+                "四国", "柴", "シベリアン・ハスキー", "シャー・ペイ", "ジャーマン・シェパード・ドッグ",
+                "ジャーマン・ショートヘアード・ポインター", "ジャーマン・ワイアーヘアード・ポインター",
+                "ジャイアント・シュナウザー", "ジャック・ラッセル・テリア", "ショートヘアード・ハンガリアン・ビズラ",
+                "スカイ・テリア", "スキッパーキ", "スコティッシュ・テリア", "スタッフォードシャー・ブル・テリア",
+                "スタンダード・シュナウザー", "スタンダード・プードル", "スムース・コリー", "スムース・フォックス・テリア",
+                "スルーギ", "セント・バーナード"
+            ],
+            "た行": [
+                "タイ・リッジバック・ドッグ", "ダックスフンド", "ダルメシアン", "ダンディ・ディンモント・テリア",
+                "チェサピーク・ベイ・レトリーバー", "チベタン・スパニエル", "チベタン・テリア", "チベタン・マスティフ",
+                "チャイニーズ・クレステッド・ドッグ", "チャウ・チャウ", "チワワ", "狆", "ディアハウンド",
+                "トイ・プードル", "トイ・マンチェスター・テリア", "ドーベルマン", "ドゴ・アルヘンティーノ", "土佐"
+            ],
+            "な行": [
+                "ナポリタン・マスティフ", "日本スピッツ", "日本テリア", "ニューファンドランド",
+                "ノヴァ・スコシア・ダック・トーリング・レトリーバー", "ノーフォーク・テリア", "ノーリッチ・テリア",
+                "ノルウェジアン・エルクハウンド"
+            ],
+            "は行": [
+                "パーソン・ラッセル・テリア", "バーニーズ・マウンテン・ドッグ", "パグ", "バセット・ハウンド",
+                "バセンジー", "パピヨン", "ハリア", "ビアデッド・コリー", "ビーグル", "ビション・フリーゼ",
+                "ピレニアン・シープドッグ", "ピレニアン・マスティフ", "ファラオ・ハウンド", "フィールド・スパニエル",
+                "ブービエ・デ・フランダース", "プーリー", "プチ・バセット・グリフォン・バンデーン", "プチ・ブラバンソン",
+                "ブラジリアン・ガード・ドッグ", "ブラック・アンド・タン・クーンハウンド", "フラットコーテッド・レトリーバー",
+                "ブラッドハウンド", "ブリアード", "ブリタニー・スパニエル", "ブリュッセル・グリフォン", "ブル・テリア",
+                "ブルドッグ", "ブルマスティフ", "フレンチ・ブルドッグ", "ペキニーズ", "ベドリントン・テリア",
+                "ペルービアン・ヘアレス・ドッグ", "ベルジアン・グリフォン", "ベルジアン・シェパード・ドッグ・グローネンダール",
+                "ベルジアン・シェパード・ドッグ・タービュレン", "ベルジアン・シェパード・ドッグ・マリノア",
+                "ベルジアン・シェパード・ドッグ・ラケノア", "ボーダー・コリー", "ボーダー・テリア",
+                "ポーチュギーズ・ウォーター・ドッグ", "ボクサー", "ボストン・テリア", "北海道", "ポメラニアン",
+                "ポリッシュ・ローランド・シープドッグ", "ボルゾイ", "ボルドー・マスティフ", "ボロニーズ"
+            ],
+            "ま行": [
+                "マスティフ", "マルチーズ", "マレンマ・シープドッグ", "マンチェスター・テリア", "ミディアム・プードル",
+                "ミニチュア・シュナウザー", "ミニチュア・ダックスフンド", "ミニチュア・ピンシャー", "ミニチュア・プードル",
+                "ミニチュア・ブル・テリア", "メキシカン・ヘアレス・ドッグ"
+            ],
+            "や行": [
+                "ユーラシア", "ヨークシャー・テリア"
+            ],
+            "ら行": [
+                "ラージ・ミュンスターレンダー", "ラサ・アプソ", "ラフ・コリー", "ラブラドール・レトリーバー",
+                "レークランド・テリア", "レオンベルガー", "ローシェン", "ローデシアン・リッジバック", "ロットワイラー"
+            ],
+            "わ行": [
+                "ワイアー・フォックス・テリア", "ワイマラナー"
+            ]
+        };
+
+        const BREED_TABS = Object.keys(BREEDS);
+
+        // --- Components ---
+
+        const Header = () => (
+            <header className="py-6 px-4 bg-white shadow-sm sticky top-0 z-50">
+                <div className="max-w-4xl mx-auto flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <img src="./images/logo.png" alt="PePre Logo" className="h-10 w-auto mix-blend-multiply" />
+                        <h1 className="text-xl md:text-2xl font-bold tracking-wide text-brand-dark">PePre</h1>
+                    </div>
+                </div>
+            </header>
+        );
+
+        const Footer = () => (
+            <footer className="bg-brand-dark text-brand-beige py-8 text-center mt-12">
+                <p className="text-sm opacity-80">&copy; 2026 PePre All Rights Reserved.</p>
+                <p className="text-xs mt-2 opacity-60">愛犬の健康を第一に考えるセレクトショップ</p>
+            </footer>
+        );
+
+        const Button = ({ children, onClick, variant = 'primary', className = '', disabled = false }) => {
+            const baseStyle = "px-8 py-3 rounded-full font-bold transition-all transform active:scale-95 shadow-lg block w-full md:w-auto text-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed";
+            const variants = {
+                primary: "bg-brand-orange text-white hover:bg-brand-accent",
+                outline: "border-2 border-brand-orange text-brand-orange hover:bg-orange-50",
+                secondary: "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            };
+            return (
+                <button onClick={onClick} disabled={disabled} className={`${baseStyle} ${variants[variant]} ${className}`}>
+                    {children}
+                </button>
+            );
+        };
+
+        // --- Diagnosis Logic ---
+
+        const STEPS = [
+            {
+                id: 'breed',
+                question: "愛犬の犬種は？",
+                type: 'breed_selector'
+            },
+            {
+                id: 'age',
+                question: "愛犬の年齢は？",
+                type: 'single',
+                options: [
+                    { label: "子犬 (〜1歳)", value: 'puppy' },
+                    { label: "成犬 (1〜7歳)", value: 'adult' },
+                    { label: "シニア (7歳〜)", value: 'senior' }
+                ]
+            },
+            {
+                id: 'concern',
+                question: "現在の悩みは？ (複数選択可)",
+                type: 'multiple',
+                options: [
+                    { label: "涙やけ", value: 'tear_burn' },
+                    { label: "毛並み・皮膚", value: 'coat' },
+                    { label: "肥満・体重", value: 'obesity' },
+                    { label: "食いつき", value: 'appetite' },
+                    { label: "値段が高い", value: 'cost' },
+                    { label: "特になし", value: 'none' }
+                ]
+            }
+        ];
+
+        const DiagnosisWizard = ({ onComplete }) => {
+            const [currentStep, setCurrentStep] = useState(0);
+            const [answers, setAnswers] = useState({});
+            const [activeTab, setActiveTab] = useState(BREED_TABS[0]);
+            const [tempMultiSelection, setTempMultiSelection] = useState([]);
+
+            const step = STEPS[currentStep];
+
+            const handleNext = (val) => {
+                const stepKey = step.id;
+                const newAnswers = { ...answers, [stepKey]: val };
+
+                // Clear temp selection for next step if it was multi
+                setTempMultiSelection([]);
+
+                setAnswers(newAnswers);
+
+                if (currentStep < STEPS.length - 1) {
+                    setTimeout(() => {
+                        setCurrentStep(prev => prev + 1);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }, 200);
+                } else {
+                    onComplete(newAnswers);
+                }
+            };
+
+            const toggleMultiSelect = (val) => {
+                setTempMultiSelection(prev => {
+                    if (val === 'none') return ['none']; // Mutually exclusive 'none'
+                    if (prev.includes('none')) return [val]; // Remove 'none' if selecting others
+
+                    return prev.includes(val)
+                        ? prev.filter(v => v !== val)
+                        : [...prev, val];
+                });
+            };
+
+            const renderStepContent = () => {
+                // --- Breed Selector ---
+                if (step.type === 'breed_selector') {
+                    return (
+                        <div className="w-full">
+                            {/* Tabs */}
+                            <div className="flex flex-wrap gap-2 justify-center mb-6">
+                                {BREED_TABS.map(tab => (
+                                    <button
+                                        key={tab}
+                                        onClick={() => setActiveTab(tab)}
+                                        className={`px-3 py-2 rounded-full text-sm font-bold transition-colors ${activeTab === tab
+                                            ? 'bg-brand-orange text-white ring-2 ring-offset-2 ring-brand-orange'
+                                            : 'bg-white text-gray-500 hover:bg-gray-100'
+                                            }`}
+                                    >
+                                        {tab}
+                                    </button>
+                                ))}
+                            </div>
+                            {/* Breed Buttons */}
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-h-96 overflow-y-auto p-2 breed-scroll">
+                                {BREEDS[activeTab].map(breed => (
+                                    <button
+                                        key={breed}
+                                        onClick={() => handleNext(breed)}
+                                        className="bg-white border hover:border-brand-orange p-4 rounded-lg shadow-sm text-sm font-medium text-brand-dark hover:bg-orange-50 transition-all text-left flex items-center"
+                                    >
+                                        <span className="w-2 h-2 rounded-full bg-brand-orange mr-2 inline-block"></span>
+                                        {breed}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    );
+                }
+
+                // --- Multiple Select ---
+                if (step.type === 'multiple') {
+                    return (
+                        <div className="w-full">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                                {step.options.map((opt) => {
+                                    const isSelected = tempMultiSelection.includes(opt.value);
+                                    return (
+                                        <button
+                                            key={opt.value}
+                                            onClick={() => toggleMultiSelect(opt.value)}
+                                            className={`
+                                                relative p-6 rounded-xl shadow-md transition-all text-lg font-medium text-left border-2
+                                                ${isSelected
+                                                    ? 'border-brand-orange bg-orange-50 text-brand-orange'
+                                                    : 'border-transparent bg-white text-brand-dark hover:border-gray-200'}
+                                            `}
+                                        >
+                                            <div className="flex justify-between items-center">
+                                                {opt.label}
+                                                {isSelected && <span className="text-xl font-bold">✓</span>}
+                                            </div>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                            <div className="text-center">
+                                <Button
+                                    onClick={() => handleNext(tempMultiSelection)}
+                                    disabled={tempMultiSelection.length === 0}
+                                    className="px-12 w-full md:w-1/2 mx-auto"
+                                >
+                                    次へ進む
+                                </Button>
+                            </div>
+                        </div>
+                    );
+                }
+
+                // --- Single Select ---
+                return (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {step.options.map((opt) => (
+                            <button
+                                key={opt.value}
+                                onClick={() => handleNext(opt.value)}
+                                className="bg-white border-2 border-transparent hover:border-brand-orange p-6 rounded-xl shadow-md transition-all text-lg font-medium text-brand-dark hover:shadow-lg text-left"
+                            >
+                                {opt.label}
+                            </button>
+                        ))}
+                    </div>
+                );
+            };
+
+            return (
+                <div className="max-w-2xl mx-auto py-12 px-4 fade-in min-h-[50vh] flex flex-col justify-center">
+                    <h2 className="text-center text-brand-orange font-bold tracking-widest mb-2">STEP {currentStep + 1} / {STEPS.length}</h2>
+                    <h3 className="text-2xl md:text-3xl font-bold text-center mb-8 text-brand-dark">
+                        {step.question}
+                        {step.type === 'multiple' && <span className="block text-base text-brand-accent font-normal mt-2">※複数選択して「次へ」を押してください</span>}
+                    </h3>
+
+                    {renderStepContent()}
+
+                    {currentStep > 0 && (
+                        <div className="mt-8 text-center">
+                            <button
+                                onClick={() => setCurrentStep(prev => prev - 1)}
+                                className="text-gray-400 text-sm underline hover:text-gray-600"
+                            >
+                                前に戻る
+                            </button>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const ProductCard = ({ product, rank }) => (
+            <div className="bg-white rounded-2xl overflow-hidden shadow-xl mb-8 relative fade-in border border-stone-100">
+                {/* Rank Badge */}
+                <div className="absolute top-0 left-0 bg-brand-orange text-white px-4 py-2 font-bold rounded-br-2xl text-lg z-10">
+                    No.{rank}
+                </div>
+
+                <div className="md:flex">
+                    <div className="md:w-1/3 bg-gray-100 relative h-64 md:h-auto">
+                        <img src={product.img} alt={product.name} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="p-6 md:w-2/3 flex flex-col justify-between">
+                        <div>
+                            <h3 className="text-2xl font-bold text-brand-dark mb-2">{product.name}</h3>
+                            <div className="flex flex-wrap gap-2 mb-4">
+                                <span className="text-xs bg-orange-100 text-brand-orange px-2 py-1 rounded-full uppercase tracking-wider">{product.tags.age}</span>
+                                <span className="text-xs bg-stone-100 text-stone-500 px-2 py-1 rounded-full">{product.tags.concern}</span>
+                            </div>
+                            <p className="text-gray-600 mb-6 leading-relaxed">{product.description}</p>
+
+                            {/* Owner's Voice Blockquote */}
+                            <blockquote className="border-l-4 border-brand-orange pl-4 italic text-gray-500 my-4 bg-orange-50/50 p-4 rounded-r-lg">
+                                <span className="block text-xs font-bold text-brand-orange mb-1">飼い主様の声</span>
+                                "{product.ownerVoice}"
+                            </blockquote>
+                        </div>
+
+                        <div className="mt-4 flex items-center justify-between">
+                            <span className="text-2xl font-bold text-brand-dark">{product.price}</span>
+                            <Button onClick={() => alert('アフィリエイトリンクへ遷移します')}>詳細を見る</Button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const Results = ({ answers, onReset }) => {
+            // Scoring Logic
+            const sortedProducts = useMemo(() => {
+                return [...PRODUCTS].map(p => {
+                    let score = 0;
+                    if (p.tags.age === answers.age) score += 3;
+
+                    // Handle Multiple Concerns
+                    if (Array.isArray(answers.concern)) {
+                        // If 'none' is selected, score is purely based on age/size mostly
+                        // If specific concerns match, add score
+                        if (answers.concern.includes(p.tags.concern)) {
+                            score += 5;
+                        }
+                    } else if (p.tags.concern === answers.concern) {
+                        // Fallback
+                        score += 5;
+                    }
+
+                    return { ...p, score };
+                }).sort((a, b) => b.score - a.score).slice(0, 3);
+            }, [answers]);
+
+            return (
+                <div className="max-w-3xl mx-auto py-12 px-4 fade-in">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl font-bold text-brand-dark mb-4">診断結果</h2>
+                        <h3 className="text-xl text-brand-orange font-medium mb-2">{answers.breed}専用プラン</h3>
+                        <p className="text-lg text-gray-600 leading-relaxed">
+                            <span className="inline-block">{answers.age === 'puppy' ? '子犬' : answers.age === 'senior' ? 'シニア犬' : '成犬'}の</span><br />
+                            <span className="inline-block">
+                                {Array.isArray(answers.concern) && answers.concern.length > 0 && !answers.concern.includes('none')
+                                    ? 'お悩みに合わせた'
+                                    : '健康維持に最適な'}
+                            </span>
+                            <span className="inline-block">フードが見つかりました</span>
+                        </p>
+                    </div>
+
+                    <div className="space-y-8">
+                        {sortedProducts.map((p, idx) => (
+                            <ProductCard key={p.id} product={p} rank={idx + 1} />
+                        ))}
+                    </div>
+
+                    <div className="mt-16 text-center bg-white p-8 rounded-2xl shadow-sm border border-orange-100">
+                        <h3 className="text-xl font-bold text-brand-orange mb-4">
+                            PePreが厳選した、<br className="md:hidden" />愛犬の健康を第一に考えるセレクト
+                        </h3>
+                        <p className="text-gray-500 mb-6 text-sm">
+                            ※診断結果は目安です。愛犬の体調に合わせてお選びください。
+                        </p>
+                        <button onClick={onReset} className="text-gray-400 underline hover:text-brand-orange transition-colors">
+                            もう一度診断する
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [isDiagnosing, setIsDiagnosing] = useState(true);
+            const [answers, setAnswers] = useState(null);
+
+            const handleComplete = (resultAnswers) => {
+                setAnswers(resultAnswers);
+                setIsDiagnosing(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            const handleReset = () => {
+                setAnswers(null);
+                setIsDiagnosing(true);
+            };
+
+            return (
+                <div className="min-h-screen flex flex-col font-sans">
+                    <Header />
+
+                    <main className="flex-grow">
+                        {isDiagnosing ? (
+                            <div className="container mx-auto">
+                                <div className="text-center py-12 px-4">
+                                    <img src="./images/hero_v4.png" alt="PePre Hero" className="mx-auto w-32 md:w-48 mb-6 fade-in mix-blend-multiply" />
+                                    <h1 className="text-2xl md:text-4xl font-bold text-brand-dark mb-6 leading-tight">
+                                        <span className="inline-block">愛犬にぴったりの</span><span className="inline-block">"一皿"が見つかる</span><br />
+                                        <span className="text-3xl md:text-5xl text-brand-orange mt-2 block">フード診断</span>
+                                    </h1>
+                                    <p className="text-gray-600 max-w-lg mx-auto leading-relaxed">
+                                        <span className="inline-block">たった3つの</span><span className="inline-block">質問に答えるだけで、</span><br className="hidden md:block" />
+                                        <span className="inline-block">あなたの愛犬に最適な</span><span className="inline-block">厳選フードをご提案します。</span>
+                                    </p>
+                                </div>
+                                <DiagnosisWizard onComplete={handleComplete} />
+                            </div>
+                        ) : (
+                            <Results answers={answers} onReset={handleReset} />
+                        )}
+                    </main>
+
+                    <Footer />
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
