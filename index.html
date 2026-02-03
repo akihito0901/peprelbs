@@ -85,50 +85,254 @@
         const PRODUCTS = [
             {
                 id: 1,
-                name: "Nature's Gold Puppy",
-                tags: { age: 'puppy', concern: 'appetite', size: 'small' },
-                img: "https://placehold.co/400x300/F6AD55/white?text=Nature's+Gold",
-                description: "成長期の子犬に必要な高タンパク＆良質な脂質を配合。食いつき抜群の香りで完食間違いなし。",
-                ownerVoice: "食いつきが全然違います！毛並みもフワフワになってきました。",
-                price: "¥4,500"
+                name: "うまか (UMAKA)",
+                tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['appetite'] },
+                img: "https://placehold.co/400x300/F6AD55/white?text=UMAKA",
+                description: "【総合評価S】九州産ブランド鶏「華味鳥」を100%使用。料亭品質の味とノンオイルコーティング製法で、涙やけと食いつきの悩みを同時に解決します。",
+                feature: "華味鳥100%・ノンオイル・グルコサミン配合",
+                ownerVoice: "「涙やけが綺麗になった」「これしか食べない」という声が続出しています。",
+                price: "¥5,478 (初回¥3,278)"
             },
             {
                 id: 2,
-                name: "Vitality Senior Care",
-                tags: { age: 'senior', concern: 'obesity', size: 'medium' },
-                img: "https://placehold.co/400x300/ED8936/white?text=Vitality+Senior",
-                description: "シニア犬の代謝に合わせた低カロリー設計。関節サポート成分もたっぷり。",
-                ownerVoice: "最近太り気味だったうちの子も、これなら無理なく体重管理できています。",
-                price: "¥5,200"
+                name: "やわか",
+                tags: { age: 'senior', concern: 'appetite', priority: 'A', secondaryConcern: ['coat', 'joints'] },
+                img: "https://placehold.co/400x300/ED8936/white?text=YAWAKA",
+                description: "【食いつき特化】「うまか」の品質はそのままに、水分を含ませたソフトタイプ。硬いフードが苦手な子や、消化機能が落ちてきたシニア犬に最適です。",
+                feature: "セミドライ・個包装・国産",
+                ownerVoice: "歯が弱ってきたうちの子も、これなら喜んで食べてくれます。",
+                price: "¥6,578 (初回¥4,378)"
             },
             {
                 id: 3,
-                name: "Pure White Care",
-                tags: { age: 'adult', concern: 'tear_burn', size: 'small' },
-                img: "https://placehold.co/400x300/E2E8F0/4A3728?text=Pure+White",
-                description: "涙やけの原因となる添加物を徹底排除。消化吸収の良い原材料を使用。",
-                ownerVoice: "長年悩んでいた涙やけが、このフードに変えてから驚くほど綺麗に！",
-                price: "¥6,000"
+                name: "ミシュワン (小型犬用)",
+                tags: { age: 'adult', concern: 'joints', priority: 'A', secondaryConcern: ['tear_burn', 'coat', 'obesity'] },
+                img: "https://placehold.co/400x300/4A3728/white?text=Mishone",
+                description: "【小型犬の味方】「緑イ貝」配合で関節ケアに特化。厚さ2.5mmの極薄粒は口の小さな子でも食べやすく、550円のモニターから試せます。",
+                feature: "緑イ貝配合・極薄粒・モニターあり",
+                ownerVoice: "パテラが心配でしたが、元気に走り回れるようになりました。",
+                price: "¥4,378 (初回モニター¥550~)"
             },
             {
                 id: 4,
-                name: "Active Balance General",
-                tags: { age: 'adult', concern: 'cost', size: 'medium' },
-                img: "https://placehold.co/400x300/48BB78/white?text=Active+Balance",
-                description: "高品質ながら、続けやすい価格を実現。毎日の食事に最適な栄養バランス。",
-                ownerVoice: "この品質でこの価格は助かります。多頭飼いの我が家には必須です。",
-                price: "¥3,800"
+                name: "GRANDS (グランツ)",
+                tags: { age: 'adult', concern: 'freshness', priority: 'B', secondaryConcern: ['allergy', 'none'] },
+                img: "https://placehold.co/400x300/48BB78/white?text=GRANDS",
+                description: "【鮮度重視】500gずつの小分けパックで、いつでも開けたての香りを。人工添加物不使用のグレインフリーで、アレルギー対策も万全です。",
+                feature: "500g小分け・グレインフリー・全3味",
+                ownerVoice: "小分けパックなので酸化を気にせず、いつも新鮮なままあげられます。",
+                price: "¥4,950 (初回¥980~)"
             },
             {
                 id: 5,
-                name: "Giant Strong",
-                tags: { age: 'adult', concern: 'none', size: 'large' },
-                img: "https://placehold.co/400x300/2B6CB0/white?text=Giant+Strong",
-                description: "大型犬の大きな顎に合わせた大粒設計。噛み応えがあり満足感が高いです。",
-                ownerVoice: "やっと満足してくれる大粒フードに出会えました。",
-                price: "¥7,500"
+                name: "ペトコトフーズ",
+                tags: { age: 'all', concern: 'appetite', priority: 'B', secondaryConcern: ['tear_burn', 'coat'] },
+                img: "https://placehold.co/400x300/E53E3E/white?text=PETOKOTO",
+                description: "【手作り品質】新鮮食材をスチーム加熱し急速冷凍。トッピングとして使えば、偏食の子でも驚くほど食いつきが変わります。",
+                feature: "フレッシュ・冷凍配送・カスタム診断",
+                ownerVoice: "名前入りのパッケージが届いて感動！偏食が嘘のように食べます。",
+                price: "¥4,980~ (診断による)"
+            },
+            {
+                id: 6,
+                name: "馬肉自然づくり",
+                tags: { age: 'all', concern: 'allergy', priority: 'B', secondaryConcern: ['tear_burn', 'obesity'] },
+                img: "https://placehold.co/400x300/D69E2E/white?text=Baniku",
+                description: "【馬肉専門店発】高タンパク・低脂質の馬肉を使用。鶏肉アレルギーの子や、ダイエットが必要な子に最適なプレミアムフードです。",
+                feature: "馬肉メイン・高タンパク・低アレルゲン",
+                ownerVoice: "アレルギー持ちですが、これなら痒がらずに食べてくれます。",
+                price: "¥3,300 (初回試食¥499)"
+            },
+            {
+                id: 7,
+                name: "ウェルフー (Welfoo)",
+                tags: { age: 'senior', concern: 'joints', priority: 'B', secondaryConcern: ['appetite', 'coat'] },
+                img: "https://placehold.co/400x300/38B2AC/white?text=Welfoo",
+                description: "【常温レトルト】冷蔵不要のウェットフード。腸活成分「はぴねす乳酸菌」配合で、シニア犬のお腹と関節を優しくサポートします。",
+                feature: "常温レトルト・腸活・ポスト投函",
+                ownerVoice: "常温で保存できるのが本当に楽。旅行にも持っていけます。",
+                price: "¥5,960 (初回¥990)"
+            },
+            {
+                id: 8,
+                name: "GLEBO (グレボ)",
+                tags: { age: 'senior', concern: 'appetite', priority: 'B', secondaryConcern: ['joints'] },
+                img: "https://placehold.co/400x300/805AD5/white?text=GLEBO",
+                description: "【シニア特化】衰えがちな嗅覚を「カツオ節の香り」で刺激。オメガ3脂肪酸配合で、老化ケアと食欲維持を両立させます。",
+                feature: "シニア専用・カツオ節風味・オメガ3",
+                ownerVoice: "急に食が細くなった13歳の子が、これなら完食してくれました。",
+                price: "¥4,840 (初回¥500~)"
+            },
+            {
+                id: 9,
+                name: "ME&MOMMY",
+                tags: { age: 'all', concern: 'none', priority: 'B', secondaryConcern: ['tear_burn'] },
+                img: "https://placehold.co/400x300/DD6B20/white?text=MeMommy",
+                description: "【食品工場製造】ペットフード工場ではなく、人の食事を作る工場で製造。安全性と「共に食べる幸せ」を大切にする飼い主様へ。",
+                feature: "食品工場製造・絶対安全・シンプル",
+                ownerVoice: "私が食べても美味しい！それくらい安全なのが嬉しいです。",
+                price: "¥3,800"
+            },
+            {
+                id: 10,
+                name: "このこのごはん",
+                tags: { age: 'all', concern: 'tear_burn', priority: 'C', secondaryConcern: ['coat'] },
+                img: "https://placehold.co/400x300/ECC94B/white?text=Konokono",
+                description: "【小型犬の定番】涙やけ・におい・毛並みに特化した国産フード。カツオ節風味の優しい味わいで、添加物も徹底排除されています。",
+                feature: "涙やけ特化・小型犬用・カツオ節風味",
+                ownerVoice: "目元の汚れが気にならなくなり、体臭も減った気がします。",
+                price: "¥3,850 (定期¥3,278)"
+            },
+            {
+                id: 11,
+                name: "カナガン (CANAGAN)",
+                tags: { age: 'all', concern: 'none', priority: 'C', secondaryConcern: ['appetite', 'coat'] },
+                img: "https://placehold.co/400x300/E53E3E/white?text=CANAGAN",
+                description: "【世界基準】チキン50%以上の高タンパク・グレインフリー。全犬種・全年齢対応で、迷ったらこれを選べば間違いありません。",
+                feature: "チキン50%超・グレインフリー・半額あり",
+                ownerVoice: "食いつきが凄い。筋肉質な体つきになってきました。",
+                price: "¥5,038 (初回半額¥2,519)"
+            },
+            {
+                id: 12,
+                name: "モグワン",
+                tags: { age: 'all', concern: 'coat', priority: 'C', secondaryConcern: ['appetite'] },
+                img: "https://placehold.co/400x300/3182CE/white?text=MogWan",
+                description: "【魚好きに】チキンとサーモンをブレンドした、手作り食レシピのフード。お魚成分で毛並みも改善。",
+                feature: "チキン＆サーモン・手作り風・半額あり",
+                ownerVoice: "手作り食のレシピから生まれただけあって、香りがすごく良いです。",
+                price: "¥5,456 (初回半額¥2,728)"
+            },
+            {
+                id: 13,
+                name: "ネルソンズ",
+                tags: { age: 'adult', concern: 'cost', priority: 'C', secondaryConcern: ['obesity', 'joints'] },
+                img: "https://placehold.co/400x300/2F855A/white?text=Nelsons",
+                description: "【中・大型犬用】5kgの大容量でコスパ最強。大型犬に多い胃腸トラブルや関節ケアも考えられています。",
+                feature: "5kg大容量・中大型犬用・高コスパ",
+                ownerVoice: "大型犬の多頭飼いですが、この品質でこの量は本当に助かります。",
+                price: "¥9,560 (定期¥7,546)"
             }
         ];
+
+        // --- Diagnosis Logic ---
+
+        const STEPS = [
+            {
+                id: 'breed',
+                question: "愛犬の犬種は？",
+                type: 'breed_selector'
+            },
+            {
+                id: 'age',
+                question: "愛犬の年齢は？",
+                type: 'single',
+                options: [
+                    { label: "子犬 (〜1歳)", value: 'puppy' },
+                    { label: "成犬 (1〜7歳)", value: 'adult' },
+                    { label: "シニア (7歳〜)", value: 'senior' }
+                ]
+            },
+            {
+                id: 'concern',
+                question: "現在の悩みは？ (複数選択可)",
+                type: 'multiple',
+                options: [
+                    { label: "涙やけ", value: 'tear_burn' },
+                    { label: "毛並み・皮膚", value: 'coat' },
+                    { label: "関節・足腰", value: 'joints' },
+                    { label: "肥満・体重", value: 'obesity' },
+                    { label: "食いつき", value: 'appetite' },
+                    { label: "アレルギー", value: 'allergy' },
+                    { label: "値段が高い", value: 'cost' },
+                    { label: "特になし", value: 'none' }
+                ]
+            }
+        ];
+
+        // ... intermediate code ... 
+
+        const Results = ({ answers, onReset }) => {
+            const sortedProducts = useMemo(() => {
+                return [...PRODUCTS].map(p => {
+                    let score = 0;
+
+                    // 1. Age Match (Critical)
+                    if (p.tags.age !== 'all' && p.tags.age !== answers.age) {
+                        score -= 1000;
+                    } else {
+                        score += 50;
+                    }
+
+                    // 2. Priority Bonus (Balanced for Reliability)
+                    // Adjusted to ensure niche winners can beat 'S' rank
+                    if (p.tags.priority === 'S') score += 25;
+                    if (p.tags.priority === 'A') score += 15;
+                    if (p.tags.priority === 'B') score += 5;
+
+                    // 3. Concern Match (Dominant Factor)
+                    if (Array.isArray(answers.concern)) {
+                        // Primary Matches
+                        if (answers.concern.includes(p.tags.concern)) score += 60; // Huge boost for solving main problem
+
+                        // Secondary Matches
+                        if (p.tags.secondaryConcern) {
+                            p.tags.secondaryConcern.forEach(c => {
+                                if (answers.concern.includes(c)) score += 30;
+                            });
+                        }
+
+                        // 'None' Handling
+                        if (answers.concern.includes('none') && p.tags.concern === 'none') {
+                            score += 50;
+                        }
+                    }
+
+                    return { ...p, score };
+                })
+                    .filter(p => p.score > 0)
+                    .sort((a, b) => b.score - a.score)
+                    .slice(0, 3);
+            }, [answers]);
+
+            return (
+                <div className="max-w-3xl mx-auto py-12 px-4 fade-in">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl font-bold text-brand-dark mb-4">診断結果</h2>
+                        <div className="inline-block bg-brand-beige px-6 py-2 rounded-full border border-brand-orange mb-4">
+                            <span className="text-brand-orange font-bold mr-2">{answers.breed}</span>
+                            <span className="text-gray-600">の</span>
+                            <span className="text-brand-orange font-bold mx-2">{answers.age === 'puppy' ? '子犬' : answers.age === 'senior' ? 'シニア犬' : '成犬'}</span>
+                            <span className="text-gray-600">にぴったりなのは...</span>
+                        </div>
+                        <p className="text-lg text-gray-600">
+                            あなたのわんちゃん専用の<br className="md:hidden" />最強フードBEST3を選出しました！
+                        </p>
+                    </div>
+
+                    <div className="space-y-10">
+                        {sortedProducts.map((p, idx) => (
+                            <ProductCard key={p.id} product={p} rank={idx + 1} />
+                        ))}
+                    </div>
+
+                    <div className="mt-16 text-center bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-orange-100 max-w-xl mx-auto">
+                        <h3 className="text-lg font-bold text-brand-orange mb-2">
+                            PePreの選定基準について
+                        </h3>
+                        <p className="text-gray-500 text-sm leading-relaxed">
+                            ※成分、原材料、口コミ、コスパなどを総合的に分析し、<br className="hidden md:block" />
+                            あなたの愛犬に最もメリットのある商品を提案しています。
+                        </p>
+                        <div className="mt-6">
+                            <button onClick={onReset} className="text-gray-400 underline hover:text-brand-orange transition-colors">
+                                もう一度診断する
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
 
         const BREEDS = {
             "あ行": [
@@ -238,38 +442,7 @@
             );
         };
 
-        // --- Diagnosis Logic ---
 
-        const STEPS = [
-            {
-                id: 'breed',
-                question: "愛犬の犬種は？",
-                type: 'breed_selector'
-            },
-            {
-                id: 'age',
-                question: "愛犬の年齢は？",
-                type: 'single',
-                options: [
-                    { label: "子犬 (〜1歳)", value: 'puppy' },
-                    { label: "成犬 (1〜7歳)", value: 'adult' },
-                    { label: "シニア (7歳〜)", value: 'senior' }
-                ]
-            },
-            {
-                id: 'concern',
-                question: "現在の悩みは？ (複数選択可)",
-                type: 'multiple',
-                options: [
-                    { label: "涙やけ", value: 'tear_burn' },
-                    { label: "毛並み・皮膚", value: 'coat' },
-                    { label: "肥満・体重", value: 'obesity' },
-                    { label: "食いつき", value: 'appetite' },
-                    { label: "値段が高い", value: 'cost' },
-                    { label: "特になし", value: 'none' }
-                ]
-            }
-        ];
 
         const DiagnosisWizard = ({ onComplete }) => {
             const [currentStep, setCurrentStep] = useState(0);
@@ -426,35 +599,53 @@
         };
 
         const ProductCard = ({ product, rank }) => (
-            <div className="bg-white rounded-2xl overflow-hidden shadow-xl mb-8 relative fade-in border border-stone-100">
+            <div className="bg-white rounded-2xl overflow-hidden shadow-xl mb-8 relative fade-in border border-stone-100 transform transition-all hover:scale-[1.02] duration-300">
                 {/* Rank Badge */}
-                <div className="absolute top-0 left-0 bg-brand-orange text-white px-4 py-2 font-bold rounded-br-2xl text-lg z-10">
-                    No.{rank}
+                <div className={`absolute top-0 left-0 text-white px-5 py-2 rounded-br-2xl font-bold text-lg z-10 shadow-md ${product.tags.priority === 'S' ? 'bg-gradient-to-r from-yellow-400 to-orange-500' :
+                    product.tags.priority === 'A' ? 'bg-gradient-to-r from-gray-600 to-gray-800' :
+                        'bg-gray-400'
+                    }`}>
+                    {rank}位 <span className="text-sm font-normal ml-1">(ランク{product.tags.priority})</span>
                 </div>
 
-                <div className="md:flex">
-                    <div className="md:w-1/3 bg-gray-100 relative h-64 md:h-auto">
+                <div className="md:flex h-full">
+                    <div className="md:w-2/5 relative min-h-[250px]">
                         <img src={product.img} alt={product.name} className="w-full h-full object-cover" />
                     </div>
-                    <div className="p-6 md:w-2/3 flex flex-col justify-between">
+                    <div className="p-6 md:w-3/5 flex flex-col justify-between">
                         <div>
-                            <h3 className="text-2xl font-bold text-brand-dark mb-2">{product.name}</h3>
-                            <div className="flex flex-wrap gap-2 mb-4">
-                                <span className="text-xs bg-orange-100 text-brand-orange px-2 py-1 rounded-full uppercase tracking-wider">{product.tags.age}</span>
-                                <span className="text-xs bg-stone-100 text-stone-500 px-2 py-1 rounded-full">{product.tags.concern}</span>
+                            <div className="flex justify-between items-start mb-2 pl-24 md:pl-0">
+                                <h3 className="text-xl md:text-2xl font-bold text-brand-dark leading-tight">{product.name}</h3>
                             </div>
-                            <p className="text-gray-600 mb-6 leading-relaxed">{product.description}</p>
 
-                            {/* Owner's Voice Blockquote */}
-                            <blockquote className="border-l-4 border-brand-orange pl-4 italic text-gray-500 my-4 bg-orange-50/50 p-4 rounded-r-lg">
-                                <span className="block text-xs font-bold text-brand-orange mb-1">飼い主様の声</span>
-                                "{product.ownerVoice}"
-                            </blockquote>
+                            <div className="flex flex-wrap gap-2 mb-4">
+                                {product.feature && product.feature.split('・').map((f, i) => (
+                                    <span key={i} className="bg-orange-50 text-brand-orange px-2 py-1 rounded text-xs font-bold border border-orange-100">
+                                        {f}
+                                    </span>
+                                ))}
+                            </div>
+
+                            <p className="text-gray-600 mb-5 leading-relaxed text-sm md:text-base">
+                                {product.description}
+                            </p>
+
+                            <div className="bg-gray-50 p-4 rounded-lg border-l-4 border-brand-orange mb-5">
+                                <p className="text-xs text-brand-orange font-bold mb-1 flex items-center">
+                                    <span className="text-lg mr-1">🐶</span> 飼い主様の声
+                                </p>
+                                <p className="text-sm italic text-gray-700 leading-relaxed">"{product.ownerVoice}"</p>
+                            </div>
                         </div>
 
-                        <div className="mt-4 flex items-center justify-between">
-                            <span className="text-2xl font-bold text-brand-dark">{product.price}</span>
-                            <Button onClick={() => alert('アフィリエイトリンクへ遷移します')}>詳細を見る</Button>
+                        <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
+                            <div>
+                                <p className="text-xs text-gray-400">参考価格</p>
+                                <p className="text-xl md:text-2xl font-bold text-brand-accent">{product.price}</p>
+                            </div>
+                            <Button className="px-6 py-2 shadow-lg" onClick={() => alert('アフィリエイトリンクへ遷移します')}>
+                                公式サイトへ
+                            </Button>
                         </div>
                     </div>
                 </div>
@@ -462,60 +653,82 @@
         );
 
         const Results = ({ answers, onReset }) => {
-            // Scoring Logic
             const sortedProducts = useMemo(() => {
                 return [...PRODUCTS].map(p => {
                     let score = 0;
-                    if (p.tags.age === answers.age) score += 3;
 
-                    // Handle Multiple Concerns
+                    // 1. Age Match (Critical)
+                    if (p.tags.age !== 'all' && p.tags.age !== answers.age) {
+                        score -= 1000;
+                    } else {
+                        score += 50;
+                    }
+
+                    // 2. Priority Bonus (Balanced for Reliability)
+                    // Adjusted to ensure niche winners can beat 'S' rank
+                    if (p.tags.priority === 'S') score += 25;
+                    if (p.tags.priority === 'A') score += 15;
+                    if (p.tags.priority === 'B') score += 5;
+
+                    // 3. Concern Match (Dominant Factor)
                     if (Array.isArray(answers.concern)) {
-                        // If 'none' is selected, score is purely based on age/size mostly
-                        // If specific concerns match, add score
-                        if (answers.concern.includes(p.tags.concern)) {
-                            score += 5;
+                        // Primary Matches
+                        if (answers.concern.includes(p.tags.concern)) score += 60; // Huge boost for solving main problem
+
+                        // Secondary Matches
+                        if (p.tags.secondaryConcern) {
+                            p.tags.secondaryConcern.forEach(c => {
+                                if (answers.concern.includes(c)) score += 30;
+                            });
                         }
-                    } else if (p.tags.concern === answers.concern) {
-                        // Fallback
-                        score += 5;
+
+                        // 'None' Handling
+                        if (answers.concern.includes('none') && p.tags.concern === 'none') {
+                            score += 50;
+                        }
                     }
 
                     return { ...p, score };
-                }).sort((a, b) => b.score - a.score).slice(0, 3);
+                })
+                    .filter(p => p.score > 0)
+                    .sort((a, b) => b.score - a.score)
+                    .slice(0, 3);
             }, [answers]);
 
             return (
                 <div className="max-w-3xl mx-auto py-12 px-4 fade-in">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl font-bold text-brand-dark mb-4">診断結果</h2>
-                        <h3 className="text-xl text-brand-orange font-medium mb-2">{answers.breed}専用プラン</h3>
-                        <p className="text-lg text-gray-600 leading-relaxed">
-                            <span className="inline-block">{answers.age === 'puppy' ? '子犬' : answers.age === 'senior' ? 'シニア犬' : '成犬'}の</span><br />
-                            <span className="inline-block">
-                                {Array.isArray(answers.concern) && answers.concern.length > 0 && !answers.concern.includes('none')
-                                    ? 'お悩みに合わせた'
-                                    : '健康維持に最適な'}
-                            </span>
-                            <span className="inline-block">フードが見つかりました</span>
+                        <div className="inline-block bg-brand-beige px-6 py-2 rounded-full border border-brand-orange mb-4">
+                            <span className="text-brand-orange font-bold mr-2">{answers.breed}</span>
+                            <span className="text-gray-600">の</span>
+                            <span className="text-brand-orange font-bold mx-2">{answers.age === 'puppy' ? '子犬' : answers.age === 'senior' ? 'シニア犬' : '成犬'}</span>
+                            <span className="text-gray-600">にぴったりなのは...</span>
+                        </div>
+                        <p className="text-lg text-gray-600">
+                            あなたのわんちゃん専用の<br className="md:hidden" />最強フードBEST3を選出しました！
                         </p>
                     </div>
 
-                    <div className="space-y-8">
+                    <div className="space-y-10">
                         {sortedProducts.map((p, idx) => (
                             <ProductCard key={p.id} product={p} rank={idx + 1} />
                         ))}
                     </div>
 
-                    <div className="mt-16 text-center bg-white p-8 rounded-2xl shadow-sm border border-orange-100">
-                        <h3 className="text-xl font-bold text-brand-orange mb-4">
-                            PePreが厳選した、<br className="md:hidden" />愛犬の健康を第一に考えるセレクト
+                    <div className="mt-16 text-center bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-orange-100 max-w-xl mx-auto">
+                        <h3 className="text-lg font-bold text-brand-orange mb-2">
+                            PePreの選定基準について
                         </h3>
-                        <p className="text-gray-500 mb-6 text-sm">
-                            ※診断結果は目安です。愛犬の体調に合わせてお選びください。
+                        <p className="text-gray-500 text-sm leading-relaxed">
+                            ※成分、原材料、口コミ、コスパなどを総合的に分析し、<br className="hidden md:block" />
+                            あなたの愛犬に最もメリットのある商品を提案しています。
                         </p>
-                        <button onClick={onReset} className="text-gray-400 underline hover:text-brand-orange transition-colors">
-                            もう一度診断する
-                        </button>
+                        <div className="mt-6">
+                            <button onClick={onReset} className="text-gray-400 underline hover:text-brand-orange transition-colors">
+                                もう一度診断する
+                            </button>
+                        </div>
                     </div>
                 </div>
             );

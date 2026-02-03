@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PePre (ペプレ) - 愛犬のためのトータルケア</title>
+
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            beige: '#FDFBF7',
+                            orange: '#F6AD55',
+                            dark: '#4A3728',
+                            accent: '#ED8936',
+                            green: '#68D391',
+                            pink: '#F687B3',
+                            blue: '#63B3ED'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Helvetica Neue', 'Arial', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #FDFBF7;
+            color: #4A3728;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hide scrollbar but allow scrolling */
+        .hide-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scroll {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .breed-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .breed-scroll::-webkit-scrollbar-thumb {
+            background: #F6AD55;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useMemo, useEffect } = React;
+
+        // --- ICONS ---
+        const IconHome = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>;
+        const IconRecord = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 12a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0ZM12 4.5a7.5 7.5 0 0 0-7.5 7.5h15A7.5 7.5 0 0 0 12 4.5Z" /></svg>; // Replaced with Plus/Circle for "Health" feel
+        const IconEvent = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" /></svg>;
+        const IconLost = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.439.875 1.039.875 1.73 0 .691-.38 1.291-.875 1.73" /></svg>;
+
+        // --- DATA: FOOD ---
+        const PRODUCTS = [
+            { id: 1, name: "うまか (UMAKA)", tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['appetite'] }, img: "https://placehold.co/400x300/F6AD55/white?text=UMAKA", description: "【総合評価S】九州産ブランド鶏「華味鳥」を100%使用。涙やけと食いつきを同時に解決。", price: "¥5,478", feature: "華味鳥100%・ノンオイル" },
+            { id: 2, name: "やわか", tags: { age: 'senior', concern: 'appetite', priority: 'A', secondaryConcern: ['coat', 'joints'] }, img: "https://placehold.co/400x300/ED8936/white?text=YAWAKA", description: "【食いつき特化】水分を含ませたソフトタイプ。硬いフードが苦手な子やシニアに。", price: "¥6,578", feature: "セミドライ・国産" },
+            { id: 3, name: "ミシュワン (小型犬用)", tags: { age: 'adult', concern: 'joints', priority: 'A', secondaryConcern: ['tear_burn', 'coat', 'obesity'] }, img: "https://placehold.co/400x300/4A3728/white?text=Mishone", description: "【小型犬の味方】「緑イ貝」配合で関節ケアに特化。極薄粒で食べやすい。", price: "¥4,378", feature: "関節ケア・極薄粒" },
+            { id: 4, name: "GRANDS (グランツ)", tags: { age: 'adult', concern: 'freshness', priority: 'B', secondaryConcern: ['allergy', 'none'] }, img: "https://placehold.co/400x300/48BB78/white?text=GRANDS", description: "【鮮度重視】500g小分けでいつでも開けたての香り。人工添加物不使用。", price: "¥4,950", feature: "小分け・グレインフリー" },
+            { id: 5, name: "ペトコトフーズ", tags: { age: 'all', concern: 'appetite', priority: 'B', secondaryConcern: ['tear_burn', 'coat'] }, img: "https://placehold.co/400x300/E53E3E/white?text=PETOKOTO", description: "【手作り品質】新鮮食材をスチーム加熱。トッピングで食いつき劇的改善。", price: "¥4,980~", feature: "フレッシュ・冷凍" }
+        ];
+
+        const BREEDS = {
+            "あ行": ["アーフェンピンシャー", "秋田", "アメリカン・コッカー・スパニエル", "イタリアン・グレーハウンド", "ウィペット", "ウェルシュ・コーギー", "オーストラリアン・シェパード"],
+            "か行": ["甲斐", "キャバリア・キング・チャールズ・スパニエル", "グレート・ピレニーズ", "ゴールデン・レトリーバー"],
+            "さ行": ["サモエド", "シー・ズー", "シェットランド・シープドッグ", "柴", "シベリアン・ハスキー", "ジャック・ラッセル・テリア", "スタンダード・プードル"],
+            "た行": ["ダックスフンド", "ダルメシアン", "チワワ", "トイ・プードル", "ドーベルマン"],
+            "な行": ["日本スピッツ"],
+            "は行": ["バーニーズ・マウンテン・ドッグ", "パグ", "バセット・ハウンド", "パピヨン", "ビーグル", "ビション・フリーゼ", "ブルドッグ", "フレンチ・ブルドッグ", "ボーダー・コリー", "ポメラニアン", "ボストン・テリア"],
+            "ま行": ["マルチーズ", "ミニチュア・シュナウザー", "ミニチュア・ダックスフンド", "ミニチュア・ピンシャー"],
+            "や行": ["ヨークシャー・テリア"],
+            "ら行": ["ラブラドール・レトリーバー"],
+            "わ行": ["ワイマラナー"]
+        };
+        const BREED_TABS = Object.keys(BREEDS);
+
+        // --- DATA: EVENTS (2026 Feb-Mar) ---
+        const EVENTS_DATA = [
+            { date: "2/14-15", title: "わんにゃんアニマルフェス", place: "舎人公園 (東京)", tags: ["屋外", "家族向け"], img: "https://placehold.co/300x150/F6AD55/white?text=ANI+FES" },
+            { date: "2/21-22", title: "千葉わんわん冬まつり", place: "幕張メッセ (千葉)", tags: ["屋内", "大型"], img: "https://placehold.co/300x150/63B3ED/white?text=CHIBA+WAN" },
+            { date: "2/28-3/1", title: "水元ドッグフェスティバル", place: "水元公園 (東京)", tags: ["屋外", "最大級"], img: "https://placehold.co/300x150/68D391/white?text=MIZUMOTO" },
+            { date: "3/7-8", title: "Sippo Festa.", place: "国営ひたち海浜公園 (茨城)", tags: ["屋外", "北関東最大"], img: "https://placehold.co/300x150/F687B3/white?text=SIPPO" },
+            { date: "3/14-15", title: "RKB福岡ドッグフェスタ", place: "シーサイドももち (福岡)", tags: ["イベント", "九州最大"], img: "https://placehold.co/300x150/ED8936/white?text=FUKUOKA" },
+            { date: "3/20-22", title: "ジャパンわんこEXPO", place: "駒沢公園 (東京)", tags: ["超大型", "7万人"], img: "https://placehold.co/300x150/4A3728/white?text=JAPAN+EXPO" },
+            { date: "3/21-22", title: "ワンだふるフェスティバル", place: "エスコンフィールド (北海道)", tags: ["球場", "野球観戦"], img: "https://placehold.co/300x150/3182CE/white?text=ES+CON" },
+        ];
+
+        // --- DATA: LOST DOGS (Mock) ---
+        const LOST_DATA = [
+            { id: 1, name: "ポチ", breed: "柴犬", place: "東京都渋谷区", date: "2026/02/01", features: "赤色の首輪、右耳に特徴", img: "https://placehold.co/100x100/A0AEC0/white?text=Lost" },
+            { id: 2, name: "ココ", breed: "トイプードル", place: "千葉県柏市", date: "2026/02/02", features: "青いハーネス、人懐っこい", img: "https://placehold.co/100x100/A0AEC0/white?text=Lost" },
+        ];
+
+
+        // === COMPONENTS ===
+
+        // 1. Food Checker Components
+        const Diagnosis = ({ onResult }) => {
+            const [step, setStep] = useState(0);
+            const [answers, setAnswers] = useState({});
+            const [breedTab, setBreedTab] = useState(BREED_TABS[0]);
+
+            const submit = (key, val) => {
+                const next = { ...answers, [key]: val };
+                setAnswers(next);
+                if (key === 'concern') {
+                    onResult(next);
+                } else {
+                    setStep(prev => prev + 1);
+                }
+            };
+
+            const steps = [
+                {
+                    title: "犬種は？",
+                    content: (
+                        <div className="h-full flex flex-col">
+                            <div className="flex gap-2 overflow-x-auto pb-2 mb-2 hide-scroll">
+                                {BREED_TABS.map(t => (
+                                    <button key={t} onClick={() => setBreedTab(t)} className={`px-4 py-2 rounded-full whitespace-nowrap ${breedTab === t ? 'bg-brand-orange text-white' : 'bg-gray-100'}`}>{t}</button>
+                                ))}
+                            </div>
+                            <div className="flex-1 overflow-y-auto breed-scroll grid grid-cols-2 gap-2 pb-20">
+                                {BREEDS[breedTab].map(b => (
+                                    <button key={b} onClick={() => submit('breed', b)} className="p-3 text-left text-sm bg-white border rounded-lg active:bg-orange-50">{b}</button>
+                                ))}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    title: "年齢は？",
+                    content: (
+                        <div className="space-y-4 mt-8">
+                            {[
+                                { l: "子犬 (〜1歳)", v: 'puppy' },
+                                { l: "成犬 (1〜7歳)", v: 'adult' },
+                                { l: "シニア (7歳〜)", v: 'senior' }
+                            ].map(o => (
+                                <button key={o.v} onClick={() => submit('age', o.v)} className="w-full p-6 text-xl font-bold bg-white border-2 border-transparent hover:border-brand-orange rounded-xl shadow-lg active:scale-95 transition-transform">{o.l}</button>
+                            ))}
+                        </div>
+                    )
+                },
+                {
+                    title: "お悩みは？",
+                    content: (
+                        <div className="grid grid-cols-2 gap-3 mt-4">
+                            {[
+                                { l: "涙やけ", v: 'tear_burn' }, { l: "毛並み", v: 'coat' },
+                                { l: "関節", v: 'joints' }, { l: "肥満", v: 'obesity' },
+                                { l: "食いつき", v: 'appetite' }, { l: "なし", v: 'none' }
+                            ].map(o => (
+                                <button key={o.v} onClick={() => submit('concern', [o.v])} className="p-4 bg-white border border-gray-100 rounded-xl shadow hover:shadow-md active:bg-orange-50">
+                                    {o.l}
+                                </button>
+                            ))}
+                        </div>
+                    )
+                }
+            ];
+
+            return (
+                <div className="p-4 h-full flex flex-col fade-in">
+                    <h2 className="text-2xl font-bold text-brand-dark mb-6 text-center">{steps[step].title}</h2>
+                    {steps[step].content}
+                </div>
+            );
+        };
+
+        const FoodResults = ({ answers, onReset }) => {
+            const results = useMemo(() => PRODUCTS.slice(0, 3), [answers]); // Simplified logic for demo
+
+            return (
+                <div className="p-4 pb-24 fade-in">
+                    <div className="bg-brand-orange text-white p-4 rounded-xl mb-6 shadow-lg">
+                        <h3 className="font-bold text-lg mb-1">{answers.breed} / {answers.age === 'puppy' ? '子犬' : '成犬'}</h3>
+                        <p className="opacity-90 text-sm">のおすすめフード診断結果</p>
+                    </div>
+
+                    <div className="space-y-6">
+                        {results.map((p, i) => (
+                            <div key={p.id} className="bg-white rounded-xl shadow overflow-hidden">
+                                <div className="h-40 relative">
+                                    <span className="absolute top-2 left-2 bg-black/70 text-white px-3 py-1 rounded-full text-xs font-bold">
+                                        {i + 1}位
+                                    </span>
+                                    <img src={p.img} className="w-full h-full object-cover" />
+                                </div>
+                                <div className="p-4">
+                                    <h3 className="font-bold text-xl mb-2 text-brand-dark">{p.name}</h3>
+                                    <p className="text-sm text-gray-600 mb-3">{p.description}</p>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-brand-accent font-bold text-lg">{p.price}</span>
+                                        <button className="bg-brand-orange text-white px-4 py-2 rounded-full font-bold text-sm shadow">詳細を見る</button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <button onClick={onReset} className="w-full mt-8 py-3 text-gray-400 underline">もう一度診断する</button>
+                </div>
+            );
+        };
+
+        // 2. Vaccine Record
+        const RecordTab = () => {
+            const [lastDate, setLastDate] = useState(localStorage.getItem('pepre_vaccine_date') || '');
+
+            const handleSave = (e) => {
+                const val = e.target.value;
+                setLastDate(val);
+                localStorage.setItem('pepre_vaccine_date', val);
+            };
+
+            const nextDate = useMemo(() => {
+                if (!lastDate) return null;
+                const d = new Date(lastDate);
+                d.setFullYear(d.getFullYear() + 1);
+                return d.toLocaleDateString();
+            }, [lastDate]);
+
+            return (
+                <div className="p-4 fade-in">
+                    <h2 className="text-2xl font-bold text-brand-dark mb-6">ワクチン記録</h2>
+
+                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 mb-8">
+                        <label className="block text-gray-500 text-sm mb-2">前回の接種日</label>
+                        <input type="date" value={lastDate} onChange={handleSave}
+                            className="w-full text-2xl font-bold text-brand-dark bg-transparent outline-none border-b-2 border-gray-200 focus:border-brand-orange transition-colors" />
+                    </div>
+
+                    {nextDate ? (
+                        <div className="bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-3xl text-center shadow-lg border border-green-200">
+                            <p className="text-green-800 font-bold opacity-70 mb-2">次回の予定日</p>
+                            <p className="text-4xl font-extrabold text-green-600">{nextDate}</p>
+                            <div className="mt-4 inline-block bg-white text-green-600 px-4 py-1 rounded-full text-sm font-bold shadow-sm">
+                                あと {Math.floor((new Date(nextDate) - new Date()) / (1000 * 60 * 60 * 24))} 日
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="text-center text-gray-400 py-10">
+                            日付を入力すると<br />次回予定日を自動計算します
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // 3. Events Tab
+        const EventsTab = () => (
+            <div className="p-4 pb-24 fade-in">
+                <h2 className="text-2xl font-bold text-brand-dark mb-6">全国イベント情報</h2>
+                <div className="space-y-4">
+                    {EVENTS_DATA.map((e, i) => (
+                        <div key={i} className="bg-white rounded-xl shadow-sm overflow-hidden flex border border-gray-100">
+                            <div className="w-1/3 bg-gray-200">
+                                <img src={e.img} className="w-full h-full object-cover" />
+                            </div>
+                            <div className="w-2/3 p-3">
+                                <div className="flex justify-between items-start mb-1">
+                                    <span className="text-xs font-bold bg-brand-orange text-white px-2 py-0.5 rounded">{e.date}</span>
+                                    <span className="text-xs text-gray-400">{e.place}</span>
+                                </div>
+                                <h3 className="font-bold text-brand-dark leading-tight mb-2">{e.title}</h3>
+                                <div className="flex flex-wrap gap-1">
+                                    {e.tags.map(t => (
+                                        <span key={t} className="text-[10px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">{t}</span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+
+        // 4. Lost Tab
+        const LostTab = () => (
+            <div className="p-4 pb-24 fade-in">
+                <h2 className="text-2xl font-bold text-brand-dark mb-6">迷子掲示板</h2>
+
+                <div className="bg-white p-4 rounded-xl shadow mb-8">
+                    <h3 className="font-bold text-gray-600 mb-2">情報を投稿する</h3>
+                    <input type="text" placeholder="特徴などを入力..." className="w-full p-3 bg-gray-50 rounded-lg mb-2 text-sm" />
+                    <button onClick={() => alert('デモ版のため送信機能はありません')} className="w-full bg-red-400 text-white font-bold py-3 rounded-lg shadow">
+                        情報を発信する
+                    </button>
+                </div>
+
+                <h3 className="font-bold text-brand-dark mb-4 border-l-4 border-red-400 pl-3">探しています</h3>
+                <div className="space-y-3">
+                    {LOST_DATA.map(d => (
+                        <div key={d.id} className="bg-white p-3 rounded-lg shadow-sm flex items-center gap-3">
+                            <img src={d.img} className="w-16 h-16 rounded-full object-cover bg-gray-200" />
+                            <div>
+                                <div className="flex items-center gap-2 mb-1">
+                                    <span className="font-bold text-lg">{d.name}</span>
+                                    <span className="text-xs bg-gray-100 px-2 py-1 rounded">{d.breed}</span>
+                                </div>
+                                <p className="text-xs text-gray-500 flex items-center gap-1">
+                                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                    {d.place} ({d.date})
+                                </p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+
+        // === MAIN APP ===
+        const App = () => {
+            const [tab, setTab] = useState('home');
+            const [answers, setAnswers] = useState(null);
+
+            const renderContent = () => {
+                switch (tab) {
+                    case 'home': return answers ? <FoodResults answers={answers} onReset={() => setAnswers(null)} /> : <Diagnosis onResult={setAnswers} />;
+                    case 'record': return <RecordTab />;
+                    case 'event': return <EventsTab />;
+                    case 'lost': return <LostTab />;
+                    default: return null;
+                }
+            };
+
+            return (
+                <div className="max-w-md mx-auto min-h-screen bg-[#FDFBF7] shadow-2xl overflow-hidden relative">
+                    {/* Header */}
+                    <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 px-4 py-3 shadow-sm flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <img src="./images/logo.png" className="h-8 mix-blend-multiply" onError={(e) => e.target.style.display = 'none'} />
+                            <span className="font-bold text-xl text-brand-dark tracking-tight">PePre</span>
+                        </div>
+                        <div className="w-8 h-8 rounded-full bg-brand-orange text-white flex items-center justify-center font-bold text-xs">P</div>
+                    </header>
+
+                    {/* Main Content */}
+                    <main className="min-h-[calc(100vh-140px)]">
+                        {renderContent()}
+                    </main>
+
+                    {/* Navigation Bar */}
+                    <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-100 flex justify-around py-3 px-2 z-50 shadow-[0_-5px_15px_rgba(0,0,0,0.05)] pb-safe">
+                        <NavButton active={tab === 'home'} onClick={() => setTab('home')} icon={<IconHome />} label="ホーム" />
+                        <NavButton active={tab === 'record'} onClick={() => setTab('record')} icon={<IconRecord />} label="記録" />
+                        <NavButton active={tab === 'event'} onClick={() => setTab('event')} icon={<IconEvent />} label="イベント" />
+                        <NavButton active={tab === 'lost'} onClick={() => setTab('lost')} icon={<IconLost />} label="迷子" />
+                    </nav>
+                </div>
+            );
+        };
+
+        const NavButton = ({ active, onClick, icon, label }) => (
+            <button onClick={onClick} className={`flex flex-col items-center gap-1 w-16 transition-all duration-300 ${active ? 'text-brand-orange -translate-y-1' : 'text-gray-400 hover:text-gray-600'}`}>
+                <div className={`p-1 rounded-xl ${active ? 'bg-orange-50' : ''}`}>
+                    {icon}
+                </div>
+                <span className="text-[10px] font-bold">{label}</span>
+            </button>
+        );
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
