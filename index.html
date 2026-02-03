@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PePre (ペプレ) - 愛犬のためのトータルケア</title>
+    <title>PePre (ペプレ) - 愛犬との暮らしを、もっと美しく。</title>
 
     <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -15,8 +15,10 @@
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap"
+
+    <!-- Google Fonts: Shippori Mincho for elegance, Zen Maru Gothic for rounded softness -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;700&family=Zen+Maru+Gothic:wght@300;400;500;700&display=swap"
         rel="stylesheet">
 
     <!-- Tailwind Config -->
@@ -25,27 +27,23 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            beige: '#FDFBF7',
-                            orange: '#F6AD55',
-                            dark: '#4A3728',
-                            accent: '#ED8936',
-                            green: '#68D391',
-                            pink: '#F687B3',
-                            blue: '#63B3ED'
+                        theme: {
+                            base: '#FFFBF5',      // Warm White
+                            text: '#4A4238',      // Warm Dark Gray
+                            primary: '#E5B5A8',   // Dusty Pink (Main Accent)
+                            secondary: '#A8C8BA', // Sage Green (Health/Healing)
+                            accent: '#DBC1AC',    // Sand/Greige (Neutral Accent)
+                            surface: '#FFFFFF',   // Pure White
+                            muted: '#F2EBE5'      // Muted background
                         }
                     },
                     fontFamily: {
                         sans: ['Zen Maru Gothic', 'sans-serif'],
+                        serif: ['Shippori Mincho', 'serif'],
                     },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        }
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(229, 181, 168, 0.15)',
+                        'float': '0 10px 30px -5px rgba(74, 66, 56, 0.05)',
                     }
                 }
             }
@@ -54,14 +52,23 @@
 
     <style>
         body {
-            background-color: #FDFBF7;
-            color: #4A3728;
+            background-color: #FFFBF5;
+            color: #4A4238;
             -webkit-tap-highlight-color: transparent;
         }
 
+        .font-serif {
+            font-family: 'Shippori Mincho', serif;
+        }
+
+        .font-sans {
+            font-family: 'Zen Maru Gothic', sans-serif;
+        }
+
         .fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
+            animation: fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
             opacity: 0;
+            transform: translateY(10px);
         }
 
         .fade-in-delay-1 {
@@ -77,18 +84,13 @@
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        /* Hide scrollbar but allow scrolling */
+        /* Hide scrollbar */
         .hide-scroll::-webkit-scrollbar {
             display: none;
         }
@@ -98,119 +100,109 @@
             scrollbar-width: none;
         }
 
-        .breed-scroll::-webkit-scrollbar {
-            width: 4px;
+        /* Custom styling for inputs */
+        .input-underline {
+            background: transparent;
+            border-bottom: 1px solid #DBC1AC;
+            transition: all 0.3s ease;
         }
 
-        .breed-scroll::-webkit-scrollbar-thumb {
-            background: #F6AD55;
-            border-radius: 2px;
+        .input-underline:focus {
+            border-color: #E5B5A8;
+            outline: none;
         }
     </style>
 </head>
 
-<body>
+<body class="bg-theme-base text-theme-text font-sans antialiased">
     <div id="root"></div>
 
     <script type="text/babel">
         const { useState, useMemo, useEffect } = React;
 
-        // --- ICONS ---
-        const IconHome = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>;
-        const IconRecord = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 12a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0ZM12 4.5a7.5 7.5 0 0 0-7.5 7.5h15A7.5 7.5 0 0 0 12 4.5Z" /></svg>;
-        const IconEvent = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" /></svg>;
-        const IconLost = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.439.875 1.039.875 1.73 0 .691-.38 1.291-.875 1.73" /></svg>;
+        // --- ICONS (Thin & Elegant) ---
+        const IconHome = ({ active }) => <svg xmlns="http://www.w3.org/2000/svg" fill={active ? "currentColor" : "none"} viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>;
+        const IconRecord = ({ active }) => <svg xmlns="http://www.w3.org/2000/svg" fill={active ? "currentColor" : "none"} viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>;
+        const IconEvent = ({ active }) => <svg xmlns="http://www.w3.org/2000/svg" fill={active ? "currentColor" : "none"} viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" /></svg>;
+        const IconLost = ({ active }) => <svg xmlns="http://www.w3.org/2000/svg" fill={active ? "currentColor" : "none"} viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819" /></svg>;
 
-        // --- DATA (Copied from Dashboard) ---
+        // --- DATA ---
         const PRODUCTS = [
-            { id: 1, name: "うまか (UMAKA)", tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['appetite'] }, img: "https://placehold.co/400x300/F6AD55/white?text=UMAKA", description: "【総合評価S】九州産ブランド鶏「華味鳥」を100%使用。涙やけと食いつきを同時に解決。", price: "¥5,478", feature: "華味鳥100%・ノンオイル" },
-            { id: 2, name: "やわか", tags: { age: 'senior', concern: 'appetite', priority: 'A', secondaryConcern: ['coat', 'joints'] }, img: "https://placehold.co/400x300/ED8936/white?text=YAWAKA", description: "【食いつき特化】水分を含ませたソフトタイプ。硬いフードが苦手な子やシニアに。", price: "¥6,578", feature: "セミドライ・国産" },
-            { id: 3, name: "ミシュワン (小型犬用)", tags: { age: 'adult', concern: 'joints', priority: 'A', secondaryConcern: ['tear_burn', 'coat', 'obesity'] }, img: "https://placehold.co/400x300/4A3728/white?text=Mishone", description: "【小型犬の味方】「緑イ貝」配合で関節ケアに特化。極薄粒で食べやすい。", price: "¥4,378", feature: "関節ケア・極薄粒" },
-            { id: 4, name: "GRANDS (グランツ)", tags: { age: 'adult', concern: 'freshness', priority: 'B', secondaryConcern: ['allergy', 'none'] }, img: "https://placehold.co/400x300/48BB78/white?text=GRANDS", description: "【鮮度重視】500g小分けでいつでも開けたての香り。人工添加物不使用。", price: "¥4,950", feature: "小分け・グレインフリー" },
-            { id: 5, name: "ペトコトフーズ", tags: { age: 'all', concern: 'appetite', priority: 'B', secondaryConcern: ['tear_burn', 'coat'] }, img: "https://placehold.co/400x300/E53E3E/white?text=PETOKOTO", description: "【手作り品質】新鮮食材をスチーム加熱。トッピングで食いつき劇的改善。", price: "¥4,980~", feature: "フレッシュ・冷凍" }
+            { id: 1, name: "UMAKA - うまか", tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['appetite'] }, img: "https://images.unsplash.com/photo-1589924691195-41432c84c161?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", description: "九州産「華味鳥」100%。内側から溢れる美しさを。", price: "¥5,478", feature: "Premium Care" },
+            { id: 2, name: "YAWAKA - やわか", tags: { age: 'senior', concern: 'appetite', priority: 'A', secondaryConcern: ['coat', 'joints'] }, img: "https://images.unsplash.com/photo-1601758177266-bc599de87707?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", description: "水分を逃さない特殊製法。シニアの瞳にも輝きを。", price: "¥6,578", feature: "Soft Touch" },
+            { id: 3, name: "Mishone - ミシュワン", tags: { age: 'adult', concern: 'joints', priority: 'A', secondaryConcern: ['tear_burn', 'coat', 'obesity'] }, img: "https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", description: "関節ケアの最高峰。いつまでも軽やかなステップを。", price: "¥4,378", feature: "Joint Support" }
         ];
 
         const BREEDS = {
-            "あ行": ["アーフェンピンシャー", "秋田", "アメリカン・コッカー・スパニエル", "イタリアン・グレーハウンド", "ウィペット", "ウェルシュ・コーギー", "オーストラリアン・シェパード"],
-            "か行": ["甲斐", "キャバリア・キング・チャールズ・スパニエル", "グレート・ピレニーズ", "ゴールデン・レトリーバー"],
-            "さ行": ["サモエド", "シー・ズー", "シェットランド・シープドッグ", "柴", "シベリアン・ハスキー", "ジャック・ラッセル・テリア", "スタンダード・プードル"],
-            "た行": ["ダックスフンド", "ダルメシアン", "チワワ", "トイ・プードル", "ドーベルマン"],
-            "な行": ["日本スピッツ"],
-            "は行": ["バーニーズ・マウンテン・ドッグ", "パグ", "バセット・ハウンド", "パピヨン", "ビーグル", "ビション・フリーゼ", "ブルドッグ", "フレンチ・ブルドッグ", "ボーダー・コリー", "ポメラニアン", "ボストン・テリア"],
-            "ま行": ["マルチーズ", "ミニチュア・シュナウザー", "ミニチュア・ダックスフンド", "ミニチュア・ピンシャー"],
-            "や行": ["ヨークシャー・テリア"],
-            "ら行": ["ラブラドール・レトリーバー"],
-            "わ行": ["ワイマラナー"]
+            "あ": ["アーフェンピンシャー", "秋田", "アメリカンコッカー", "イタグレ", "ウィペット", "コーギー"],
+            "か": ["キャバリア", "グレートピレニーズ", "ゴールデン"],
+            "さ": ["サモエド", "シーズー", "シェルティ", "柴犬", "ハスキー"],
+            "た": ["ダックス", "ダルメシアン", "チワワ", "トイプードル"],
+            "は": ["パグ", "パピヨン", "ビーグル", "ビション", "ブルドッグ", "フレンチブル", "ボーダーコリー", "ポメラニアン"],
+            "ま": ["マルチーズ", "Ｍシュナウザー", "Ｍダックス"],
+            "や": ["ヨークシャーテリア"],
+            "ら": ["ラブラドール"],
         };
         const BREED_TABS = Object.keys(BREEDS);
 
         const EVENTS_DATA = [
-            { date: "2/14-15", title: "わんにゃんアニマルフェス", place: "舎人公園 (東京)", tags: ["屋外", "家族向け"], img: "https://placehold.co/300x150/F6AD55/white?text=ANI+FES" },
-            { date: "2/21-22", title: "千葉わんわん冬まつり", place: "幕張メッセ (千葉)", tags: ["屋内", "大型"], img: "https://placehold.co/300x150/63B3ED/white?text=CHIBA+WAN" },
-            { date: "2/28-3/1", title: "水元ドッグフェスティバル", place: "水元公園 (東京)", tags: ["屋外", "最大級"], img: "https://placehold.co/300x150/68D391/white?text=MIZUMOTO" },
-            { date: "3/7-8", title: "Sippo Festa.", place: "国営ひたち海浜公園 (茨城)", tags: ["屋外", "北関東最大"], img: "https://placehold.co/300x150/F687B3/white?text=SIPPO" },
-            { date: "3/14-15", title: "RKB福岡ドッグフェスタ", place: "シーサイドももち (福岡)", tags: ["イベント", "九州最大"], img: "https://placehold.co/300x150/ED8936/white?text=FUKUOKA" },
-            { date: "3/20-22", title: "ジャパンわんこEXPO", place: "駒沢公園 (東京)", tags: ["超大型", "7万人"], img: "https://placehold.co/300x150/4A3728/white?text=JAPAN+EXPO" },
-            { date: "3/21-22", title: "ワンだふるフェスティバル", place: "エスコンフィールド (北海道)", tags: ["球場", "野球観戦"], img: "https://placehold.co/300x150/3182CE/white?text=ES+CON" },
+            { date: "Feb 14", title: "Wan Nyan Festival", place: "Tokyo, Toneri Park", tags: ["Outdoor", "Family"], img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "Feb 21", title: "Chiba Winter Dog Fes", place: "Makuhari Messe", tags: ["Indoor", "Market"], img: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "Feb 28", title: "Mizumoto Dog Park", place: "Mizumoto Park", tags: ["Marche", "Standard"], img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
         ];
 
         const LOST_DATA = [
-            { id: 1, name: "ポチ", breed: "柴犬", place: "東京都渋谷区", date: "2026/02/01", features: "赤色の首輪、右耳に特徴", img: "https://placehold.co/100x100/A0AEC0/white?text=Lost" },
-            { id: 2, name: "ココ", breed: "トイプードル", place: "千葉県柏市", date: "2026/02/02", features: "青いハーネス、人懐っこい", img: "https://placehold.co/100x100/A0AEC0/white?text=Lost" },
+            { id: 1, name: "Pochi", breed: "Shiba Inu", place: "Shibuya, Tokyo", date: "2026/02/01", features: "Red Collar", img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=60" },
+            { id: 2, name: "Coco", breed: "Toy Poodle", place: "Kashiwa, Chiba", date: "2026/02/02", features: "Blue Harness", img: "https://images.unsplash.com/photo-1591769225440-811ad7d6eca6?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=60" },
         ];
 
         // === COMPONENTS ===
 
         // --- 1. LANDING PAGE ---
         const LandingPage = ({ onLogin }) => {
-            const features = [
-                { title: "フード診断", desc: "愛犬の年齢・体質にぴったりの一皿を提案します。", icon: "🍖", color: "bg-orange-100 text-orange-600" },
-                { title: "ワクチン記録", desc: "接種日を記録して、次回の予定を自動でお知らせ。", icon: "💉", color: "bg-green-100 text-green-600" },
-                { title: "イベント情報", desc: "全国のドッグイベントを網羅。週末のお出かけに。", icon: "🎪", color: "bg-blue-100 text-blue-600" },
-                { title: "迷子掲示板", desc: "万が一のために。地域のみんなで探すネットワーク。", icon: "🏠", color: "bg-pink-100 text-pink-600" },
-            ];
-
             return (
-                <div className="min-h-screen bg-brand-beige flex flex-col items-center pb-20 fade-in">
-                    {/* Hero Section */}
-                    <div className="w-full relative h-[60vh] overflow-hidden flex items-center justify-center bg-brand-dark text-white rounded-b-[3rem] shadow-xl">
-                        <img src="./images/hero_v4.png" className="absolute w-64 md:w-80 opacity-50 mix-blend-overlay animate-float" />
-                        <div className="relative z-10 text-center px-6">
-                            <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-wider leading-tight">愛犬の管理、<br />スマホ一つで。</h1>
-                            <p className="text-lg opacity-80 mb-8">PePreで、もっと安心なワンコライフを。</p>
+                <div className="min-h-screen bg-theme-base flex flex-col items-center pb-20 fade-in relative">
+                    {/* Elegant Hero */}
+                    <div className="w-full h-[65vh] relative overflow-hidden">
+                        <img src="./images/hero_v5.png" className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-theme-base"></div>
+                        <div className="absolute inset-0 flex flex-col justify-end items-center pb-16 px-6 text-center">
+                            <h1 className="font-serif text-3xl md:text-4xl text-theme-text font-medium leading-relaxed tracking-wide mb-2 drop-shadow-sm">
+                                愛犬との暮らしを、<br />もっと美しく。
+                            </h1>
+                            <p className="font-sans text-sm md:text-base text-theme-text/80 mb-8 tracking-wider">
+                                PePre - Premium Pet Presence
+                            </p>
+                            <button onClick={onLogin} className="bg-white/90 backdrop-blur-sm border border-white text-theme-text font-serif px-8 py-3 rounded-full shadow-soft hover:bg-white transition-all duration-500 active:scale-95 tracking-widest text-sm">
+                                SIGN IN WITH GOOGLE
+                            </button>
                         </div>
                     </div>
 
-                    {/* Feature Grid */}
-                    <div className="w-full max-w-md px-6 -mt-16 relative z-20 space-y-4">
-                        {features.map((f, i) => (
-                            <div key={i} className={`bg-white p-6 rounded-2xl shadow-lg flex items-center gap-4 fade-in fade-in-delay-${i % 3 + 1}`}>
-                                <div className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl ${f.color} flex-shrink-0`}>
-                                    {f.icon}
-                                </div>
-                                <div>
-                                    <h3 className="font-bold text-brand-dark text-lg">{f.title}</h3>
-                                    <p className="text-sm text-gray-500 leading-tight">{f.desc}</p>
-                                </div>
-                            </div>
-                        ))}
+                    {/* Minimal Feature List */}
+                    <div className="w-full max-w-lg px-8 py-12 space-y-16">
+                        <FeatureSection title="Food Diagnosis" jp="フード診断" desc="あなたの愛犬のためだけの、\n特別な一皿をご提案します。" align="left" />
+                        <FeatureSection title="Vaccine Record" jp="ヘルスケア記録" desc="大切な家族の健康管理を、\nもっとスマートに。" align="right" />
+                        <FeatureSection title="Events & Life" jp="イベント・迷子情報" desc="豊かな毎日のための情報を、\n美しくまとめました。" align="left" />
                     </div>
 
-                    {/* Call to Action */}
-                    <div className="mt-12 w-full max-w-xs px-6">
-                        <button onClick={onLogin} className="w-full bg-white border border-gray-200 text-gray-700 font-bold py-4 rounded-full shadow-lg flex items-center justify-center gap-3 hover:bg-gray-50 transition-all active:scale-95 transform">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" className="w-6 h-6" />
-                            Googleでログインして始める
-                        </button>
-                        <p className="text-center text-xs text-gray-400 mt-4">
-                            ※基本機能はすべて無料でご利用いただけます
-                        </p>
-                    </div>
+                    <footer className="text-center text-xs text-theme-text/40 pb-8 font-serif">
+                        © 2026 PePre Inc.
+                    </footer>
                 </div>
             );
         };
 
-        // --- 2. DASHBOARD COMPONENTS (Reused) ---
+        const FeatureSection = ({ title, jp, desc, align }) => (
+            <div className={`flex flex-col ${align === 'right' ? 'items-end text-right' : 'items-start text-left'}`}>
+                <span className="text-[10px] tracking-[0.2em] text-theme-primary uppercase mb-1 font-bold">{title}</span>
+                <h3 className="text-xl font-serif text-theme-text mb-3">{jp}</h3>
+                <p className="text-sm text-theme-text/60 font-sans leading-loose whitespace-pre-line">{desc}</p>
+            </div>
+        );
+
+
+        // --- 2. DASHBOARD ---
         const Dashboard = ({ onLogout }) => {
             const [tab, setTab] = useState('home');
             const [answers, setAnswers] = useState(null);
@@ -226,114 +218,126 @@
             };
 
             return (
-                <div className="min-h-screen bg-[#FDFBF7] relative pb-20 fade-in">
-                    {/* Header */}
-                    <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 px-4 py-3 shadow-sm flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <span className="font-bold text-xl text-brand-dark tracking-tight">PePre</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <button onClick={onLogout} className="text-xs text-gray-400 underline">ログアウト</button>
-                            <div className="w-8 h-8 rounded-full bg-brand-orange text-white flex items-center justify-center font-bold text-xs ring-2 ring-white shadow-md">P</div>
-                        </div>
+                <div className="min-h-screen bg-theme-base pb-24 fade-in">
+                    <header className="fixed top-0 w-full max-w-md mx-auto z-40 bg-theme-base/80 backdrop-blur-md px-6 py-4 flex justify-between items-center">
+                        <span className="font-serif text-xl tracking-widest text-theme-text">PePre</span>
+                        <button onClick={onLogout} className="text-[10px] tracking-widest text-theme-text/50 uppercase border-b border-transparent hover:border-theme-primary transition-colors">Logout</button>
                     </header>
-
-                    <main className="min-h-[calc(100vh-140px)]">
+                    <main className="pt-20 px-6">
                         {renderContent()}
                     </main>
-
-                    <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-100 flex justify-around py-3 px-2 z-50 shadow-[0_-5px_15px_rgba(0,0,0,0.05)] pb-safe">
-                        <NavButton active={tab === 'home'} onClick={() => setTab('home')} icon={<IconHome />} label="ホーム" />
-                        <NavButton active={tab === 'record'} onClick={() => setTab('record')} icon={<IconRecord />} label="記録" />
-                        <NavButton active={tab === 'event'} onClick={() => setTab('event')} icon={<IconEvent />} label="イベント" />
-                        <NavButton active={tab === 'lost'} onClick={() => setTab('lost')} icon={<IconLost />} label="迷子" />
+                    <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/90 backdrop-blur-lg border-t border-theme-muted flex justify-around py-4 pb-safe z-50">
+                        <NavButton active={tab === 'home'} onClick={() => setTab('home')} icon={<IconHome active={tab === 'home'} />} label="Home" />
+                        <NavButton active={tab === 'record'} onClick={() => setTab('record')} icon={<IconRecord active={tab === 'record'} />} label="Record" />
+                        <NavButton active={tab === 'event'} onClick={() => setTab('event')} icon={<IconEvent active={tab === 'event'} />} label="Event" />
+                        <NavButton active={tab === 'lost'} onClick={() => setTab('lost')} icon={<IconLost active={tab === 'lost'} />} label="Lost" />
                     </nav>
                 </div>
             );
         };
 
         const NavButton = ({ active, onClick, icon, label }) => (
-            <button onClick={onClick} className={`flex flex-col items-center gap-1 w-16 transition-all duration-300 ${active ? 'text-brand-orange -translate-y-1' : 'text-gray-400 hover:text-gray-600'}`}>
-                <div className={`p-1 rounded-xl ${active ? 'bg-orange-50' : ''}`}>
-                    {icon}
-                </div>
-                <span className="text-[10px] font-bold">{label}</span>
+            <button onClick={onClick} className={`flex flex-col items-center gap-1 w-16 transition-all duration-500 ${active ? 'text-theme-primary' : 'text-theme-text/30'}`}>
+                {icon}
+                <span className="text-[9px] tracking-widest uppercase font-medium">{label}</span>
             </button>
         );
 
-        // --- DASHBOARD SUB-COMPONENTS ---
+        // --- DASHBOARD SUB-COMPONENTS (Refined) ---
         const Diagnosis = ({ onResult }) => {
             const [step, setStep] = useState(0);
             const [answers, setAnswers] = useState({});
             const [breedTab, setBreedTab] = useState(BREED_TABS[0]);
+
             const submit = (key, val) => {
                 const next = { ...answers, [key]: val };
                 setAnswers(next);
                 key === 'concern' ? onResult(next) : setStep(s => s + 1);
             };
-            const currentSteps = [
-                { t: "犬種は？", c: <BreedSelector tab={breedTab} setTab={setBreedTab} submit={submit} /> },
-                { t: "年齢は？", c: <AgeSelector submit={submit} /> },
-                { t: "お悩みは？", c: <ConcernSelector submit={submit} /> },
+
+            const steps = [
+                { t: "My Dog's Breed", jp: "犬種をお選びください", c: <BreedSelector tab={breedTab} setTab={setBreedTab} submit={submit} /> },
+                { t: "Life Stage", jp: "年齢のステージは？", c: <AgeSelector submit={submit} /> },
+                { t: "Health Care", jp: "気になることはありますか？", c: <ConcernSelector submit={submit} /> },
             ];
+
             return (
-                <div className="p-4 h-full flex flex-col fade-in">
-                    <h2 className="text-2xl font-bold text-brand-dark mb-6 text-center">{currentSteps[step].t}</h2>
-                    {currentSteps[step].c}
+                <div className="h-full flex flex-col pt-4 fade-in">
+                    <div className="text-center mb-10">
+                        <span className="text-[10px] text-theme-primary tracking-[0.2em] uppercase font-bold block mb-2">{steps[step].t}</span>
+                        <h2 className="text-xl font-serif text-theme-text">{steps[step].jp}</h2>
+                    </div>
+                    {steps[step].c}
                 </div>
             );
         };
 
         const BreedSelector = ({ tab, setTab, submit }) => (
-            <div className="h-full flex flex-col">
-                <div className="flex gap-2 overflow-x-auto pb-2 mb-2 hide-scroll">
-                    {BREED_TABS.map(t => <button key={t} onClick={() => setTab(t)} className={`px-4 py-2 rounded-full whitespace-nowrap ${tab === t ? 'bg-brand-orange text-white' : 'bg-gray-100'}`}>{t}</button>)}
+            <div className="flex flex-col">
+                <div className="flex gap-4 overflow-x-auto pb-4 mb-4 hide-scroll px-1">
+                    {BREED_TABS.map(t => <button key={t} onClick={() => setTab(t)} className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-serif transition-all duration-300 ${tab === t ? 'bg-theme-text text-theme-base shadow-lg scale-110' : 'bg-white text-theme-text/50'}`}>{t}</button>)}
                 </div>
-                <div className="flex-1 overflow-y-auto breed-scroll grid grid-cols-2 gap-2 pb-20">
-                    {BREEDS[tab].map(b => <button key={b} onClick={() => submit('breed', b)} className="p-3 text-left text-sm bg-white border rounded-lg active:bg-orange-50">{b}</button>)}
+                <div className="grid grid-cols-2 gap-3 pb-20">
+                    {BREEDS[tab].map(b => <button key={b} onClick={() => submit('breed', b)} className="p-4 text-center text-sm bg-white rounded-xl shadow-sm text-theme-text hover:shadow-soft transition-all">{b}</button>)}
                 </div>
             </div>
         );
+
         const AgeSelector = ({ submit }) => (
-            <div className="space-y-4 mt-8">
-                {[{ l: "子犬 (〜1歳)", v: 'puppy' }, { l: "成犬 (1〜7歳)", v: 'adult' }, { l: "シニア (7歳〜)", v: 'senior' }]
-                    .map(o => <button key={o.v} onClick={() => submit('age', o.v)} className="w-full p-6 text-xl font-bold bg-white border-2 border-transparent hover:border-brand-orange rounded-xl shadow-lg active:scale-95 transition-transform">{o.l}</button>)}
+            <div className="space-y-4">
+                {[{ l: "Puppy", jp: "子犬", sub: "〜1歳" }, { l: "Adult", jp: "成犬", sub: "1〜7歳" }, { l: "Senior", jp: "シニア", sub: "7歳〜" }]
+                    .map(o => (
+                        <button key={o.l} onClick={() => submit('age', o.l)} className="w-full bg-white p-6 rounded-2xl shadow-sm hover:shadow-soft transition-all duration-300 group text-left flex justify-between items-center">
+                            <div>
+                                <span className="block text-[10px] tracking-widest text-theme-primary uppercase mb-1">{o.l}</span>
+                                <span className="font-serif text-lg text-theme-text">{o.jp}</span>
+                            </div>
+                            <span className="text-xs text-theme-text/30 font-sans">{o.sub}</span>
+                        </button>
+                    ))}
             </div>
         );
+
         const ConcernSelector = ({ submit }) => (
-            <div className="grid grid-cols-2 gap-3 mt-4">
-                {[{ l: "涙やけ", v: 'tear_burn' }, { l: "毛並み", v: 'coat' }, { l: "関節", v: 'joints' }, { l: "肥満", v: 'obesity' }, { l: "食いつき", v: 'appetite' }, { l: "なし", v: 'none' }]
-                    .map(o => <button key={o.v} onClick={() => submit('concern', [o.v])} className="p-4 bg-white border border-gray-100 rounded-xl shadow hover:shadow-md active:bg-orange-50">{o.l}</button>)}
+            <div className="grid grid-cols-2 gap-3">
+                {[{ l: "Tear Burn", jp: "涙やけ", v: 'tear_burn' }, { l: "Coat", jp: "毛並み", v: 'coat' }, { l: "Joints", jp: "関節", v: 'joints' }, { l: "Weight", jp: "体重管理", v: 'obesity' }, { l: "Appetite", jp: "食いつき", v: 'appetite' }, { l: "Nothing", jp: "特になし", v: 'none' }]
+                    .map(o => (
+                        <button key={o.v} onClick={() => submit('concern', [o.v])} className="aspect-square bg-white rounded-2xl flex flex-col items-center justify-center gap-2 shadow-sm hover:shadow-soft transition-all active:scale-95">
+                            <span className="text-[10px] tracking-wider text-theme-primary uppercase">{o.l}</span>
+                            <span className="font-serif text-theme-text">{o.jp}</span>
+                        </button>
+                    ))}
             </div>
         );
 
         const FoodResults = ({ answers, onReset }) => {
             const results = useMemo(() => PRODUCTS.slice(0, 3), [answers]);
             return (
-                <div className="p-4 pb-24 fade-in">
-                    <div className="bg-brand-orange text-white p-4 rounded-xl mb-6 shadow-lg">
-                        <h3 className="font-bold text-lg mb-1">{answers.breed} / {answers.age === 'puppy' ? '子犬' : '成犬'}</h3>
-                        <p className="opacity-90 text-sm">のおすすめフード診断結果</p>
+                <div className="pb-24 fade-in">
+                    <div className="text-center mb-8">
+                        <p className="font-serif text-lg mb-2">My Best Selection</p>
+                        <p className="text-xs text-theme-text/50 font-sans">{answers.breed} / {answers.age === 'Puppy' ? '子犬' : '成犬'}</p>
                     </div>
-                    <div className="space-y-6">
+                    <div className="space-y-8">
                         {results.map((p, i) => (
-                            <div key={p.id} className="bg-white rounded-xl shadow overflow-hidden">
-                                <div className="h-40 relative">
-                                    <span className="absolute top-2 left-2 bg-black/70 text-white px-3 py-1 rounded-full text-xs font-bold">{i + 1}位</span>
-                                    <img src={p.img} className="w-full h-full object-cover" />
-                                </div>
-                                <div className="p-4">
-                                    <h3 className="font-bold text-xl mb-2 text-brand-dark">{p.name}</h3>
-                                    <p className="text-sm text-gray-600 mb-3">{p.description}</p>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-brand-accent font-bold text-lg">{p.price}</span>
-                                        <button className="bg-brand-orange text-white px-4 py-2 rounded-full font-bold text-sm shadow">詳細を見る</button>
+                            <div key={p.id} className="group">
+                                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-4 shadow-float">
+                                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full">
+                                        <span className="text-[10px] font-bold tracking-widest uppercase text-theme-text">No.0{i + 1}</span>
                                     </div>
+                                    <img src={p.img} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                                </div>
+                                <div className="text-center px-2">
+                                    <span className="text-[10px] text-theme-primary tracking-widest uppercase block mb-2">{p.feature}</span>
+                                    <h3 className="font-serif text-xl text-theme-text mb-2">{p.name}</h3>
+                                    <p className="text-sm text-theme-text/60 leading-relaxed mb-3">{p.description}</p>
+                                    <p className="font-serif text-lg text-theme-text mb-4">{p.price}</p>
+                                    <button className="text-xs border border-theme-text/20 px-6 py-2 rounded-full hover:bg-theme-text hover:text-white transition-colors uppercase tracking-widest">View Details</button>
                                 </div>
                             </div>
                         ))}
                     </div>
-                    <button onClick={onReset} className="w-full mt-8 py-3 text-gray-400 underline">もう一度診断する</button>
+                    <button onClick={onReset} className="w-full mt-12 text-xs text-theme-text/40 tracking-widest uppercase hover:text-theme-primary transition-colors">Retake Diagnosis</button>
                 </div>
             );
         };
@@ -348,36 +352,43 @@
                 return d.toLocaleDateString();
             }, [lastDate]);
             return (
-                <div className="p-4 fade-in">
-                    <h2 className="text-2xl font-bold text-brand-dark mb-6">ワクチン記録</h2>
-                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 mb-8">
-                        <label className="block text-gray-500 text-sm mb-2">前回の接種日</label>
-                        <input type="date" value={lastDate} onChange={handleSave} className="w-full text-2xl font-bold text-brand-dark bg-transparent outline-none border-b-2 border-gray-200 focus:border-brand-orange transition-colors" />
+                <div className="fade-in pt-4">
+                    <div className="text-center mb-10">
+                        <span className="text-[10px] text-theme-secondary tracking-[0.2em] uppercase font-bold block mb-2">Vaccination</span>
+                        <h2 className="text-xl font-serif text-theme-text">ワクチン管理</h2>
+                    </div>
+                    <div className="bg-white p-8 rounded-3xl shadow-soft mb-8 text-center relative overflow-hidden">
+                        <div className="absolute -top-10 -right-10 w-32 h-32 bg-theme-secondary/10 rounded-full blur-3xl"></div>
+                        <label className="block text-[10px] tracking-widest text-theme-text/50 uppercase mb-4">Last Date</label>
+                        <input type="date" value={lastDate} onChange={handleSave} className="w-full text-center font-serif text-2xl bg-transparent border-b border-theme-secondary/30 pb-2 focus:border-theme-secondary outline-none text-theme-text" />
                     </div>
                     {nextDate ? (
-                        <div className="bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-3xl text-center shadow-lg border border-green-200">
-                            <p className="text-green-800 font-bold opacity-70 mb-2">次回の予定日</p>
-                            <p className="text-4xl font-extrabold text-green-600">{nextDate}</p>
-                            <div className="mt-4 inline-block bg-white text-green-600 px-4 py-1 rounded-full text-sm font-bold shadow-sm">
-                                あと {Math.floor((new Date(nextDate) - new Date()) / (1000 * 60 * 60 * 24))} 日
-                            </div>
+                        <div className="text-center">
+                            <p className="text-[10px] tracking-widest text-theme-text/50 uppercase mb-4">Next Schedule</p>
+                            <p className="font-serif text-4xl text-theme-secondary mb-4">{nextDate}</p>
+                            <span className="inline-block bg-theme-secondary/10 text-theme-secondary px-4 py-1 rounded-full text-xs tracking-wider">
+                                Remaining: {Math.floor((new Date(nextDate) - new Date()) / (1000 * 60 * 60 * 24))} Days
+                            </span>
                         </div>
-                    ) : <div className="text-center text-gray-400 py-10">日付を入力すると<br />次回予定日を自動計算します</div>}
+                    ) : <p className="text-center text-xs text-theme-text/30 font-sans mt-8">Please enter the date.</p>}
                 </div>
             );
         };
 
         const EventsTab = () => (
-            <div className="p-4 pb-24 fade-in">
-                <h2 className="text-2xl font-bold text-brand-dark mb-6">全国イベント情報</h2>
-                <div className="space-y-4">
+            <div className="fade-in pt-4">
+                <div className="text-center mb-10">
+                    <span className="text-[10px] text-theme-accent tracking-[0.2em] uppercase font-bold block mb-2">Event News</span>
+                    <h2 className="text-xl font-serif text-theme-text">イベント情報</h2>
+                </div>
+                <div className="space-y-6">
                     {EVENTS_DATA.map((e, i) => (
-                        <div key={i} className="bg-white rounded-xl shadow-sm overflow-hidden flex border border-gray-100">
-                            <div className="w-1/3 bg-gray-200"><img src={e.img} className="w-full h-full object-cover" /></div>
-                            <div className="w-2/3 p-3">
-                                <div className="flex justify-between items-start mb-1"><span className="text-xs font-bold bg-brand-orange text-white px-2 py-0.5 rounded">{e.date}</span><span className="text-xs text-gray-400">{e.place}</span></div>
-                                <h3 className="font-bold text-brand-dark leading-tight mb-2">{e.title}</h3>
-                                <div className="flex flex-wrap gap-1">{e.tags.map(t => <span key={t} className="text-[10px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">{t}</span>)}</div>
+                        <div key={i} className="bg-white rounded-2xl p-4 shadow-sm flex gap-4 items-center">
+                            <img src={e.img} className="w-20 h-20 rounded-xl object-cover grayscale opacity-80" />
+                            <div>
+                                <span className="text-[10px] font-bold tracking-wider text-theme-primary uppercase">{e.date}</span>
+                                <h3 className="font-serif text-lg text-theme-text mb-1">{e.title}</h3>
+                                <p className="text-xs text-theme-text/50 font-sans">{e.place}</p>
                             </div>
                         </div>
                     ))}
@@ -386,21 +397,22 @@
         );
 
         const LostTab = () => (
-            <div className="p-4 pb-24 fade-in">
-                <h2 className="text-2xl font-bold text-brand-dark mb-6">迷子掲示板</h2>
-                <div className="bg-white p-4 rounded-xl shadow mb-8">
-                    <h3 className="font-bold text-gray-600 mb-2">情報を投稿する</h3>
-                    <input type="text" placeholder="特徴などを入力..." className="w-full p-3 bg-gray-50 rounded-lg mb-2 text-sm" />
-                    <button onClick={() => alert('デモ版のため送信機能はありません')} className="w-full bg-red-400 text-white font-bold py-3 rounded-lg shadow">情報を発信する</button>
+            <div className="fade-in pt-4">
+                <div className="text-center mb-10">
+                    <span className="text-[10px] text-theme-primary tracking-[0.2em] uppercase font-bold block mb-2">Lost & Found</span>
+                    <h2 className="text-xl font-serif text-theme-text">迷子情報</h2>
                 </div>
-                <h3 className="font-bold text-brand-dark mb-4 border-l-4 border-red-400 pl-3">探しています</h3>
-                <div className="space-y-3">
+                <div className="bg-white p-6 rounded-2xl shadow-soft mb-8">
+                    <input type="text" placeholder="Something to share?" className="w-full text-sm p-3 mb-4 bg-theme-muted/50 rounded-xl focus:bg-white transition-colors outline-none" />
+                    <button className="w-full py-3 bg-theme-text text-white text-xs font-bold tracking-widest uppercase rounded-xl hover:bg-theme-text/80 transition-colors">Submit Info</button>
+                </div>
+                <div className="space-y-4">
                     {LOST_DATA.map(d => (
-                        <div key={d.id} className="bg-white p-3 rounded-lg shadow-sm flex items-center gap-3">
-                            <img src={d.img} className="w-16 h-16 rounded-full object-cover bg-gray-200" />
+                        <div key={d.id} className="flex gap-4 p-4 border-b border-theme-muted items-center">
+                            <img src={d.img} className="w-12 h-12 rounded-full object-cover" />
                             <div>
-                                <div className="flex items-center gap-2 mb-1"><span className="font-bold text-lg">{d.name}</span><span className="text-xs bg-gray-100 px-2 py-1 rounded">{d.breed}</span></div>
-                                <p className="text-xs text-gray-500 flex items-center gap-1">📍 {d.place} ({d.date})</p>
+                                <p className="font-serif text-theme-text">{d.name} <span className="text-xs text-theme-text/50 font-sans ml-2">({d.breed})</span></p>
+                                <p className="text-xs text-theme-text/40 mt-1">📍 {d.place}</p>
                             </div>
                         </div>
                     ))}
@@ -412,28 +424,24 @@
         // --- MAIN ENTRY POINT ---
         const App = () => {
             const [isLoggedIn, setIsLoggedIn] = useState(false);
-
             useEffect(() => {
                 const session = localStorage.getItem('pepre_isLoggedIn');
                 if (session === 'true') setIsLoggedIn(true);
             }, []);
-
             const handleLogin = () => {
-                // Mock Login
-                const confirmLogin = window.confirm("Googleアカウントでログインしますか？（デモ）");
+                const confirmLogin = window.confirm("Log in with Google? (Demo)");
                 if (confirmLogin) {
                     localStorage.setItem('pepre_isLoggedIn', 'true');
                     setIsLoggedIn(true);
                 }
             };
-
             const handleLogout = () => {
                 localStorage.removeItem('pepre_isLoggedIn');
                 setIsLoggedIn(false);
             };
 
             return (
-                <div className="w-full max-w-md mx-auto shadow-2xl min-h-screen bg-white">
+                <div className="w-full max-w-md mx-auto shadow-2xl min-h-screen bg-theme-base overflow-hidden">
                     {isLoggedIn ? <Dashboard onLogout={handleLogout} /> : <LandingPage onLogin={handleLogin} />}
                 </div>
             );
