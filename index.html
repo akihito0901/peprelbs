@@ -303,7 +303,7 @@
 
                 switch (tab) {
                     case 'menu': return <HomeMenu onNavigate={setTab} profile={dogProfile} hasDiagnosis={!!answers} onEditProfile={() => setIsProfileOpen(true)} />;
-                    case 'home': return answers ? <FoodResults answers={answers} onReset={() => setTab('menu')} /> : <Diagnosis onResult={setAnswers} />;
+                    case 'home': return answers ? <FoodResults answers={answers} onReset={() => setAnswers(null)} /> : <Diagnosis onResult={setAnswers} />;
                     case 'record': return <RecordTab />;
                     case 'event': return <EventsTab />;
                     case 'lost': return <LostTab />;
