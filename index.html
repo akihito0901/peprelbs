@@ -156,7 +156,7 @@
             { id: 14, name: "ペトコト", tags: { age: 'all', concern: 'appetite', priority: 'S', secondaryConcern: ['digest'] }, img: "./images/petokoto.jpg", description: "新鮮な食材を急速冷凍。手作りごはんの栄養と香りで、驚きの食いつきを。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3ZJU37+EGYCN6+4NYE+61Z81", feature: "Fresh Food" },
             { id: 15, name: "ミシュワン", tags: { age: 'all', concern: 'joints', priority: 'S', secondaryConcern: ['tear_burn', 'coat'] }, img: "./images/mishone.jpg", description: "関節ケアの最高峰。緑イ貝配合で、いつまでも軽やかなステップを。", price: "¥4,378", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+C1FP16+4PA6+BXYE9", feature: "Joint Support" },
             { id: 16, name: "モグキューブ", tags: { age: 'all', concern: 'appetite', priority: 'B', secondaryConcern: [] }, img: "./images/mogcube.jpg", description: "NZ産ラムのフリーズドライ。栄養そのままでトッピングやおやつにも最適。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3HQZ35+BN56NM+3J8+354KNM", feature: "Freeze Dried" },
-            { id: 17, name: "モグワン", tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['coat', 'appetite'] }, img: "./images/mogwan.jpg", description: "手作り食レシピの美味しさと栄養バランス。野菜とフルーツたっぷりの人気No.1。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3ZJU37+EGYCN6+4NYE+61Z81", feature: "Best Seller" },
+            { id: 17, name: "モグワン", tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['coat', 'appetite'] }, img: "./images/mogwan.jpg", description: "手作り食レシピの美味しさと栄養バランス。野菜とフルーツたっぷりの人気No.1。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3NGVLD+2NUUPU+3J8+1BPOF5", feature: "Best Seller" },
             { id: 18, name: "やわか", tags: { age: 'senior', concern: 'appetite', priority: 'A', secondaryConcern: ['digest'] }, img: "./images/yawaka.jpg", description: "水分を逃さない特殊製法。シニアも食べやすい国産セミモイストフード。", price: "¥6,578", link: "http://msm.to/ApJikKQ", feature: "Soft Touch" },
             { id: 19, name: "ユリカゴ", tags: { age: 'all', concern: 'none', priority: 'B', secondaryConcern: [] }, img: "./images/yurikago.jpg", description: "「安眠」と「リラックス」をテーマに。ハーブの力で穏やかな毎日を。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+BQ4E82+3J8+5SG2LT", feature: "Relax Care" },
             { id: 20, name: "馬肉自然づくり", tags: { age: 'all', concern: 'obesity', priority: 'A', secondaryConcern: ['allergy'] }, img: "./images/baniku.jpg", description: "熊本産馬肉を贅沢に使用。高タンパク・低脂質でダイエットに最適。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3ZJU37+EGYCN6+4NYE+61Z81", feature: "Low Fat" },
@@ -302,7 +302,8 @@
 
                 switch (tab) {
                     case 'menu': return <HomeMenu onNavigate={setTab} profile={dogProfile} hasDiagnosis={!!answers} onEditProfile={() => setIsProfileOpen(true)} />;
-                    case 'home': return answers ? <FoodResults answers={answers} onReset={() => setAnswers(null)} /> : <Diagnosis onResult={setAnswers} />;
+                    case 'home': return answers ? <FoodResults answers={answers} onReset={() => setAnswers(null)} onShowAll={() => setTab('ranking')} /> : <Diagnosis onResult={setAnswers} />;
+                    case 'ranking': return <ProductRanking onBack={() => setTab('home')} />;
                     case 'record': return <RecordTab />;
                     case 'event': return <EventsTab />;
                     case 'lost': return <LostTab />;
