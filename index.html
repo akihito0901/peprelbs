@@ -381,11 +381,20 @@
             );
         };
 
-        const HomeMenu = ({ onNavigate, hasProfile }) => (
+        const HomeMenu = ({ onNavigate, profile, hasDiagnosis, onEditProfile }) => (
             <div className="flex flex-col gap-6 fade-in">
-                <div className="text-center mb-4">
-                    <h2 className="font-serif text-xl text-theme-text mb-2">メニュー選択</h2>
-                    <p className="text-xs text-theme-text/60">利用したい機能を選択してください</p>
+                {/* Profile Header simulated in Menu */}
+                <div onClick={onEditProfile} className="bg-white p-6 rounded-3xl shadow-sm border border-theme-muted/50 flex items-center gap-4 cursor-pointer hover:shadow-soft transition-all">
+                    <div className="w-16 h-16 rounded-full bg-theme-muted overflow-hidden flex-shrink-0 border border-theme-text/5">
+                        {profile?.image ? <img src={profile.image} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-theme-text/20 scale-150"><IconPaw /></div>}
+                    </div>
+                    <div className="flex-1">
+                        <h2 className="font-serif text-xl text-theme-text">{profile?.name || "No Name"}</h2>
+                        <p className="text-xs text-theme-text/50">{profile?.breed ? `${profile.breed} / ${profile.age}歳` : "プロフィール未登録"}</p>
+                    </div>
+                    <div className="text-theme-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -393,23 +402,13 @@
                         onClick={() => onNavigate('home')}
                         icon={<IconFood />}
                         title="フード診断"
-                        desc={hasProfile ? "診断結果を確認" : "まずはここから登録"}
-                        accent={!hasProfile}
+                        desc={hasDiagnosis ? "診断結果" : "未診断"}
+                        accent={!hasDiagnosis}
                     />
-                    <MenuButton onClick={() => onNavigate('record')} icon={<IconHealth />} title="ヘルスケア" desc="ワクチン・健康管理" />
-                    <MenuButton onClick={() => onNavigate('event')} icon={<IconEventNews />} title="イベント" desc="お出かけ情報" />
-                    <MenuButton onClick={() => onNavigate('lost')} icon={<IconLostFound />} title="迷子掲示板" desc="もしもの備え" />
+                    <MenuButton onClick={() => onNavigate('record')} icon={<IconHealth />} title="ヘルスケア" desc="0 Records" />
+                    <MenuButton onClick={() => onNavigate('event')} icon={<IconEventNews />} title="イベント" desc="New 3" />
+                    <MenuButton onClick={() => onNavigate('lost')} icon={<IconLostFound />} title="迷子掲示板" desc="Safe" />
                 </div>
-
-                {hasProfile && (
-                    <div className="mt-4 p-6 bg-white rounded-3xl shadow-sm border border-theme-muted flex items-center justify-between">
-                        <div>
-                            <p className="text-[10px] text-theme-text/40 tracking-widest uppercase mb-1">My Partner</p>
-                            <p className="font-serif text-lg text-theme-text">登録済み</p>
-                        </div>
-                        <button onClick={() => onNavigate('home')} className="text-xs bg-theme-text text-white px-4 py-2 rounded-full tracking-wider hover:bg-theme-text/80 transition-colors">確認する</button>
-                    </div>
-                )}
             </div>
         );
 
