@@ -253,54 +253,65 @@
         // --- 2. DASHBOARD ---
         // --- 2. DASHBOARD ---
         const Dashboard = ({ onLogout }) => {
-            const [tab, setTab] = useState('menu'); // Default to Menu
-            const [answers, setAnswers] = useState(null);
+            const [tab, setTab] = useState('menu');
+            const [answers, setAnswers] = useState(null); // Food Diagnosis
+            const [dogProfile, setDogProfile] = useState(null); // Dog Registration (Name, Image, Age)
+            const [isProfileOpen, setIsProfileOpen] = useState(false);
 
-            // Load from LocalStorage on mount
+            // Load Simulation
             useEffect(() => {
-                const saved = localStorage.getItem('pepre_profile');
+                const saved = localStorage.getItem('pepre_data');
                 if (saved) {
-                    try { setAnswers(JSON.parse(saved)); } catch (e) { console.error(e); }
+                    const data = JSON.parse(saved);
+                    if (data.answers) setAnswers(data.answers);
+                    if (data.dogProfile) setDogProfile(data.dogProfile);
                 }
             }, []);
 
-            // Save to LocalStorage whenever answers change
+            // Save Simulation
             useEffect(() => {
-                if (answers) {
-                    localStorage.setItem('pepre_profile', JSON.stringify(answers));
+                if (answers || dogProfile) {
+                    localStorage.setItem('pepre_data', JSON.stringify({ answers, dogProfile }));
                 }
-            }, [answers]);
+            }, [answers, dogProfile]);
 
-            const handleDiagnosisResult = (result) => {
-                setAnswers(result);
-                setTab('home'); // Go to results/profile view
+            const handleProfileSave = (profile) => {
+                setDogProfile(profile);
+                setIsProfileOpen(false);
             };
 
             const renderContent = () => {
+                if (isProfileOpen) return <ProfileEditor current={dogProfile} onSave={handleProfileSave} onCancel={() => setIsProfileOpen(false)} />;
+
                 switch (tab) {
-                    case 'menu': return <HomeMenu onNavigate={setTab} hasProfile={!!answers} />;
-                    case 'home': return answers ? <FoodResults answers={answers} onReset={() => setTab('menu')} /> : <Diagnosis onResult={handleDiagnosisResult} />;
+                    case 'menu': return <HomeMenu onNavigate={setTab} profile={dogProfile} hasDiagnosis={!!answers} onEditProfile={() => setIsProfileOpen(true)} />;
+                    case 'home': return answers ? <FoodResults answers={answers} onReset={() => setTab('menu')} /> : <Diagnosis onResult={setAnswers} />;
                     case 'record': return <RecordTab />;
                     case 'event': return <EventsTab />;
                     case 'lost': return <LostTab />;
-                    default: return <HomeMenu onNavigate={setTab} hasProfile={!!answers} />;
+                    default: return <HomeMenu onNavigate={setTab} profile={dogProfile} hasDiagnosis={!!answers} onEditProfile={() => setIsProfileOpen(true)} />;
                 }
             };
 
             return (
                 <div className="min-h-screen bg-theme-base pb-24 fade-in">
                     <header className="fixed top-0 w-full max-w-md mx-auto z-40 bg-theme-base/80 backdrop-blur-md px-6 py-4 flex justify-between items-center shadow-sm">
-                        <span onClick={() => setTab('menu')} className="font-serif text-2xl tracking-widest text-theme-text font-medium cursor-pointer">PePre</span>
-                        <button onClick={onLogout} className="text-xs text-theme-text/50 hover:text-theme-primary transition-colors">ログアウト</button>
+                        <span onClick={() => { setTab('menu'); setIsProfileOpen(false); }} className="font-serif text-2xl tracking-widest text-theme-text font-medium cursor-pointer">PePre</span>
+                        <div className="flex items-center gap-4">
+                            <button onClick={() => setIsProfileOpen(true)} className="w-8 h-8 rounded-full bg-theme-muted overflow-hidden border border-theme-text/10">
+                                {dogProfile?.image ? <img src={dogProfile.image} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-theme-text/30"><IconPaw /></div>}
+                            </button>
+                            <button onClick={onLogout} className="text-xs text-theme-text/50 hover:text-theme-primary transition-colors">Log out</button>
+                        </div>
                     </header>
                     <main className="pt-20 px-6">
                         {renderContent()}
                     </main>
                     <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/90 backdrop-blur-lg border-t border-theme-muted flex justify-around py-2 pb-safe z-50">
-                        <NavButton active={tab === 'menu'} onClick={() => setTab('menu')} icon={<IconHome active={tab === 'menu'} />} label="ホーム" />
-                        <NavButton active={tab === 'record'} onClick={() => setTab('record')} icon={<IconRecord active={tab === 'record'} />} label="記録" />
-                        <NavButton active={tab === 'event'} onClick={() => setTab('event')} icon={<IconEvent active={tab === 'event'} />} label="イベント" />
-                        <NavButton active={tab === 'lost'} onClick={() => setTab('lost')} icon={<IconLost active={tab === 'lost'} />} label="迷子" />
+                        <NavButton active={tab === 'menu'} onClick={() => { setTab('menu'); setIsProfileOpen(false); }} icon={<IconHome active={tab === 'menu'} />} label="ホーム" />
+                        <NavButton active={tab === 'record'} onClick={() => { setTab('record'); setIsProfileOpen(false); }} icon={<IconRecord active={tab === 'record'} />} label="記録" />
+                        <NavButton active={tab === 'event'} onClick={() => { setTab('event'); setIsProfileOpen(false); }} icon={<IconEvent active={tab === 'event'} />} label="イベント" />
+                        <NavButton active={tab === 'lost'} onClick={() => { setTab('lost'); setIsProfileOpen(false); }} icon={<IconLost active={tab === 'lost'} />} label="迷子" />
                     </nav>
                 </div>
             );
