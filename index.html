@@ -164,21 +164,25 @@
         ];
 
         const BREEDS = {
-            "あ": ["アーフェンピンシャー", "秋田", "アメリカンコッカー", "イタグレ", "ウィペット", "コーギー"],
-            "か": ["キャバリア", "グレートピレニーズ", "ゴールデン"],
-            "さ": ["サモエド", "シーズー", "シェルティ", "柴犬", "ハスキー"],
-            "た": ["ダックス", "ダルメシアン", "チワワ", "トイプードル"],
-            "は": ["パグ", "パピヨン", "ビーグル", "ビション", "ブルドッグ", "フレンチブル", "ボーダーコリー", "ポメラニアン"],
-            "ま": ["マルチーズ", "Ｍシュナウザー", "Ｍダックス"],
+            "あ": ["秋田犬", "アフガンハウンド", "アメリカンコッカースパニエル", "イタリアングレーハウンド", "イングリッシュコッカースパニエル", "ウィペット", "ウエストハイランドホワイトテリア", "オーストラリアン・ラブラドゥードル"],
+            "か": ["甲斐犬", "カニンヘンダックスフンド", "キャバリア・キングチャールズ・スパニエル", "グレート・ピレニーズ", "ケアーンテリア", "コーギー", "ゴールデン・レトリーバー"],
+            "さ": ["サモエド", "シーズー", "シェットランド・シープドッグ", "柴犬", "シベリアンハスキー", "ジャック・ラッセル・テリア", "シュナウザー", "スタンダードプードル", "スピッツ"],
+            "た": ["ダルメシアン", "チワワ", "チン", "ティーカッププードル", "トイプードル", "ドーベルマン"],
+            "な": ["日本スピッツ", "ニューファンドランド", "ノーフォークテリア"],
+            "は": ["パグ", "バセットハウンド", "パピヨン", "バーニーズ・マウンテン・ドッグ", "ビション・フリーゼ", "ビーグル", "ブルドッグ", "ブルテリア", "フレンチブルドッグ", "ペキニーズ", "ボーダーコリー", "ボストンテリア", "ポメラニアン", "ボルゾイ"],
+            "ま": ["マルチーズ", "マルプー", "ミニチュア・シュナウザー", "ミニチュア・ダックスフンド", "ミニチュア・ピンシャー", "ミニチュア・プードル"],
             "や": ["ヨークシャーテリア"],
-            "ら": ["ラブラドール"],
+            "ら": ["ラブラドール・レトリーバー"],
+            "わ": ["ワイマラナー", "ワイヤーフォックステリア"],
+            "MIX": ["ミックス犬", "その他"]
         };
         const BREED_TABS = Object.keys(BREEDS);
 
         const EVENTS_DATA = [
-            { date: "Feb 14", title: "Wan Nyan Festival", place: "Tokyo, Toneri Park", tags: ["Outdoor", "Family"], img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "Feb 21", title: "Chiba Winter Dog Fes", place: "Makuhari Messe", tags: ["Indoor", "Market"], img: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "Feb 28", title: "Mizumoto Dog Park", place: "Mizumoto Park", tags: ["Marche", "Standard"], img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "2月14日", title: "わんわんフェスティバル", place: "東京都 舎人公園", tags: ["屋外", "家族向け"], img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "2月21日", title: "千葉ウィンタードッグフェス", place: "千葉県 幕張メッセ", tags: ["屋内", "マーケット"], img: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "2月28日", title: "水元ドッグパーク定例会", place: "東京都 水元公園", tags: ["マルシェ", "交流会"], img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "3月07日", title: "横浜ペット博2026", place: "神奈川県 パシフィコ横浜", tags: ["屋内", "大規模"], img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" }
         ];
 
         const LOST_DATA = [
