@@ -251,31 +251,53 @@
 
 
         // --- 2. DASHBOARD ---
+        // --- 2. DASHBOARD ---
         const Dashboard = ({ onLogout }) => {
-            const [tab, setTab] = useState('home');
+            const [tab, setTab] = useState('menu'); // Default to Menu
             const [answers, setAnswers] = useState(null);
+
+            // Load from LocalStorage on mount
+            useEffect(() => {
+                const saved = localStorage.getItem('pepre_profile');
+                if (saved) {
+                    try { setAnswers(JSON.parse(saved)); } catch (e) { console.error(e); }
+                }
+            }, []);
+
+            // Save to LocalStorage whenever answers change
+            useEffect(() => {
+                if (answers) {
+                    localStorage.setItem('pepre_profile', JSON.stringify(answers));
+                }
+            }, [answers]);
+
+            const handleDiagnosisResult = (result) => {
+                setAnswers(result);
+                setTab('home'); // Go to results/profile view
+            };
 
             const renderContent = () => {
                 switch (tab) {
-                    case 'home': return answers ? <FoodResults answers={answers} onReset={() => setAnswers(null)} /> : <Diagnosis onResult={setAnswers} />;
+                    case 'menu': return <HomeMenu onNavigate={setTab} hasProfile={!!answers} />;
+                    case 'home': return answers ? <FoodResults answers={answers} onReset={() => setTab('menu')} /> : <Diagnosis onResult={handleDiagnosisResult} />;
                     case 'record': return <RecordTab />;
                     case 'event': return <EventsTab />;
                     case 'lost': return <LostTab />;
-                    default: return null;
+                    default: return <HomeMenu onNavigate={setTab} hasProfile={!!answers} />;
                 }
             };
 
             return (
                 <div className="min-h-screen bg-theme-base pb-24 fade-in">
                     <header className="fixed top-0 w-full max-w-md mx-auto z-40 bg-theme-base/80 backdrop-blur-md px-6 py-4 flex justify-between items-center shadow-sm">
-                        <span className="font-serif text-2xl tracking-widest text-theme-text font-medium">PePre</span>
+                        <span onClick={() => setTab('menu')} className="font-serif text-2xl tracking-widest text-theme-text font-medium cursor-pointer">PePre</span>
                         <button onClick={onLogout} className="text-xs text-theme-text/50 hover:text-theme-primary transition-colors">ログアウト</button>
                     </header>
                     <main className="pt-20 px-6">
                         {renderContent()}
                     </main>
                     <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/90 backdrop-blur-lg border-t border-theme-muted flex justify-around py-2 pb-safe z-50">
-                        <NavButton active={tab === 'home'} onClick={() => setTab('home')} icon={<IconHome active={tab === 'home'} />} label="ホーム" />
+                        <NavButton active={tab === 'menu'} onClick={() => setTab('menu')} icon={<IconHome active={tab === 'menu'} />} label="ホーム" />
                         <NavButton active={tab === 'record'} onClick={() => setTab('record')} icon={<IconRecord active={tab === 'record'} />} label="記録" />
                         <NavButton active={tab === 'event'} onClick={() => setTab('event')} icon={<IconEvent active={tab === 'event'} />} label="イベント" />
                         <NavButton active={tab === 'lost'} onClick={() => setTab('lost')} icon={<IconLost active={tab === 'lost'} />} label="迷子" />
@@ -283,6 +305,50 @@
                 </div>
             );
         };
+
+        const HomeMenu = ({ onNavigate, hasProfile }) => (
+            <div className="flex flex-col gap-6 fade-in">
+                <div className="text-center mb-4">
+                    <h2 className="font-serif text-xl text-theme-text mb-2">メニュー選択</h2>
+                    <p className="text-xs text-theme-text/60">利用したい機能を選択してください</p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                    <MenuButton
+                        onClick={() => onNavigate('home')}
+                        icon={<IconFood />}
+                        title="フード診断"
+                        desc={hasProfile ? "診断結果を確認" : "まずはここから登録"}
+                        accent={!hasProfile}
+                    />
+                    <MenuButton onClick={() => onNavigate('record')} icon={<IconHealth />} title="ヘルスケア" desc="ワクチン・健康管理" />
+                    <MenuButton onClick={() => onNavigate('event')} icon={<IconEventNews />} title="イベント" desc="お出かけ情報" />
+                    <MenuButton onClick={() => onNavigate('lost')} icon={<IconLostFound />} title="迷子掲示板" desc="もしもの備え" />
+                </div>
+
+                {hasProfile && (
+                    <div className="mt-4 p-6 bg-white rounded-3xl shadow-sm border border-theme-muted flex items-center justify-between">
+                        <div>
+                            <p className="text-[10px] text-theme-text/40 tracking-widest uppercase mb-1">My Partner</p>
+                            <p className="font-serif text-lg text-theme-text">登録済み</p>
+                        </div>
+                        <button onClick={() => onNavigate('home')} className="text-xs bg-theme-text text-white px-4 py-2 rounded-full tracking-wider hover:bg-theme-text/80 transition-colors">確認する</button>
+                    </div>
+                )}
+            </div>
+        );
+
+        const MenuButton = ({ onClick, icon, title, desc, accent }) => (
+            <button onClick={onClick} className={`p-6 rounded-3xl text-center flex flex-col items-center gap-3 transition-all duration-300 active:scale-95 group ${accent ? 'bg-theme-text text-white shadow-lg' : 'bg-white text-theme-text shadow-sm hover:shadow-soft'}`}>
+                <div className={`p-3 rounded-full ${accent ? 'bg-white/10' : 'bg-theme-muted/50 text-theme-primary'}`}>
+                    {React.cloneElement(icon, { className: `w-8 h-8 ${accent ? 'text-white' : 'text-theme-primary'}` })}
+                </div>
+                <div>
+                    <h3 className="font-serif text-base mb-1">{title}</h3>
+                    <p className={`text-[10px] ${accent ? 'text-white/60' : 'text-theme-text/40'}`}>{desc}</p>
+                </div>
+            </button>
+        );
 
         const NavButton = ({ active, onClick, icon, label }) => (
             <button onClick={onClick} className={`flex flex-col items-center gap-1 w-16 py-2 transition-all duration-500 ${active ? 'text-theme-primary' : 'text-theme-text/30'}`}>
