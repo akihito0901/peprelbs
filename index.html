@@ -317,6 +317,70 @@
             );
         };
 
+        const ProfileEditor = ({ current, onSave, onCancel }) => {
+            const [name, setName] = useState(current?.name || '');
+            const [breed, setBreed] = useState(current?.breed || '');
+            const [age, setAge] = useState(current?.age || '');
+            const [image, setImage] = useState(current?.image || null);
+
+            const handleImageConfig = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => setImage(reader.result);
+                    reader.readAsDataURL(file);
+                }
+            };
+
+            return (
+                <div className="fade-in">
+                    <div className="text-center mb-6">
+                        <h2 className="font-serif text-xl text-theme-text mb-2">My Partner</h2>
+                        <p className="text-xs text-theme-text/60">愛犬の情報を登録・編集します</p>
+                    </div>
+
+                    <div className="flex flex-col gap-6">
+                        {/* Image Upload */}
+                        <div className="flex justify-center">
+                            <label className="relative w-28 h-28 rounded-full bg-theme-muted border-2 border-theme-muted overflow-hidden flex items-center justify-center cursor-pointer shadow-inner">
+                                {image ? <img src={image} className="w-full h-full object-cover" /> : <IconPaw />}
+                                <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                    <span className="text-[10px] text-white font-bold bg-black/50 px-2 py-1 rounded">CHANGE</span>
+                                </div>
+                                <input type="file" accept="image/*" className="hidden" onChange={handleImageConfig} />
+                            </label>
+                        </div>
+
+                        {/* Fields */}
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-xs font-bold text-theme-text/50 mb-1 tracking-widest uppercase">Name</label>
+                                <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="お名前" className="w-full p-4 rounded-xl bg-white border border-theme-muted outline-none focus:border-theme-primary transition-colors text-theme-text" />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-xs font-bold text-theme-text/50 mb-1 tracking-widest uppercase">Breed</label>
+                                    <input type="text" value={breed} onChange={e => setBreed(e.target.value)} placeholder="犬種" className="w-full p-4 rounded-xl bg-white border border-theme-muted outline-none focus:border-theme-primary transition-colors text-theme-text" />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-bold text-theme-text/50 mb-1 tracking-widest uppercase">Age</label>
+                                    <input type="text" value={age} onChange={e => setAge(e.target.value)} placeholder="年齢" className="w-full p-4 rounded-xl bg-white border border-theme-muted outline-none focus:border-theme-primary transition-colors text-theme-text" />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Actions */}
+                        <button onClick={() => onSave({ name, breed, age, image })} className="w-full py-4 bg-theme-primary text-white rounded-xl shadow-lg hover:brightness-110 transition-all font-serif tracking-widest mt-4">
+                            SAVE PROFILE
+                        </button>
+                        <button onClick={onCancel} className="w-full py-3 text-theme-text/50 text-xs tracking-widest hover:text-theme-text transition-colors">
+                            CANCEL
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
         const HomeMenu = ({ onNavigate, hasProfile }) => (
             <div className="flex flex-col gap-6 fade-in">
                 <div className="text-center mb-4">
