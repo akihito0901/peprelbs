@@ -597,6 +597,41 @@
             );
         };
 
+        const ProductRanking = ({ onBack }) => {
+            // Sort by Priority S -> A -> B
+            const sorted = useMemo(() => {
+                const priorityOrder = { 'S': 3, 'A': 2, 'B': 1 };
+                return [...PRODUCTS].sort((a, b) => priorityOrder[b.tags.priority] - priorityOrder[a.tags.priority]);
+            }, []);
+
+            return (
+                <div className="pb-24 fade-in pt-4">
+                    <div className="text-center mb-10 relative">
+                        <button onClick={onBack} className="absolute left-0 top-1 text-theme-text/50 hover:text-theme-text">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+                        </button>
+                        <h2 className="text-xl font-serif text-theme-text">Collection 2026</h2>
+                        <p className="text-[10px] text-theme-text/50 tracking-widest uppercase mt-1">Premium Dog Foods</p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        {sorted.map((p) => (
+                            <div key={p.id} className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer" onClick={() => p.link && window.open(p.link, '_blank')}>
+                                <div className="aspect-square relative">
+                                    <img src={p.img} className="w-full h-full object-cover" />
+                                    {p.tags.priority === 'S' && <span className="absolute top-2 right-2 bg-theme-primary text-white text-[10px] px-2 py-0.5 rounded-full font-bold">Recommended</span>}
+                                </div>
+                                <div className="p-3">
+                                    <h3 className="font-serif text-sm text-theme-text mb-1 line-clamp-1">{p.name}</h3>
+                                    <p className="text-[10px] text-theme-text/50 line-clamp-2">{p.description}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )
+        };
+
         const RecordTab = () => {
             const [lastDate, setLastDate] = useState(localStorage.getItem('pepre_vaccine_date') || '');
             const handleSave = (e) => { setLastDate(e.target.value); localStorage.setItem('pepre_vaccine_date', e.target.value); };
