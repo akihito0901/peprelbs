@@ -162,6 +162,8 @@
         const LandingPage = ({ onLogin }) => {
             return (
                 <div className="min-h-screen bg-theme-base flex flex-col items-center pb-20 fade-in relative">
+                    <img src="./images/logo_line.png" className="w-24 mt-8 mb-4 opacity-80 mix-blend-multiply" />
+
                     {/* Elegant Hero */}
                     <div className="w-full h-[55vh] relative overflow-hidden rounded-b-[40px] shadow-lg mb-10">
                         <img src="./images/hero_v5.png" className="w-full h-full object-cover" />
@@ -242,27 +244,27 @@
 
             return (
                 <div className="min-h-screen bg-theme-base pb-24 fade-in">
-                    <header className="fixed top-0 w-full max-w-md mx-auto z-40 bg-theme-base/80 backdrop-blur-md px-6 py-4 flex justify-between items-center">
-                        <span className="font-serif text-xl tracking-widest text-theme-text">PePre</span>
-                        <button onClick={onLogout} className="text-[10px] tracking-widest text-theme-text/50 uppercase border-b border-transparent hover:border-theme-primary transition-colors">Logout</button>
+                    <header className="fixed top-0 w-full max-w-md mx-auto z-40 bg-theme-base/80 backdrop-blur-md px-6 py-4 flex justify-between items-center shadow-sm">
+                        <span className="font-serif text-2xl tracking-widest text-theme-text font-medium">PePre</span>
+                        <button onClick={onLogout} className="text-xs text-theme-text/50 hover:text-theme-primary transition-colors">ログアウト</button>
                     </header>
                     <main className="pt-20 px-6">
                         {renderContent()}
                     </main>
-                    <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/90 backdrop-blur-lg border-t border-theme-muted flex justify-around py-4 pb-safe z-50">
-                        <NavButton active={tab === 'home'} onClick={() => setTab('home')} icon={<IconHome active={tab === 'home'} />} label="Home" />
-                        <NavButton active={tab === 'record'} onClick={() => setTab('record')} icon={<IconRecord active={tab === 'record'} />} label="Record" />
-                        <NavButton active={tab === 'event'} onClick={() => setTab('event')} icon={<IconEvent active={tab === 'event'} />} label="Event" />
-                        <NavButton active={tab === 'lost'} onClick={() => setTab('lost')} icon={<IconLost active={tab === 'lost'} />} label="Lost" />
+                    <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/90 backdrop-blur-lg border-t border-theme-muted flex justify-around py-2 pb-safe z-50">
+                        <NavButton active={tab === 'home'} onClick={() => setTab('home')} icon={<IconHome active={tab === 'home'} />} label="ホーム" />
+                        <NavButton active={tab === 'record'} onClick={() => setTab('record')} icon={<IconRecord active={tab === 'record'} />} label="記録" />
+                        <NavButton active={tab === 'event'} onClick={() => setTab('event')} icon={<IconEvent active={tab === 'event'} />} label="イベント" />
+                        <NavButton active={tab === 'lost'} onClick={() => setTab('lost')} icon={<IconLost active={tab === 'lost'} />} label="迷子" />
                     </nav>
                 </div>
             );
         };
 
         const NavButton = ({ active, onClick, icon, label }) => (
-            <button onClick={onClick} className={`flex flex-col items-center gap-1 w-16 transition-all duration-500 ${active ? 'text-theme-primary' : 'text-theme-text/30'}`}>
+            <button onClick={onClick} className={`flex flex-col items-center gap-1 w-16 py-2 transition-all duration-500 ${active ? 'text-theme-primary' : 'text-theme-text/30'}`}>
                 {icon}
-                <span className="text-[9px] tracking-widest uppercase font-medium">{label}</span>
+                <span className="text-[10px] font-medium">{label}</span>
             </button>
         );
 
@@ -279,16 +281,15 @@
             };
 
             const steps = [
-                { t: "My Dog's Breed", jp: "犬種をお選びください", c: <BreedSelector tab={breedTab} setTab={setBreedTab} submit={submit} /> },
-                { t: "Life Stage", jp: "年齢のステージは？", c: <AgeSelector submit={submit} /> },
-                { t: "Health Care", jp: "気になることはありますか？", c: <ConcernSelector submit={submit} /> },
+                { t: "犬種をお選びください", c: <BreedSelector tab={breedTab} setTab={setBreedTab} submit={submit} /> },
+                { t: "年齢のステージは？", c: <AgeSelector submit={submit} /> },
+                { t: "気になることはありますか？", c: <ConcernSelector submit={submit} /> },
             ];
 
             return (
                 <div className="h-full flex flex-col pt-4 fade-in">
                     <div className="text-center mb-10">
-                        <span className="text-[10px] text-theme-primary tracking-[0.2em] uppercase font-bold block mb-2">{steps[step].t}</span>
-                        <h2 className="text-xl font-serif text-theme-text">{steps[step].jp}</h2>
+                        <h2 className="text-xl font-serif text-theme-text">{steps[step].t}</h2>
                     </div>
                     {steps[step].c}
                 </div>
@@ -312,7 +313,6 @@
                     .map(o => (
                         <button key={o.l} onClick={() => submit('age', o.l)} className="w-full bg-white p-6 rounded-2xl shadow-sm hover:shadow-soft transition-all duration-300 group text-left flex justify-between items-center">
                             <div>
-                                <span className="block text-[10px] tracking-widest text-theme-primary uppercase mb-1">{o.l}</span>
                                 <span className="font-serif text-lg text-theme-text">{o.jp}</span>
                             </div>
                             <span className="text-xs text-theme-text/30 font-sans">{o.sub}</span>
@@ -326,7 +326,6 @@
                 {[{ l: "Tear Burn", jp: "涙やけ", v: 'tear_burn' }, { l: "Coat", jp: "毛並み", v: 'coat' }, { l: "Joints", jp: "関節", v: 'joints' }, { l: "Weight", jp: "体重管理", v: 'obesity' }, { l: "Appetite", jp: "食いつき", v: 'appetite' }, { l: "Nothing", jp: "特になし", v: 'none' }]
                     .map(o => (
                         <button key={o.v} onClick={() => submit('concern', [o.v])} className="aspect-square bg-white rounded-2xl flex flex-col items-center justify-center gap-2 shadow-sm hover:shadow-soft transition-all active:scale-95">
-                            <span className="text-[10px] tracking-wider text-theme-primary uppercase">{o.l}</span>
                             <span className="font-serif text-theme-text">{o.jp}</span>
                         </button>
                     ))}
@@ -338,7 +337,7 @@
             return (
                 <div className="pb-24 fade-in">
                     <div className="text-center mb-8">
-                        <p className="font-serif text-lg mb-2">My Best Selection</p>
+                        <p className="font-serif text-lg mb-2">おすすめのフード</p>
                         <p className="text-xs text-theme-text/50 font-sans">{answers.breed} / {answers.age === 'Puppy' ? '子犬' : '成犬'}</p>
                     </div>
                     <div className="space-y-8">
@@ -355,12 +354,12 @@
                                     <h3 className="font-serif text-xl text-theme-text mb-2">{p.name}</h3>
                                     <p className="text-sm text-theme-text/60 leading-relaxed mb-3">{p.description}</p>
                                     <p className="font-serif text-lg text-theme-text mb-4">{p.price}</p>
-                                    <button className="text-xs border border-theme-text/20 px-6 py-2 rounded-full hover:bg-theme-text hover:text-white transition-colors uppercase tracking-widest">View Details</button>
+                                    <button className="text-xs border border-theme-text/20 px-6 py-2 rounded-full hover:bg-theme-text hover:text-white transition-colors uppercase tracking-widest">詳細を見る</button>
                                 </div>
                             </div>
                         ))}
                     </div>
-                    <button onClick={onReset} className="w-full mt-12 text-xs text-theme-text/40 tracking-widest uppercase hover:text-theme-primary transition-colors">Retake Diagnosis</button>
+                    <button onClick={onReset} className="w-full mt-12 text-xs text-theme-text/40 tracking-widest uppercase hover:text-theme-primary transition-colors">もう一度診断する</button>
                 </div>
             );
         };
@@ -377,23 +376,22 @@
             return (
                 <div className="fade-in pt-4">
                     <div className="text-center mb-10">
-                        <span className="text-[10px] text-theme-secondary tracking-[0.2em] uppercase font-bold block mb-2">Vaccination</span>
                         <h2 className="text-xl font-serif text-theme-text">ワクチン管理</h2>
                     </div>
                     <div className="bg-white p-8 rounded-3xl shadow-soft mb-8 text-center relative overflow-hidden">
                         <div className="absolute -top-10 -right-10 w-32 h-32 bg-theme-secondary/10 rounded-full blur-3xl"></div>
-                        <label className="block text-[10px] tracking-widest text-theme-text/50 uppercase mb-4">Last Date</label>
+                        <label className="block text-[10px] tracking-widest text-theme-text/50 uppercase mb-4">前回の接種日</label>
                         <input type="date" value={lastDate} onChange={handleSave} className="w-full text-center font-serif text-2xl bg-transparent border-b border-theme-secondary/30 pb-2 focus:border-theme-secondary outline-none text-theme-text" />
                     </div>
                     {nextDate ? (
                         <div className="text-center">
-                            <p className="text-[10px] tracking-widest text-theme-text/50 uppercase mb-4">Next Schedule</p>
+                            <p className="text-[10px] tracking-widest text-theme-text/50 uppercase mb-4">次回の予定日</p>
                             <p className="font-serif text-4xl text-theme-secondary mb-4">{nextDate}</p>
                             <span className="inline-block bg-theme-secondary/10 text-theme-secondary px-4 py-1 rounded-full text-xs tracking-wider">
-                                Remaining: {Math.floor((new Date(nextDate) - new Date()) / (1000 * 60 * 60 * 24))} Days
+                                あと {Math.floor((new Date(nextDate) - new Date()) / (1000 * 60 * 60 * 24))} 日
                             </span>
                         </div>
-                    ) : <p className="text-center text-xs text-theme-text/30 font-sans mt-8">Please enter the date.</p>}
+                    ) : <p className="text-center text-xs text-theme-text/30 font-sans mt-8">日付を入力してください</p>}
                 </div>
             );
         };
@@ -401,7 +399,6 @@
         const EventsTab = () => (
             <div className="fade-in pt-4">
                 <div className="text-center mb-10">
-                    <span className="text-[10px] text-theme-accent tracking-[0.2em] uppercase font-bold block mb-2">Event News</span>
                     <h2 className="text-xl font-serif text-theme-text">イベント情報</h2>
                 </div>
                 <div className="space-y-6">
@@ -422,12 +419,11 @@
         const LostTab = () => (
             <div className="fade-in pt-4">
                 <div className="text-center mb-10">
-                    <span className="text-[10px] text-theme-primary tracking-[0.2em] uppercase font-bold block mb-2">Lost & Found</span>
                     <h2 className="text-xl font-serif text-theme-text">迷子情報</h2>
                 </div>
                 <div className="bg-white p-6 rounded-2xl shadow-soft mb-8">
-                    <input type="text" placeholder="Something to share?" className="w-full text-sm p-3 mb-4 bg-theme-muted/50 rounded-xl focus:bg-white transition-colors outline-none" />
-                    <button className="w-full py-3 bg-theme-text text-white text-xs font-bold tracking-widest uppercase rounded-xl hover:bg-theme-text/80 transition-colors">Submit Info</button>
+                    <input type="text" placeholder="情報を共有する..." className="w-full text-sm p-3 mb-4 bg-theme-muted/50 rounded-xl focus:bg-white transition-colors outline-none" />
+                    <button className="w-full py-3 bg-theme-text text-white text-xs font-bold tracking-widest uppercase rounded-xl hover:bg-theme-text/80 transition-colors">情報を送信</button>
                 </div>
                 <div className="space-y-4">
                     {LOST_DATA.map(d => (
