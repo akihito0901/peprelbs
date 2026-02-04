@@ -126,6 +126,19 @@
         const IconEvent = ({ active }) => <svg xmlns="http://www.w3.org/2000/svg" fill={active ? "currentColor" : "none"} viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" /></svg>;
         const IconLost = ({ active }) => <svg xmlns="http://www.w3.org/2000/svg" fill={active ? "currentColor" : "none"} viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819" /></svg>;
 
+        const IconFood = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 mb-2 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" /></svg>;
+        const IconHealth = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 mb-2 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>; // Reusing Heart
+        const IconEventNews = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 mb-2 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" /></svg>;
+        const IconLostFound = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 mb-2 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" /></svg>;
+
+        const IconEye = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>;
+        const IconCoat = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" /></svg>;
+        const IconBone = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>; // Simulating bone with search... actually wait, let's use a nice shape
+        const IconWeight = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>; // Scale like
+        const IconBowl = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" /></svg>;
+        const IconCheck = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>;
+        const IconPaw = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" /></svg>; // Simple Paw/Face
+
         // --- DATA ---
         const PRODUCTS = [
             { id: 1, name: "UMAKA - うまか", tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['appetite'] }, img: "https://images.unsplash.com/photo-1589924691195-41432c84c161?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", description: "九州産「華味鳥」100%。内側から溢れる美しさを。", price: "¥5,478", feature: "Premium Care" },
@@ -175,24 +188,27 @@
                         </div>
                     </div>
 
-                    {/* Premium Feature Cards (2x2) */}
                     <div className="w-full max-w-md px-6 relative z-10 grid grid-cols-2 gap-4 mb-12">
                         <FeatureCard
+                            icon={<IconFood />}
                             title="Food Diagnosis"
                             jp="フード診断"
                             desc="年齢と体質に合わせた最適な一皿を提案"
                         />
                         <FeatureCard
+                            icon={<IconHealth />}
                             title="Health Record"
                             jp="ヘルスケア記録"
                             desc="ワクチン接種日と次回予定を管理"
                         />
                         <FeatureCard
+                            icon={<IconEventNews />}
                             title="Event News"
                             jp="イベント情報"
                             desc="週末のお出かけ先を全国から検索"
                         />
                         <FeatureCard
+                            icon={<IconLostFound />}
                             title="Lost & Found"
                             jp="迷子掲示板"
                             desc="地域のみんなで守る安心ネットワーク"
@@ -218,11 +234,12 @@
             );
         };
 
-        const FeatureCard = ({ title, jp, desc }) => (
-            <div className="bg-white p-6 rounded-3xl shadow-soft hover:shadow-card transition-all duration-300 flex flex-col items-center text-center h-full border border-theme-muted/50 justify-center">
-                <span className="text-[9px] tracking-widest text-theme-primary uppercase mb-2 font-bold opacity-80">{title}</span>
-                <h3 className="text-base font-serif text-theme-text mb-3">{jp}</h3>
-                <p className="text-[10px] text-theme-text/60 font-sans leading-relaxed">{desc}</p>
+        const FeatureCard = ({ icon, title, jp, desc }) => (
+            <div className="bg-white/80 backdrop-blur-md p-6 rounded-3xl shadow-sm border border-white/50 flex flex-col items-center text-center transition-transform hover:scale-[1.02] duration-300">
+                {icon}
+                <span className="text-[10px] uppercase tracking-widest text-theme-primary font-bold mb-1">{title}</span>
+                <h3 className="font-serif text-lg text-theme-text mb-2">{jp}</h3>
+                <p className="text-xs text-theme-text/60 leading-relaxed font-sans">{desc}</p>
             </div>
         );
 
@@ -312,7 +329,8 @@
                 {[{ l: "Puppy", jp: "子犬", sub: "〜1歳" }, { l: "Adult", jp: "成犬", sub: "1〜7歳" }, { l: "Senior", jp: "シニア", sub: "7歳〜" }]
                     .map(o => (
                         <button key={o.l} onClick={() => submit('age', o.l)} className="w-full bg-white p-6 rounded-2xl shadow-sm hover:shadow-soft transition-all duration-300 group text-left flex justify-between items-center">
-                            <div>
+                            <div className="flex items-center gap-4">
+                                <IconPaw />
                                 <span className="font-serif text-lg text-theme-text">{o.jp}</span>
                             </div>
                             <span className="text-xs text-theme-text/30 font-sans">{o.sub}</span>
@@ -323,9 +341,10 @@
 
         const ConcernSelector = ({ submit }) => (
             <div className="grid grid-cols-2 gap-3">
-                {[{ l: "Tear Burn", jp: "涙やけ", v: 'tear_burn' }, { l: "Coat", jp: "毛並み", v: 'coat' }, { l: "Joints", jp: "関節", v: 'joints' }, { l: "Weight", jp: "体重管理", v: 'obesity' }, { l: "Appetite", jp: "食いつき", v: 'appetite' }, { l: "Nothing", jp: "特になし", v: 'none' }]
+                {[{ l: "Tear Burn", jp: "涙やけ", v: 'tear_burn', icon: <IconEye /> }, { l: "Coat", jp: "毛並み", v: 'coat', icon: <IconCoat /> }, { l: "Joints", jp: "関節", v: 'joints', icon: <IconBone /> }, { l: "Weight", jp: "体重管理", v: 'obesity', icon: <IconWeight /> }, { l: "Appetite", jp: "食いつき", v: 'appetite', icon: <IconBowl /> }, { l: "Nothing", jp: "特になし", v: 'none', icon: <IconCheck /> }]
                     .map(o => (
                         <button key={o.v} onClick={() => submit('concern', [o.v])} className="aspect-square bg-white rounded-2xl flex flex-col items-center justify-center gap-2 shadow-sm hover:shadow-soft transition-all active:scale-95">
+                            {o.icon}
                             <span className="font-serif text-theme-text">{o.jp}</span>
                         </button>
                     ))}
