@@ -515,7 +515,7 @@
             </div>
         );
 
-        const FoodResults = ({ answers, onReset }) => {
+        const FoodResults = ({ answers, onReset, onShowAll }) => {
             const results = useMemo(() => {
                 if (!answers) return [];
                 const userAge = answers.age || 'Adult'; // Default
@@ -589,7 +589,10 @@
                             </div>
                         ))}
                     </div>
-                    <button onClick={onReset} className="w-full mt-12 text-xs text-theme-text/40 tracking-widest uppercase hover:text-theme-primary transition-colors">もう一度診断する</button>
+                    <button onClick={onShowAll} className="w-full mt-10 bg-theme-secondary/10 text-theme-secondary py-4 rounded-xl font-bold tracking-widest border border-theme-secondary/20 hover:bg-theme-secondary hover:text-white transition-all">
+                        2026プレミアムドッグフード一覧
+                    </button>
+                    <button onClick={onReset} className="w-full mt-4 text-xs text-theme-text/40 tracking-widest uppercase hover:text-theme-primary transition-colors border-t border-theme-muted/30">もう一度診断する</button>
                 </div>
             );
         };
