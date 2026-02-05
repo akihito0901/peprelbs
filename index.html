@@ -389,9 +389,9 @@
                     case 'menu': return <HomeMenu onNavigate={setTab} profile={dogProfile} hasDiagnosis={!!answers} onEditProfile={() => setIsProfileOpen(true)} />;
                     case 'home': return answers ? <FoodResults answers={answers} onReset={() => handleDiagnosisResult(null)} onShowAll={() => setTab('ranking')} /> : <Diagnosis onResult={handleDiagnosisResult} />;
                     case 'ranking': return <ProductRanking onBack={() => setTab('home')} />;
-                    case 'record': return <RecordTab data={vaccineData} onSave={handleVaccineSave} />;
-                    case 'event': return <EventsTab />;
-                    case 'lost': return <LostTab />;
+                    case 'record': return <RecordTab data={vaccineData} onSave={handleVaccineSave} onBack={() => setTab('home')} />;
+                    case 'event': return <EventsTab onBack={() => setTab('home')} />;
+                    case 'lost': return <LostTab onBack={() => setTab('home')} />;
                     default: return <HomeMenu onNavigate={setTab} profile={dogProfile} hasDiagnosis={!!answers} onEditProfile={() => setIsProfileOpen(true)} />;
                 }
             };
@@ -615,12 +615,12 @@
                         onClick={() => onNavigate('home')}
                         icon={<IconFood />}
                         title="フード診断"
-                        desc={hasDiagnosis ? "診断結果" : "未診断"}
+                        desc={hasDiagnosis ? "診断結果" : "カンタン3問"}
                     // accent removed
                     />
-                    <MenuButton onClick={() => onNavigate('record')} icon={<IconHealth />} title="ヘルスケア" desc="0 Records" />
-                    <MenuButton onClick={() => onNavigate('event')} icon={<IconEventNews />} title="イベント" desc="New 3" />
-                    <MenuButton onClick={() => onNavigate('lost')} icon={<IconLostFound />} title="迷子掲示板" desc="Safe" />
+                    <MenuButton onClick={() => onNavigate('record')} icon={<IconHealth />} title="ワクチン記録" desc="記録と期限管理" />
+                    <MenuButton onClick={() => onNavigate('event')} icon={<IconEventNews />} title="イベント" desc="全国版" />
+                    <MenuButton onClick={() => onNavigate('lost')} icon={<IconLostFound />} title="迷子掲示板" desc="情報はここへ！" />
                 </div>
             </div>
         );
@@ -898,12 +898,11 @@
                         ))}
                     </div>
                 </div>
-            )
+            );
         };
 
-        const RecordTab = ({ data, onSave }) => {
+        const RecordTab = ({ data, onSave, onBack }) => {
             // data format: {mixedDate, mixedType, rabiesDate, hospitalMemo}
-            const safeData = data || {};
 
             const handleChange = (field, value) => {
                 onSave({ ...safeData, [field]: value });
@@ -921,9 +920,14 @@
 
             return (
                 <div className="fade-in pt-4 pb-20">
-                    <div className="text-center mb-10">
-                        <h2 className="text-xl font-serif text-theme-text">ワクチン管理</h2>
-                        <p className="text-[10px] text-theme-text/50 mt-1">大切な記録をクラウドに保存</p>
+                    <div className="relative mb-6 px-2">
+                        <button onClick={onBack} className="absolute left-0 top-1/2 -translate-y-1/2 p-2 bg-white rounded-full shadow-sm text-theme-text/70 hover:text-theme-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
+                        </button>
+                        <div className="text-center">
+                            <h2 className="text-xl font-serif text-theme-text">ワクチン管理</h2>
+                            <p className="text-[10px] text-theme-text/50 mt-1">大切な記録をクラウドに保存</p>
+                        </div>
                     </div>
 
                     {/* Mixed Vaccine */}
@@ -992,7 +996,7 @@
             );
         };
 
-        const EventsTab = () => {
+        const EventsTab = ({ onBack }) => {
             const sortedEvents = useMemo(() => {
                 const parseDate = (dStr) => {
                     const match = dStr.match(/(\d+)月(\d+)日/);
@@ -1004,8 +1008,13 @@
 
             return (
                 <div className="fade-in pt-4 pb-20">
-                    <div className="text-center mb-10">
-                        <h2 className="text-xl font-serif text-theme-text">イベント情報</h2>
+                    <div className="relative mb-6 px-2">
+                        <button onClick={onBack} className="absolute left-0 top-1/2 -translate-y-1/2 p-2 bg-white rounded-full shadow-sm text-theme-text/70 hover:text-theme-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
+                        </button>
+                        <div className="text-center">
+                            <h2 className="text-xl font-serif text-theme-text">イベント情報</h2>
+                        </div>
                     </div>
                     <div className="space-y-4">
                         {sortedEvents.map((e, i) => {
@@ -1040,34 +1049,47 @@
             );
         };
 
-        const LostTab = () => (
-            <div className="fade-in pt-4">
-                <div className="text-center mb-10">
-                    <h2 className="text-xl font-serif text-theme-text">迷子情報</h2>
-                </div>
-                <div className="space-y-4">
+        const LostTab = ({ onBack }) => {
+            return (
+                <div className="fade-in pt-4 pb-20">
+                    <div className="relative mb-6 px-2">
+                        <button onClick={onBack} className="absolute left-0 top-1/2 -translate-y-1/2 p-2 bg-white rounded-full shadow-sm text-theme-text/70 hover:text-theme-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
+                        </button>
+                        <div className="text-center">
+                            <h2 className="text-xl font-serif text-theme-text">迷子掲示板</h2>
+                            <p className="text-[10px] text-theme-text/50 mt-1">地域の迷子情報を共有</p>
+                        </div>
+                    </div>
                     {LOST_DATA.length > 0 ? (
-                        LOST_DATA.map(d => (
-                            <div key={d.id} className="bg-white rounded-2xl p-4 shadow-sm flex gap-4 items-center">
-                                <img src={d.img} className="w-12 h-12 rounded-full object-cover" />
-                                <div>
-                                    <p className="font-serif text-theme-text">{d.name} <span className="text-xs text-theme-text/50 font-sans ml-2">({d.breed})</span></p>
-                                    <p className="text-xs text-theme-text/40 mt-1">📍 {d.place}</p>
+                        <div className="space-y-4">
+                            {LOST_DATA.map(d => (
+                                <div key={d.id} className="bg-white rounded-2xl p-4 shadow-sm flex gap-4 items-center">
+                                    <img src={d.img} className="w-12 h-12 rounded-full object-cover" />
+                                    <div>
+                                        <p className="font-serif text-theme-text">{d.name} <span className="text-xs text-theme-text/50 font-sans ml-2">({d.breed})</span></p>
+                                        <p className="text-xs text-theme-text/40 mt-1">📍 {d.place}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        ))
+                            ))}
+                        </div>
                     ) : (
-                        <div className="text-center py-20 bg-white/50 rounded-3xl border border-theme-muted/50">
-                            <div className="inline-block p-4 bg-theme-muted rounded-full text-theme-primary mb-4">
+                        <div className="bg-white rounded-3xl p-8 text-center shadow-sm border border-theme-muted">
+                            <div className="w-16 h-16 bg-theme-muted/20 rounded-full flex items-center justify-center mx-auto mb-4 text-theme-text/50">
                                 <IconLostFound />
                             </div>
-                            <p className="text-theme-text font-serif mb-2">現在迷子情報はありません</p>
-                            <p className="text-[10px] text-theme-text/50">平和な一日です</p>
+                            <h3 className="font-serif text-lg text-theme-text mb-2">現在、迷子情報はありません</h3>
+                            <p className="text-xs text-theme-text/60 leading-relaxed">
+                                付近で迷子の目撃情報があった場合、<br />こちらに表示されます。
+                            </p>
+                            <button className="mt-6 w-full py-3 bg-theme-base text-theme-text/70 rounded-xl text-xs font-bold tracking-widest hover:bg-theme-secondary/10 hover:text-theme-secondary transition-colors">
+                                情報を投稿する
+                            </button>
                         </div>
                     )}
                 </div>
-            </div>
-        );
+            );
+        };
 
 
         // --- MAIN ENTRY POINT ---
