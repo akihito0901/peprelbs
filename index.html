@@ -203,10 +203,7 @@
             { date: "8月08日-09日", title: "Pet博2026 福岡", place: "福岡県 みずほPayPayドーム", tags: ["屋内", "大規模", "九州"], img: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" }
         ];
 
-        const LOST_DATA = [
-            { id: 1, name: "Pochi", breed: "Shiba Inu", place: "Shibuya, Tokyo", date: "2026/02/01", features: "Red Collar", img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=60" },
-            { id: 2, name: "Coco", breed: "Toy Poodle", place: "Kashiwa, Chiba", date: "2026/02/02", features: "Blue Harness", img: "https://images.unsplash.com/photo-1591769225440-811ad7d6eca6?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=60" },
-        ];
+        const LOST_DATA = [];
 
         // === COMPONENTS ===
 
@@ -739,20 +736,26 @@
                 <div className="text-center mb-10">
                     <h2 className="text-xl font-serif text-theme-text">迷子情報</h2>
                 </div>
-                <div className="bg-white p-6 rounded-2xl shadow-soft mb-8">
-                    <input type="text" placeholder="情報を共有する..." className="w-full text-sm p-3 mb-4 bg-theme-muted/50 rounded-xl focus:bg-white transition-colors outline-none" />
-                    <button className="w-full py-3 bg-theme-text text-white text-xs font-bold tracking-widest uppercase rounded-xl hover:bg-theme-text/80 transition-colors">情報を送信</button>
-                </div>
                 <div className="space-y-4">
-                    {LOST_DATA.map(d => (
-                        <div key={d.id} className="flex gap-4 p-4 border-b border-theme-muted items-center">
-                            <img src={d.img} className="w-12 h-12 rounded-full object-cover" />
-                            <div>
-                                <p className="font-serif text-theme-text">{d.name} <span className="text-xs text-theme-text/50 font-sans ml-2">({d.breed})</span></p>
-                                <p className="text-xs text-theme-text/40 mt-1">📍 {d.place}</p>
+                    {LOST_DATA.length > 0 ? (
+                        LOST_DATA.map(d => (
+                            <div key={d.id} className="bg-white rounded-2xl p-4 shadow-sm flex gap-4 items-center">
+                                <img src={d.img} className="w-12 h-12 rounded-full object-cover" />
+                                <div>
+                                    <p className="font-serif text-theme-text">{d.name} <span className="text-xs text-theme-text/50 font-sans ml-2">({d.breed})</span></p>
+                                    <p className="text-xs text-theme-text/40 mt-1">📍 {d.place}</p>
+                                </div>
                             </div>
+                        ))
+                    ) : (
+                        <div className="text-center py-20 bg-white/50 rounded-3xl border border-theme-muted/50">
+                            <div className="inline-block p-4 bg-theme-muted rounded-full text-theme-primary mb-4">
+                                <IconLostFound />
+                            </div>
+                            <p className="text-theme-text font-serif mb-2">現在迷子情報はありません</p>
+                            <p className="text-[10px] text-theme-text/50">平和な一日です</p>
                         </div>
-                    ))}
+                    )}
                 </div>
             </div>
         );
