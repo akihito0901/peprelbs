@@ -32,6 +32,8 @@
                 console.warn("Firebase Init Error (Keys missing?):", e);
             }
         }
+        // Initialize Firestore
+        const db = typeof firebase !== 'undefined' ? firebase.firestore() : null;
     </script>
 
     <!-- Babel -->
@@ -312,32 +314,69 @@
 
         // --- 2. DASHBOARD ---
         // --- 2. DASHBOARD ---
-        const Dashboard = ({ onLogout }) => {
+        const Dashboard = ({ user, onLogout }) => {
             const [tab, setTab] = useState('menu');
-            const [answers, setAnswers] = useState(null); // Food Diagnosis
-            const [dogProfile, setDogProfile] = useState(null); // Dog Registration (Name, Image, Age)
+            const [answers, setAnswers] = useState(null);
+            const [dogProfile, setDogProfile] = useState(null);
+            const [vaccineData, setVaccineData] = useState(null); // New: Vaccine Record Object
             const [isProfileOpen, setIsProfileOpen] = useState(false);
+            const [isSyncing, setIsSyncing] = useState(false); // New: Cloud Saving Indicator
 
-            // Load Simulation
+            // Load Data from Firestore on Mount
             useEffect(() => {
-                const saved = localStorage.getItem('pepre_data');
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    if (data.answers) setAnswers(data.answers);
-                    if (data.dogProfile) setDogProfile(data.dogProfile);
-                }
-            }, []);
+                if (!user || !db) return;
 
-            // Save Simulation
-            useEffect(() => {
-                if (answers || dogProfile) {
-                    localStorage.setItem('pepre_data', JSON.stringify({ answers, dogProfile }));
-                }
-            }, [answers, dogProfile]);
+                // Firestore Listen (Realtime Sync)
+                const unsubscribe = db.collection('users').doc(user.uid).onSnapshot(doc => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        setAnswers(data.answers || null);
+                        setDogProfile(data.dogProfile || null);
+                        setVaccineData(data.vaccineData || null);
+                    } else {
+                        // New user: Set default structure
+                        console.log("New user detected, ready to save.");
+                    }
+                }, error => {
+                    console.error("Error fetching data:", error);
+                    // Fallback to local storage if offline/error? (Logic omitted for simplicity, relying on Auth)
+                });
 
+                return () => unsubscribe();
+            }, [user]);
+
+            // Save Helper
+            const saveToCloud = async (field, data) => {
+                if (!user || !db) return;
+                setIsSyncing(true);
+                try {
+                    await db.collection('users').doc(user.uid).set({
+                        [field]: data
+                    }, { merge: true });
+                } catch (e) {
+                    console.error("Save Error:", e);
+                    alert("保存に失敗しました");
+                } finally {
+                    setTimeout(() => setIsSyncing(false), 500); // Visual delay for UX
+                }
+            };
+
+            // Wrapped Setters
             const handleProfileSave = (profile) => {
+                // Update local (optimistic) and cloud
                 setDogProfile(profile);
+                saveToCloud('dogProfile', profile);
                 setIsProfileOpen(false);
+            };
+
+            const handleDiagnosisResult = (result) => {
+                setAnswers(result);
+                saveToCloud('answers', result);
+            };
+
+            const handleVaccineSave = (data) => {
+                setVaccineData(data);
+                saveToCloud('vaccineData', data);
             };
 
             const renderContent = () => {
@@ -345,9 +384,9 @@
 
                 switch (tab) {
                     case 'menu': return <HomeMenu onNavigate={setTab} profile={dogProfile} hasDiagnosis={!!answers} onEditProfile={() => setIsProfileOpen(true)} />;
-                    case 'home': return answers ? <FoodResults answers={answers} onReset={() => setAnswers(null)} onShowAll={() => setTab('ranking')} /> : <Diagnosis onResult={setAnswers} />;
+                    case 'home': return answers ? <FoodResults answers={answers} onReset={() => handleDiagnosisResult(null)} onShowAll={() => setTab('ranking')} /> : <Diagnosis onResult={handleDiagnosisResult} />;
                     case 'ranking': return <ProductRanking onBack={() => setTab('home')} />;
-                    case 'record': return <RecordTab />;
+                    case 'record': return <RecordTab data={vaccineData} onSave={handleVaccineSave} />;
                     case 'event': return <EventsTab />;
                     case 'lost': return <LostTab />;
                     default: return <HomeMenu onNavigate={setTab} profile={dogProfile} hasDiagnosis={!!answers} onEditProfile={() => setIsProfileOpen(true)} />;
@@ -359,6 +398,9 @@
                     <header className="fixed top-0 w-full max-w-md mx-auto z-40 bg-theme-base/80 backdrop-blur-md px-6 py-4 flex justify-between items-center shadow-sm">
                         <span onClick={() => { setTab('menu'); setIsProfileOpen(false); }} className="font-serif text-2xl tracking-widest text-theme-text font-medium cursor-pointer">PePre</span>
                         <div className="flex items-center gap-4">
+                            {/* Sync Indicator */}
+                            {isSyncing && <div className="w-2 h-2 rounded-full bg-theme-secondary animate-ping"></div>}
+
                             <button onClick={() => setIsProfileOpen(true)} className="w-8 h-8 rounded-full bg-theme-muted overflow-hidden border border-theme-text/10">
                                 {dogProfile?.image ? <img src={dogProfile.image} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-theme-text/30"><IconPaw /></div>}
                             </button>
@@ -675,34 +717,95 @@
             )
         };
 
-        const RecordTab = () => {
-            const [lastDate, setLastDate] = useState(localStorage.getItem('pepre_vaccine_date') || '');
-            const handleSave = (e) => { setLastDate(e.target.value); localStorage.setItem('pepre_vaccine_date', e.target.value); };
-            const nextDate = useMemo(() => {
-                if (!lastDate) return null;
-                const d = new Date(lastDate);
+        const RecordTab = ({ data, onSave }) => {
+            // data format: { mixedDate, mixedType, rabiesDate, hospitalMemo }
+            // If data is null/undefined, default to empty
+            const safeData = data || {};
+
+            const handleChange = (field, value) => {
+                onSave({ ...safeData, [field]: value });
+            };
+
+            // Calculate next dates
+            const getNextDate = (dateStr) => {
+                if (!dateStr) return null;
+                const d = new Date(dateStr);
                 d.setFullYear(d.getFullYear() + 1);
                 return d.toLocaleDateString();
-            }, [lastDate]);
+            };
+
+            const nextMixed = getNextDate(safeData.mixedDate);
+            const nextRabies = getNextDate(safeData.rabiesDate);
+
             return (
-                <div className="fade-in pt-4">
+                <div className="fade-in pt-4 pb-20">
                     <div className="text-center mb-10">
                         <h2 className="text-xl font-serif text-theme-text">ワクチン管理</h2>
+                        <p className="text-[10px] text-theme-text/50 mt-1">大切な記録をクラウドに保存</p>
                     </div>
-                    <div className="bg-white p-8 rounded-3xl shadow-soft mb-8 text-center relative overflow-hidden">
-                        <div className="absolute -top-10 -right-10 w-32 h-32 bg-theme-secondary/10 rounded-full blur-3xl"></div>
-                        <label className="block text-[10px] tracking-widest text-theme-text/50 uppercase mb-4">前回の接種日</label>
-                        <input type="date" value={lastDate} onChange={handleSave} className="w-full text-center font-serif text-2xl bg-transparent border-b border-theme-secondary/30 pb-2 focus:border-theme-secondary outline-none text-theme-text" />
-                    </div>
-                    {nextDate ? (
-                        <div className="text-center">
-                            <p className="text-[10px] tracking-widest text-theme-text/50 uppercase mb-4">次回の予定日</p>
-                            <p className="font-serif text-4xl text-theme-secondary mb-4">{nextDate}</p>
-                            <span className="inline-block bg-theme-secondary/10 text-theme-secondary px-4 py-1 rounded-full text-xs tracking-wider">
-                                あと {Math.floor((new Date(nextDate) - new Date()) / (1000 * 60 * 60 * 24))} 日
+
+                    {/* Mixed Vaccine */}
+                    <div className="bg-white p-6 rounded-3xl shadow-sm mb-6 border border-theme-primary/10">
+                        <div className="flex items-center gap-3 mb-4">
+                            <span className="w-8 h-8 rounded-full bg-theme-primary/10 text-theme-primary flex items-center justify-center">
+                                <IconHealth />
                             </span>
+                            <h3 className="font-serif text-theme-text">混合ワクチン</h3>
                         </div>
-                    ) : <p className="text-center text-xs text-theme-text/30 font-sans mt-8">日付を入力してください</p>}
+                        <div className="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label className="block text-[10px] tracking-widest text-theme-text/50 uppercase mb-1">接種日</label>
+                                <input type="date" value={safeData.mixedDate || ''} onChange={(e) => handleChange('mixedDate', e.target.value)} className="w-full bg-theme-base/50 p-2 rounded-lg text-sm text-theme-text outline-none focus:ring-1 focus:ring-theme-primary/50" />
+                            </div>
+                            <div>
+                                <label className="block text-[10px] tracking-widest text-theme-text/50 uppercase mb-1">種類</label>
+                                <select value={safeData.mixedType || '5種'} onChange={(e) => handleChange('mixedType', e.target.value)} className="w-full bg-theme-base/50 p-2 rounded-lg text-sm text-theme-text outline-none focus:ring-1 focus:ring-theme-primary/50">
+                                    <option>5種</option>
+                                    <option>6種</option>
+                                    <option>7種</option>
+                                    <option>8種</option>
+                                    <option>10種</option>
+                                </select>
+                            </div>
+                        </div>
+                        {nextMixed && (
+                            <div className="text-center bg-theme-primary/5 rounded-xl p-3">
+                                <p className="text-[10px] text-theme-primary/60 mb-1">次回の予定</p>
+                                <p className="font-serif text-lg text-theme-primary">{nextMixed}</p>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Rabies Vaccine */}
+                    <div className="bg-white p-6 rounded-3xl shadow-sm mb-6 border border-theme-secondary/10">
+                        <div className="flex items-center gap-3 mb-4">
+                            <span className="w-8 h-8 rounded-full bg-theme-secondary/10 text-theme-secondary flex items-center justify-center">
+                                <IconPaw />
+                            </span>
+                            <h3 className="font-serif text-theme-text">狂犬病ワクチン</h3>
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-[10px] tracking-widest text-theme-text/50 uppercase mb-1">接種日</label>
+                            <input type="date" value={safeData.rabiesDate || ''} onChange={(e) => handleChange('rabiesDate', e.target.value)} className="w-full bg-theme-base/50 p-3 rounded-lg text-sm text-theme-text outline-none focus:ring-1 focus:ring-theme-secondary/50" />
+                        </div>
+                        {nextRabies && (
+                            <div className="text-center bg-theme-secondary/5 rounded-xl p-3">
+                                <p className="text-[10px] text-theme-secondary/60 mb-1">次回の予定</p>
+                                <p className="font-serif text-lg text-theme-secondary">{nextRabies}</p>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Hospital Memo */}
+                    <div className="bg-white p-6 rounded-3xl shadow-sm border border-theme-muted">
+                        <label className="block text-[10px] tracking-widest text-theme-text/50 uppercase mb-2">かかりつけ病院メモ</label>
+                        <textarea
+                            value={safeData.hospitalMemo || ''}
+                            onChange={(e) => handleChange('hospitalMemo', e.target.value)}
+                            placeholder="病院名や住所、診察券番号など..."
+                            className="w-full h-24 bg-theme-base/50 p-3 rounded-xl text-sm text-theme-text resize-none outline-none focus:ring-1 focus:ring-theme-muted"
+                        ></textarea>
+                    </div>
                 </div>
             );
         };
@@ -787,12 +890,21 @@
 
         // --- MAIN ENTRY POINT ---
         const App = () => {
-            const [isLoggedIn, setIsLoggedIn] = useState(false);
-            const [isLoading, setIsLoading] = useState(false);
+            const [user, setUser] = useState(null); // Auth User Object
+            const [isLoading, setIsLoading] = useState(true); // Initial Check
 
+            // Auth Persistence Logic
             useEffect(() => {
-                const session = localStorage.getItem('pepre_isLoggedIn');
-                if (session === 'true') setIsLoggedIn(true);
+                if (typeof firebase === 'undefined') return;
+
+                // Infinite persistence (default in Firebase w/ CDN, but explicit here doesn't hurt)
+                // firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+                const unsubscribe = firebase.auth().onAuthStateChanged((u) => {
+                    setUser(u); // If logged in, u object exists. If not, null.
+                    setIsLoading(false); // Auth check done
+                });
+                return () => unsubscribe();
             }, []);
 
             const handleLogin = () => {
@@ -803,50 +915,27 @@
                 const auth = firebase.auth();
                 const provider = new firebase.auth.GoogleAuthProvider();
 
-                setIsLoading(true);
-
-                auth.signInWithPopup(provider)
-                    .then((result) => {
-                        // Successful login
-                        const user = result.user;
-                        console.log("Logged in user:", user);
-
-                        // Persist session (Firebase does this automatically, but we sync our UI state)
-                        localStorage.setItem('pepre_isLoggedIn', 'true');
-                        // Optional: Store user profile info
-                        // localStorage.setItem('pepre_user_name', user.displayName);
-                        // localStorage.setItem('pepre_user_photo', user.photoURL);
-
-                        setIsLoggedIn(true);
-                        setIsLoading(false);
-                    })
-                    .catch((error) => {
-                        console.error("Login failed", error);
-
-                        // Handle Errors (e.g. invalid keys)
-                        if (error.code === 'auth/api-key-not-valid. please pass a valid api key.') {
-                            alert("【開発者用メッセージ】\nFirebaseのAPIキーが設定されていません。\nindex.htmlの 'firebaseConfig' をご自身のキーに書き換えてください。");
-                        } else {
-                            alert(`Login Failed: ${error.message}`);
-                        }
-                        setIsLoading(false);
-                    });
+                auth.signInWithPopup(provider).catch((error) => {
+                    console.error("Login failed", error);
+                    alert(`Login Failed: ${error.message}`);
+                });
             };
 
             const handleLogout = () => {
-                localStorage.removeItem('pepre_isLoggedIn');
-                setIsLoggedIn(false);
+                firebase.auth().signOut();
             };
+
+            if (isLoading) {
+                return (
+                    <div className="w-full max-w-md mx-auto min-h-screen bg-theme-base flex items-center justify-center">
+                        <div className="animate-pulse text-theme-primary font-serif">Loading PePre...</div>
+                    </div>
+                );
+            }
 
             return (
                 <div className="w-full max-w-md mx-auto shadow-2xl min-h-screen bg-theme-base overflow-hidden relative">
-                    {isLoading && (
-                        <div className="absolute inset-0 z-50 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center fade-in">
-                            <div className="w-12 h-12 border-4 border-theme-primary/30 border-t-theme-primary rounded-full animate-spin mb-4"></div>
-                            <p className="font-serif text-theme-text tracking-widest animate-pulse">Logging in...</p>
-                        </div>
-                    )}
-                    {isLoggedIn ? <Dashboard onLogout={handleLogout} /> : <LandingPage onLogin={handleLogin} />}
+                    {user ? <Dashboard user={user} onLogout={handleLogout} /> : <LandingPage onLogin={handleLogin} />}
                 </div>
             );
         };
