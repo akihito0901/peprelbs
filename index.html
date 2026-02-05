@@ -616,7 +616,7 @@
                         icon={<IconFood />}
                         title="フード診断"
                         desc={hasDiagnosis ? "診断結果" : "未診断"}
-                        accent={!hasDiagnosis}
+                    // accent removed
                     />
                     <MenuButton onClick={() => onNavigate('record')} icon={<IconHealth />} title="ヘルスケア" desc="0 Records" />
                     <MenuButton onClick={() => onNavigate('event')} icon={<IconEventNews />} title="イベント" desc="New 3" />
@@ -704,7 +704,8 @@
             const steps = [
                 { t: "犬種をお選びください", c: <InlineSelector data={BREEDS_DATA} onSelect={(val) => submit('breed', val)} /> },
                 { t: "現在の年齢は？", c: <InlineSelector data={AGE_DATA} onSelect={handleAgeSelect} /> },
-                { t: "気になることはありますか？", c: <ConcernSelector submit={submit} /> },
+                // Changed title for multiple selection
+                { t: "気になることはありますか？ (複数選択可)", c: <ConcernSelector submit={(val) => submit('concern', val)} /> },
             ];
 
             return (
@@ -721,28 +722,59 @@
             );
         };
 
-        const ConcernSelector = ({ submit }) => (
-            <div className="grid grid-cols-2 gap-3">
-                {[{ l: "Tear Burn", jp: "涙やけ", v: 'tear_burn', icon: <IconEye /> }, { l: "Coat", jp: "毛並み", v: 'coat', icon: <IconCoat /> }, { l: "Joints", jp: "関節", v: 'joints', icon: <IconBone /> }, { l: "Weight", jp: "体重管理", v: 'obesity', icon: <IconWeight /> }, { l: "Appetite", jp: "食いつき", v: 'appetite', icon: <IconBowl /> }, { l: "Teeth", jp: "歯のケア", v: 'teeth', icon: <IconPaw /> }, { l: "Odor", jp: "口臭・ニオイ", v: 'odor', icon: <IconSparkles /> }]
-                    .map(o => (
-                        <button key={o.v} onClick={() => submit('concern', [o.v])} className="aspect-square bg-white rounded-2xl flex flex-col items-center justify-center gap-2 shadow-sm hover:shadow-soft transition-all active:scale-95">
-                            {o.icon}
-                            <span className="font-serif text-theme-text">{o.jp}</span>
-                        </button>
-                    ))}
-            </div>
-        );
+        const ConcernSelector = ({ submit }) => {
+            const [selected, setSelected] = useState([]);
+
+            const toggle = (val) => {
+                setSelected(prev => {
+                    if (prev.includes(val)) return prev.filter(v => v !== val);
+                    return [...prev, val];
+                });
+            };
+
+            // Options: Added 'cost'
+            const options = [
+                { l: "Tear Burn", jp: "涙やけ", v: 'tear_burn', icon: <IconEye /> },
+                { l: "Coat", jp: "毛並み", v: 'coat', icon: <IconCoat /> },
+                { l: "Joints", jp: "関節", v: 'joints', icon: <IconBone /> },
+                { l: "Weight", jp: "体重管理", v: 'obesity', icon: <IconWeight /> },
+                { l: "Appetite", jp: "食いつき", v: 'appetite', icon: <IconBowl /> },
+                { l: "Teeth", jp: "歯のケア", v: 'teeth', icon: <IconPaw /> },
+                { l: "Odor", jp: "口臭・ニオイ", v: 'odor', icon: <IconSparkles /> },
+                { l: "Cost", jp: "コスパ", v: 'cost', icon: <span className="text-2xl font-serif">¥</span> } // New
+            ];
+
+            return (
+                <div className="flex flex-col gap-4">
+                    <div className="grid grid-cols-2 gap-3">
+                        {options.map(o => {
+                            const active = selected.includes(o.v);
+                            return (
+                                <button key={o.v} onClick={() => toggle(o.v)} className={`aspect-square rounded-2xl flex flex-col items-center justify-center gap-2 shadow-sm transition-all active:scale-95 border-2 ${active ? 'bg-theme-primary/10 border-theme-primary' : 'bg-white border-transparent hover:shadow-soft'}`}>
+                                    <div className={active ? 'text-theme-primary' : 'text-theme-text/50'}>{o.icon}</div>
+                                    <span className={`font-serif ${active ? 'text-theme-primary font-bold' : 'text-theme-text'}`}>{o.jp}</span>
+                                    {active && <div className="absolute top-2 right-2 w-3 h-3 bg-theme-primary rounded-full"></div>}
+                                </button>
+                            );
+                        })}
+                    </div>
+                    <button onClick={() => submit(selected)} className="w-full py-4 bg-theme-text text-white rounded-xl shadow-lg hover:bg-theme-text/90 transition-all font-serif tracking-widest">
+                        診断結果を見る
+                    </button>
+                </div>
+            );
+        };
 
         const FoodResults = ({ answers, onReset, onShowAll }) => {
             const results = useMemo(() => {
                 if (!answers) return [];
-                const userAge = answers.age || 'Adult'; // Default
+                const userAge = answers.age || 'Adult';
                 const userConcerns = answers.concern || []; // Array
 
                 return PRODUCTS
                     .map(p => {
                         let score = 0;
-                        // 1. Quality/Priority (User Satisfaction)
+                        // 1. Quality/Priority
                         if (p.tags.priority === 'S') score += 50;
                         if (p.tags.priority === 'A') score += 30;
                         if (p.tags.priority === 'B') score += 10;
@@ -753,38 +785,53 @@
                         if (pAge === 'all') isAgeMatch = true;
                         else if (pAge.toLowerCase() === userAge.toLowerCase()) isAgeMatch = true;
 
-                        if (!isAgeMatch) return null; // Filter out mismatched age
+                        if (!isAgeMatch) return null;
 
                         // 3. Concern Match
-                        if (userConcerns.includes(p.tags.concern)) score += 40;
-                        const secondaryMatch = p.tags.secondaryConcern.some(c => userConcerns.includes(c));
-                        if (secondaryMatch) score += 20;
+                        userConcerns.forEach(c => {
+                            if (c === 'cost') {
+                                // Simple logic: if price is visible number and < 5000, or explicitly "要確認" (often subscription trials are cheap), boost it.
+                                // Actually, let's boost B-rank items slightly as they are often cheaper, or specific brands.
+                                // For this data, let's say "B" priority or specific cheap ones get a boost.
+                                // Or check price string.
+                                if (p.price && p.price !== "¥要確認") {
+                                    const priceNum = parseInt(p.price.replace(/[^0-9]/g, ''));
+                                    if (priceNum < 5000) score += 30;
+                                }
+                            } else {
+                                if (p.tags.concern === c) score += 40;
+                                if (p.tags.secondaryConcern.includes(c)) score += 20;
+                            }
+                        });
 
                         return { ...p, score };
                     })
-                    .filter(Boolean) // Remove nulls
+                    .filter(Boolean)
                     .sort((a, b) => b.score - a.score)
                     .slice(0, 3);
             }, [answers]);
 
             return (
                 <div className="pb-24 fade-in">
-                    <div className="text-center mb-8">
-                        <p className="font-serif text-lg mb-2">My Best Selection</p>
-                        <p className="text-xs text-theme-text/50 font-sans">
-                            {answers.breed} / {answers.age === 'Puppy' ? '子犬' : answers.age === 'Senior' ? 'シニア' : '成犬'}
-                            <br />
-                            <span className="text-[10px] mt-1 inline-block bg-theme-muted px-2 py-0.5 rounded-full">
-                                Priority: Quality & Satisfaction
-                            </span>
-                        </p>
+                    {/* Header with Back Button */}
+                    <div className="relative mb-6 px-2">
+                        <button onClick={onReset} className="absolute left-0 top-1/2 -translate-y-1/2 p-2 bg-white rounded-full shadow-sm text-theme-text/70 hover:text-theme-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
+                        </button>
+                        <div className="text-center">
+                            <p className="font-serif text-lg">あなたへのベストセレクト</p>
+                            <p className="text-xs text-theme-text/50 font-sans mt-1">
+                                {answers.breed} / {answers.age === 'Puppy' ? '子犬' : answers.age === 'Senior' ? 'シニア' : '成犬'}
+                            </p>
+                        </div>
                     </div>
+
                     <div className="space-y-8">
                         {results.map((p, i) => (
                             <div key={p.id} className="group cursor-pointer" onClick={() => p.link && window.open(p.link, '_blank')}>
                                 <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-4 shadow-float">
                                     <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full z-10">
-                                        <span className="text-[10px] font-bold tracking-widest uppercase text-theme-text">No.0{i + 1} Match</span>
+                                        <span className="text-[10px] font-bold tracking-widest uppercase text-theme-text">マッチ度 No.{i + 1}</span>
                                     </div>
                                     {p.tags.priority === 'S' && (
                                         <div className="absolute top-4 right-4 bg-theme-primary/90 backdrop-blur px-3 py-1 rounded-full z-10 text-white">
@@ -797,8 +844,6 @@
                                     <span className="text-[10px] text-theme-primary tracking-widest uppercase block mb-2">{p.feature}</span>
                                     <h3 className="font-serif text-xl text-theme-text mb-2">{p.name}</h3>
                                     <p className="text-sm text-theme-text/60 leading-relaxed mb-3">{p.description}</p>
-                                    {/* Price less prominent as requested */}
-                                    <p className="text-xs text-theme-text/40 mb-4 font-sans border-b border-transparent inline-block group-hover:border-theme-primary/30 transition-all">Go to Official Site</p>
 
                                     <button className="w-full bg-theme-text text-white text-xs px-6 py-4 rounded-xl shadow-lg hover:bg-theme-text/90 transition-all uppercase tracking-widest">
                                         公式サイトを見る
@@ -808,9 +853,9 @@
                         ))}
                     </div>
                     <button onClick={onShowAll} className="w-full mt-10 bg-theme-secondary/10 text-theme-secondary py-4 rounded-xl font-bold tracking-widest border border-theme-secondary/20 hover:bg-theme-secondary hover:text-white transition-all">
-                        2026プレミアムドッグフード一覧
+                        推奨ドッグフード一覧
                     </button>
-                    <button onClick={onReset} className="w-full mt-4 text-xs text-theme-text/40 tracking-widest uppercase hover:text-theme-primary transition-colors border-t border-theme-muted/30">もう一度診断する</button>
+                    <button onClick={onReset} className="w-full mt-4 text-xs text-theme-text/40 tracking-widest uppercase hover:text-theme-primary transition-colors border-t border-theme-muted/30 pt-4">もう一度診断する</button>
                 </div>
             );
         };
@@ -824,12 +869,15 @@
 
             return (
                 <div className="pb-24 fade-in pt-4">
-                    <div className="text-center mb-10 relative">
-                        <button onClick={onBack} className="absolute left-0 top-1 text-theme-text/50 hover:text-theme-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+                    {/* Header with Back Button - Consistent with FoodResults */}
+                    <div className="relative mb-8 px-2">
+                        <button onClick={onBack} className="absolute left-0 top-1/2 -translate-y-1/2 p-2 bg-white rounded-full shadow-sm text-theme-text/70 hover:text-theme-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
                         </button>
-                        <h2 className="text-xl font-serif text-theme-text">Collection 2026</h2>
-                        <p className="text-[10px] text-theme-text/50 tracking-widest uppercase mt-1">Premium Dog Foods</p>
+                        <div className="text-center">
+                            <h2 className="text-xl font-serif text-theme-text">Collection 2026</h2>
+                            <p className="text-[10px] text-theme-text/50 tracking-widest uppercase mt-1">Premium Dog Foods</p>
+                        </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
@@ -852,14 +900,12 @@
 
         const RecordTab = ({ data, onSave }) => {
             // data format: {mixedDate, mixedType, rabiesDate, hospitalMemo}
-            // If data is null/undefined, default to empty
             const safeData = data || {};
 
             const handleChange = (field, value) => {
                 onSave({ ...safeData, [field]: value });
             };
 
-            // Calculate next dates
             const getNextDate = (dateStr) => {
                 if (!dateStr) return null;
                 const d = new Date(dateStr);
@@ -883,16 +929,16 @@
                             <span className="w-8 h-8 rounded-full bg-theme-primary/10 text-theme-primary flex items-center justify-center">
                                 <IconHealth />
                             </span>
-                            <h3 className="font-serif text-theme-text">混合ワクチン</h3>
+                            <h3 className="font-serif text-theme-text font-bold">混合ワクチン</h3>
                         </div>
                         <div className="grid grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label className="block text-[10px] tracking-widest text-theme-text/50 uppercase mb-1">接種日</label>
-                                <input type="date" value={safeData.mixedDate || ''} onChange={(e) => handleChange('mixedDate', e.target.value)} className="w-full bg-theme-base/50 p-2 rounded-lg text-sm text-theme-text outline-none focus:ring-1 focus:ring-theme-primary/50" />
+                                <label className="block text-xs font-bold text-theme-text mb-2">接種日</label>
+                                <input type="date" value={safeData.mixedDate || ''} onChange={(e) => handleChange('mixedDate', e.target.value)} className="w-full bg-theme-base p-3 rounded-xl text-base text-theme-text outline-none focus:ring-2 focus:ring-theme-primary/20" />
                             </div>
                             <div>
-                                <label className="block text-[10px] tracking-widest text-theme-text/50 uppercase mb-1">種類</label>
-                                <select value={safeData.mixedType || '5種'} onChange={(e) => handleChange('mixedType', e.target.value)} className="w-full bg-theme-base/50 p-2 rounded-lg text-sm text-theme-text outline-none focus:ring-1 focus:ring-theme-primary/50">
+                                <label className="block text-xs font-bold text-theme-text mb-2">種類</label>
+                                <select value={safeData.mixedType || '5種'} onChange={(e) => handleChange('mixedType', e.target.value)} className="w-full bg-theme-base p-3 rounded-xl text-base text-theme-text outline-none focus:ring-2 focus:ring-theme-primary/20">
                                     <option>5種</option>
                                     <option>6種</option>
                                     <option>7種</option>
@@ -902,9 +948,9 @@
                             </div>
                         </div>
                         {nextMixed && (
-                            <div className="text-center bg-theme-primary/5 rounded-xl p-3">
-                                <p className="text-[10px] text-theme-primary/60 mb-1">次回の予定</p>
-                                <p className="font-serif text-lg text-theme-primary">{nextMixed}</p>
+                            <div className="text-center bg-theme-primary/5 rounded-xl p-3 mt-2">
+                                <p className="text-xs text-theme-primary/80 mb-1 font-bold">次回の予定</p>
+                                <p className="font-serif text-xl text-theme-primary font-bold">{nextMixed}</p>
                             </div>
                         )}
                     </div>
@@ -915,28 +961,28 @@
                             <span className="w-8 h-8 rounded-full bg-theme-secondary/10 text-theme-secondary flex items-center justify-center">
                                 <IconPaw />
                             </span>
-                            <h3 className="font-serif text-theme-text">狂犬病ワクチン</h3>
+                            <h3 className="font-serif text-theme-text font-bold">狂犬病ワクチン</h3>
                         </div>
                         <div className="mb-4">
-                            <label className="block text-[10px] tracking-widest text-theme-text/50 uppercase mb-1">接種日</label>
-                            <input type="date" value={safeData.rabiesDate || ''} onChange={(e) => handleChange('rabiesDate', e.target.value)} className="w-full bg-theme-base/50 p-3 rounded-lg text-sm text-theme-text outline-none focus:ring-1 focus:ring-theme-secondary/50" />
+                            <label className="block text-xs font-bold text-theme-text mb-2">接種日</label>
+                            <input type="date" value={safeData.rabiesDate || ''} onChange={(e) => handleChange('rabiesDate', e.target.value)} className="w-full bg-theme-base p-3 rounded-xl text-base text-theme-text outline-none focus:ring-2 focus:ring-theme-secondary/20" />
                         </div>
                         {nextRabies && (
-                            <div className="text-center bg-theme-secondary/5 rounded-xl p-3">
-                                <p className="text-[10px] text-theme-secondary/60 mb-1">次回の予定</p>
-                                <p className="font-serif text-lg text-theme-secondary">{nextRabies}</p>
+                            <div className="text-center bg-theme-secondary/5 rounded-xl p-3 mt-2">
+                                <p className="text-xs text-theme-secondary/80 mb-1 font-bold">次回の予定</p>
+                                <p className="font-serif text-xl text-theme-secondary font-bold">{nextRabies}</p>
                             </div>
                         )}
                     </div>
 
                     {/* Hospital Memo */}
                     <div className="bg-white p-6 rounded-3xl shadow-sm border border-theme-muted">
-                        <label className="block text-[10px] tracking-widest text-theme-text/50 uppercase mb-2">かかりつけ病院メモ</label>
+                        <label className="block text-xs font-bold text-theme-text mb-2">かかりつけ病院メモ</label>
                         <textarea
                             value={safeData.hospitalMemo || ''}
                             onChange={(e) => handleChange('hospitalMemo', e.target.value)}
                             placeholder="病院名や住所、診察券番号など..."
-                            className="w-full h-24 bg-theme-base/50 p-3 rounded-xl text-sm text-theme-text resize-none outline-none focus:ring-1 focus:ring-theme-muted"
+                            className="w-full h-24 bg-theme-base p-3 rounded-xl text-sm text-theme-text resize-none outline-none focus:ring-2 focus:ring-theme-muted/50"
                         ></textarea>
                     </div>
                 </div>
@@ -944,10 +990,8 @@
         };
 
         const EventsTab = () => {
-            // Helper to sort events by date
             const sortedEvents = useMemo(() => {
                 const parseDate = (dStr) => {
-                    // "3月20日-22日" -> 0320 for sorting
                     const match = dStr.match(/(\d+)月(\d+)日/);
                     if (!match) return 9999;
                     return parseInt(match[1]) * 100 + parseInt(match[2]);
@@ -956,17 +1000,19 @@
             }, []);
 
             return (
-                <div className="fade-in pt-4">
+                <div className="fade-in pt-4 pb-20">
                     <div className="text-center mb-10">
                         <h2 className="text-xl font-serif text-theme-text">イベント情報</h2>
                     </div>
                     <div className="space-y-4">
                         {sortedEvents.map((e, i) => {
-                            // Extract prefecture from "東京都 舎人公園" -> "東京都"
-                            const prefecture = e.place.split(' ')[0] || "関東";
+                            // Extract prefecture and simplify
+                            let prefecture = e.place.split(' ')[0] || "関東";
+                            // Remove suffixes
+                            prefecture = prefecture.replace(/(都|府|県)$/, '');
+
                             return (
                                 <div key={i} className="bg-white rounded-2xl p-4 shadow-sm flex gap-5 items-center hover:shadow-md transition-shadow cursor-pointer">
-                                    {/* Prefecture Box (Replaces Image) */}
                                     <div className="w-20 h-20 rounded-xl bg-theme-muted/30 flex items-center justify-center flex-shrink-0 border border-theme-muted">
                                         <span className="font-serif text-lg text-theme-text font-medium writing-vertical-rl tracking-widest leading-none h-12">
                                             {prefecture}
