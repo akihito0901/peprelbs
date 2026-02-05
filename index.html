@@ -720,9 +720,12 @@
                     {steps[step].c}
 
                     {/* Static Footer Link */}
-                    <div className="mt-8 px-6 pb-4 z-30 max-w-md mx-auto">
-                        <button onClick={onShowAll} className="w-full bg-gradient-to-r from-amber-300 via-orange-400 to-amber-300 text-white py-3 rounded-xl font-serif font-bold tracking-widest shadow-lg hover:shadow-xl transition-all transform active:scale-95 animate-shimmer bg-[length:200%_100%] flex items-center justify-center gap-2">
-                            <span className="text-sm">2026年最新プレミアムフード一覧</span>
+                    <div className="mt-12 px-2 pb-8 z-30 max-w-md mx-auto w-full">
+                        <button onClick={onShowAll} className="w-full bg-gradient-to-r from-amber-300 via-orange-400 to-amber-300 text-white py-5 rounded-xl font-serif font-bold tracking-widest shadow-lg hover:shadow-xl transition-all transform active:scale-95 animate-shimmer bg-[length:200%_100%] flex items-center justify-center gap-2 relative overflow-hidden group">
+                            <span className="relative z-10 flex items-center gap-2 text-lg drop-shadow-sm">
+                                2026年最新プレミアムフード一覧
+                            </span>
+                            <div className="absolute inset-0 bg-white/20 group-hover:bg-transparent transition-colors"></div>
                         </button>
                     </div>
                 </div>
