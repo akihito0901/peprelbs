@@ -852,8 +852,13 @@
                             </div>
                         ))}
                     </div>
-                    <button onClick={onShowAll} className="w-full mt-10 bg-theme-secondary/10 text-theme-secondary py-4 rounded-xl font-bold tracking-widest border border-theme-secondary/20 hover:bg-theme-secondary hover:text-white transition-all">
-                        推奨ドッグフード一覧
+                    <button onClick={onShowAll} className="w-full mt-10 bg-gradient-to-r from-amber-300 via-orange-400 to-amber-300 text-white py-5 rounded-xl font-bold tracking-widest shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 relative overflow-hidden group animate-shimmer bg-[length:200%_100%]">
+                        <span className="relative z-10 flex items-center justify-center gap-2 text-lg drop-shadow-sm">
+                            <span className="text-xl">✨</span>
+                            2026年最新プレミアムフード一覧
+                            <span className="text-xl">✨</span>
+                        </span>
+                        <div className="absolute inset-0 bg-white/20 group-hover:bg-transparent transition-colors"></div>
                     </button>
                     <button onClick={onReset} className="w-full mt-4 text-xs text-theme-text/40 tracking-widest uppercase hover:text-theme-primary transition-colors border-t border-theme-muted/30 pt-4">もう一度診断する</button>
                 </div>
