@@ -637,6 +637,9 @@
                     <TabbedModal isOpen={isAgeOpen} onClose={() => setIsAgeOpen(false)} title="年齢を選択" data={AGE_DATA} onSelect={handleAgeSelect} />
 
                     <div className="text-center mb-10">
+                        <div className="mb-6 bg-white/50 inline-block px-4 py-2 rounded-full border border-theme-muted/50">
+                            <p className="text-xs text-theme-text/70 font-sans tracking-wide">3つの質問に答えるだけで<br />最新の人気フードを自動でチョイスします</p>
+                        </div>
                         <h2 className="text-xl font-serif text-theme-text">{steps[step].t}</h2>
                     </div>
                     {steps[step].c}
