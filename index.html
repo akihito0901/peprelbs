@@ -197,19 +197,6 @@
             { id: 28, name: "ニュートラム", tags: { age: 'all', concern: 'coat', priority: 'B', secondaryConcern: ['digest'] }, img: "./images/nutram.jpg", description: "カナダ発のホリスティックフード。素材の組み合わせで健康をサポート。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+5NMB7M+5OMY+5YJRM", feature: "Holistic" }
         ];
 
-        const BREEDS = {
-            "あ": ["秋田犬", "アフガンハウンド", "アメリカンコッカースパニエル", "イタリアングレーハウンド", "イングリッシュコッカースパニエル", "ウィペット", "ウエストハイランドホワイトテリア", "オーストラリアン・ラブラドゥードル"],
-            "か": ["甲斐犬", "カニンヘンダックスフンド", "キャバリア・キングチャールズ・スパニエル", "グレート・ピレニーズ", "ケアーンテリア", "コーギー", "ゴールデン・レトリーバー"],
-            "さ": ["サモエド", "シーズー", "シェットランド・シープドッグ", "柴犬", "シベリアンハスキー", "ジャック・ラッセル・テリア", "シュナウザー", "スタンダードプードル", "スピッツ"],
-            "た": ["ダルメシアン", "チワワ", "チン", "ティーカッププードル", "トイプードル", "ドーベルマン"],
-            "な": ["日本スピッツ", "ニューファンドランド", "ノーフォークテリア"],
-            "は": ["パグ", "バセットハウンド", "パピヨン", "バーニーズ・マウンテン・ドッグ", "ビション・フリーゼ", "ビーグル", "ブルドッグ", "ブルテリア", "フレンチブルドッグ", "ペキニーズ", "ボーダーコリー", "ボストンテリア", "ポメラニアン", "ボルゾイ"],
-            "ま": ["マルチーズ", "マルプー", "ミニチュア・シュナウザー", "ミニチュア・ダックスフンド", "ミニチュア・ピンシャー", "ミニチュア・プードル"],
-            "や": ["ヨークシャーテリア"],
-            "ら": ["ラブラドール・レトリーバー"],
-            "わ": ["ワイマラナー", "ワイヤーフォックステリア"],
-            "MIX": ["ミックス犬", "その他"]
-        };
         const BREED_TABS = Object.keys(BREEDS);
 
         const EVENTS_DATA = [
@@ -421,11 +408,52 @@
             );
         };
 
+        // --- SHARED COMPONENTS ---
+        const TabbedModal = ({ isOpen, onClose, title, data, onSelect }) => {
+            if (!isOpen) return null;
+            const tabs = Object.keys(data);
+            const [activeTab, setActiveTab] = useState(tabs[0]);
+
+            return (
+                <div className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm flex items-end sm:items-center justify-center fade-in">
+                    <div className="bg-theme-base w-full max-w-md h-[80vh] sm:h-[600px] sm:rounded-3xl rounded-t-3xl shadow-2xl flex flex-col overflow-hidden animate-slide-up">
+                        <div className="p-4 border-b border-theme-muted flex justify-between items-center bg-white/50 backdrop-blur">
+                            <h3 className="font-serif text-lg text-theme-text">{title}</h3>
+                            <button onClick={onClose} className="p-2 rounded-full hover:bg-theme-text/5 text-theme-text/50">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                            </button>
+                        </div>
+                        {/* Tabs */}
+                        <div className="flex overflow-x-auto p-2 border-b border-theme-muted bg-white/30 gap-2 hide-scroll flex-shrink-0">
+                            {tabs.map(t => (
+                                <button key={t} onClick={() => setActiveTab(t)} className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${activeTab === t ? 'bg-theme-text text-white shadow-md' : 'bg-white text-theme-text/60 border border-theme-muted'}`}>
+                                    {t}
+                                </button>
+                            ))}
+                        </div>
+                        {/* Content */}
+                        <div className="flex-1 overflow-y-auto p-4 bg-theme-base scroll-smooth">
+                            <div className="grid grid-cols-1 gap-2">
+                                {data[activeTab].map(item => (
+                                    <button key={item} onClick={() => onSelect(item)} className="p-4 bg-white rounded-xl text-left text-theme-text shadow-sm hover:bg-theme-secondary/10 hover:text-theme-secondary transition-all active:scale-[0.98] font-medium border border-transparent hover:border-theme-secondary/30">
+                                        {item}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
         const ProfileEditor = ({ current, onSave, onCancel }) => {
             const [name, setName] = useState(current?.name || '');
             const [breed, setBreed] = useState(current?.breed || '');
-            const [age, setAge] = useState(current?.age || '');
+            const [age, setAge] = useState(current?.age ? current.age.toString() + '歳' : '');
             const [image, setImage] = useState(current?.image || null);
+
+            const [isBreedOpen, setIsBreedOpen] = useState(false);
+            const [isAgeOpen, setIsAgeOpen] = useState(false);
 
             const handleImageConfig = (e) => {
                 const file = e.target.files[0];
@@ -436,8 +464,21 @@
                 }
             };
 
+            const handleAgeSelect = (val) => {
+                setAge(val);
+                setIsAgeOpen(false);
+            };
+
+            const handleBreedSelect = (val) => {
+                setBreed(val);
+                setIsBreedOpen(false);
+            };
+
             return (
-                <div className="fade-in">
+                <div className="fade-in pt-4">
+                    <TabbedModal isOpen={isBreedOpen} onClose={() => setIsBreedOpen(false)} title="犬種を選択" data={BREEDS_DATA} onSelect={handleBreedSelect} />
+                    <TabbedModal isOpen={isAgeOpen} onClose={() => setIsAgeOpen(false)} title="年齢を選択" data={AGE_DATA} onSelect={handleAgeSelect} />
+
                     <div className="text-center mb-6">
                         <h2 className="font-serif text-xl text-theme-text mb-2">My Partner</h2>
                         <p className="text-xs text-theme-text/60">愛犬の情報を登録・編集します</p>
@@ -446,9 +487,9 @@
                     <div className="flex flex-col gap-6">
                         {/* Image Upload */}
                         <div className="flex justify-center">
-                            <label className="relative w-28 h-28 rounded-full bg-theme-muted border-2 border-theme-muted overflow-hidden flex items-center justify-center cursor-pointer shadow-inner">
+                            <label className="relative w-28 h-28 rounded-full bg-theme-muted border-2 border-theme-muted overflow-hidden flex items-center justify-center cursor-pointer shadow-inner group">
                                 {image ? <img src={image} className="w-full h-full object-cover" /> : <IconPaw />}
-                                <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                     <span className="text-[10px] text-white font-bold bg-black/50 px-2 py-1 rounded">CHANGE</span>
                                 </div>
                                 <input type="file" accept="image/*" className="hidden" onChange={handleImageConfig} />
@@ -464,17 +505,23 @@
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-xs font-bold text-theme-text/50 mb-1 tracking-widest uppercase">Breed</label>
-                                    <input type="text" value={breed} onChange={e => setBreed(e.target.value)} placeholder="犬種" className="w-full p-4 rounded-xl bg-white border border-theme-muted outline-none focus:border-theme-primary transition-colors text-theme-text" />
+                                    <button onClick={() => setIsBreedOpen(true)} className={`w-full p-4 rounded-xl border outline-none transition-colors text-left flex justify-between items-center ${breed ? 'bg-white border-theme-muted text-theme-text' : 'bg-white border-theme-muted text-theme-text/40'}`}>
+                                        <span className="truncate">{breed || "犬種を選択"}</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 opacity-50"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+                                    </button>
                                 </div>
                                 <div>
                                     <label className="block text-xs font-bold text-theme-text/50 mb-1 tracking-widest uppercase">Age</label>
-                                    <input type="text" value={age} onChange={e => setAge(e.target.value)} placeholder="年齢" className="w-full p-4 rounded-xl bg-white border border-theme-muted outline-none focus:border-theme-primary transition-colors text-theme-text" />
+                                    <button onClick={() => setIsAgeOpen(true)} className={`w-full p-4 rounded-xl border outline-none transition-colors text-left flex justify-between items-center ${age ? 'bg-white border-theme-muted text-theme-text' : 'bg-white border-theme-muted text-theme-text/40'}`}>
+                                        <span className="truncate">{age || "年齢"}</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 opacity-50"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+                                    </button>
                                 </div>
                             </div>
                         </div>
 
                         {/* Actions */}
-                        <button onClick={() => onSave({ name, breed, age, image })} className="w-full py-4 bg-theme-primary text-white rounded-xl shadow-lg hover:brightness-110 transition-all font-serif tracking-widest mt-4">
+                        <button onClick={() => onSave({ name, breed, age: parseInt(age) || 0, image })} className="w-full py-4 bg-theme-primary text-white rounded-xl shadow-lg hover:brightness-110 transition-all font-serif tracking-widest mt-4">
                             SAVE PROFILE
                         </button>
                         <button onClick={onCancel} className="w-full py-3 text-theme-text/50 text-xs tracking-widest hover:text-theme-text transition-colors">
@@ -539,7 +586,9 @@
         const Diagnosis = ({ onResult }) => {
             const [step, setStep] = useState(0);
             const [answers, setAnswers] = useState({});
-            const [breedTab, setBreedTab] = useState(BREED_TABS[0]);
+            // New Selectors
+            const [isBreedOpen, setIsBreedOpen] = useState(false);
+            const [isAgeOpen, setIsAgeOpen] = useState(false);
 
             const submit = (key, val) => {
                 const next = { ...answers, [key]: val };
@@ -547,14 +596,31 @@
                 key === 'concern' ? onResult(next) : setStep(s => s + 1);
             };
 
+            const handleAgeSelect = (valStr) => {
+                // Map "5歳" -> "Adult" tag
+                const ageNum = parseInt(valStr);
+                let stage = "Adult"; // Default
+                if (ageNum <= 1) stage = "Puppy";
+                else if (ageNum >= 7) stage = "Senior";
+
+                // Save both specific age and stage
+                const next = { ...answers, age: stage, ageSpecific: valStr };
+                setAnswers(next);
+                setStep(s => s + 1);
+                setIsAgeOpen(false);
+            };
+
             const steps = [
-                { t: "犬種をお選びください", c: <BreedSelector tab={breedTab} setTab={setBreedTab} submit={submit} /> },
-                { t: "年齢のステージは？", c: <AgeSelector submit={submit} /> },
+                { t: "犬種をお選びください", c: <button onClick={() => setIsBreedOpen(true)} className="w-[80%] mx-auto block p-6 bg-white rounded-2xl shadow-md text-theme-text font-serif text-lg hover:bg-theme-muted transition-all">{answers.breed || "タップして選択"}</button> },
+                { t: "現在の年齢は？", c: <button onClick={() => setIsAgeOpen(true)} className="w-[80%] mx-auto block p-6 bg-white rounded-2xl shadow-md text-theme-text font-serif text-lg hover:bg-theme-muted transition-all">{answers.ageSpecific || "タップして選択"}</button> },
                 { t: "気になることはありますか？", c: <ConcernSelector submit={submit} /> },
             ];
 
             return (
                 <div className="h-full flex flex-col pt-4 fade-in">
+                    <TabbedModal isOpen={isBreedOpen} onClose={() => setIsBreedOpen(false)} title="犬種を選択" data={BREEDS_DATA} onSelect={(val) => { submit('breed', val); setIsBreedOpen(false); }} />
+                    <TabbedModal isOpen={isAgeOpen} onClose={() => setIsAgeOpen(false)} title="年齢を選択" data={AGE_DATA} onSelect={handleAgeSelect} />
+
                     <div className="text-center mb-10">
                         <h2 className="text-xl font-serif text-theme-text">{steps[step].t}</h2>
                     </div>
@@ -562,32 +628,6 @@
                 </div>
             );
         };
-
-        const BreedSelector = ({ tab, setTab, submit }) => (
-            <div className="flex flex-col">
-                <div className="flex gap-4 overflow-x-auto pb-4 mb-4 hide-scroll px-1">
-                    {BREED_TABS.map(t => <button key={t} onClick={() => setTab(t)} className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-serif transition-all duration-300 ${tab === t ? 'bg-theme-text text-theme-base shadow-lg scale-110' : 'bg-white text-theme-text/50'}`}>{t}</button>)}
-                </div>
-                <div className="grid grid-cols-2 gap-3 pb-20">
-                    {BREEDS[tab].map(b => <button key={b} onClick={() => submit('breed', b)} className="p-4 text-center text-sm bg-white rounded-xl shadow-sm text-theme-text hover:shadow-soft transition-all">{b}</button>)}
-                </div>
-            </div>
-        );
-
-        const AgeSelector = ({ submit }) => (
-            <div className="space-y-4">
-                {[{ l: "Puppy", jp: "子犬", sub: "〜1歳" }, { l: "Adult", jp: "成犬", sub: "1〜7歳" }, { l: "Senior", jp: "シニア", sub: "7歳〜" }]
-                    .map(o => (
-                        <button key={o.l} onClick={() => submit('age', o.l)} className="w-full bg-white p-6 rounded-2xl shadow-sm hover:shadow-soft transition-all duration-300 group text-left flex justify-between items-center">
-                            <div className="flex items-center gap-4">
-                                <IconPaw />
-                                <span className="font-serif text-lg text-theme-text">{o.jp}</span>
-                            </div>
-                            <span className="text-xs text-theme-text/30 font-sans">{o.sub}</span>
-                        </button>
-                    ))}
-            </div>
-        );
 
         const ConcernSelector = ({ submit }) => (
             <div className="grid grid-cols-2 gap-3">
