@@ -387,7 +387,7 @@
 
                 switch (tab) {
                     case 'menu': return <HomeMenu onNavigate={setTab} profile={dogProfile} hasDiagnosis={!!answers} onEditProfile={() => setIsProfileOpen(true)} />;
-                    case 'home': return answers ? <FoodResults answers={answers} onReset={() => handleDiagnosisResult(null)} onShowAll={() => setTab('ranking')} /> : <Diagnosis onResult={handleDiagnosisResult} />;
+                    case 'home': return answers ? <FoodResults answers={answers} onReset={() => handleDiagnosisResult(null)} onShowAll={() => setTab('ranking')} /> : <Diagnosis onResult={handleDiagnosisResult} onShowAll={() => setTab('ranking')} />;
                     case 'ranking': return <ProductRanking onBack={() => setTab('home')} />;
                     case 'record': return <RecordTab data={vaccineData} onSave={handleVaccineSave} onBack={() => setTab('menu')} />;
                     case 'event': return <EventsTab onBack={() => setTab('menu')} />;
@@ -645,7 +645,7 @@
         );
 
         // --- DASHBOARD SUB-COMPONENTS (Refined) ---
-        const Diagnosis = ({ onResult }) => {
+        const Diagnosis = ({ onResult, onShowAll }) => {
             const [step, setStep] = useState(0);
             const [answers, setAnswers] = useState({});
             // New Selectors
@@ -709,7 +709,7 @@
             ];
 
             return (
-                <div className="h-full flex flex-col pt-4 fade-in">
+                <div className="h-full flex flex-col pt-4 fade-in relative pb-20">
                     <div className="text-center mb-6">
                         <h1 className="font-serif text-2xl md:text-3xl text-theme-text mb-4">愛犬にピッタリの一皿を</h1>
                         <div className="mb-6 bg-white/50 inline-block px-4 py-2 rounded-full border border-theme-muted/50">
@@ -718,6 +718,13 @@
                         <h2 className="text-xl font-serif text-theme-text border-b-2 border-theme-primary/20 inline-block pb-1 px-4">{steps[step].t}</h2>
                     </div>
                     {steps[step].c}
+
+                    {/* Sticky Footer Link */}
+                    <div className="fixed bottom-24 left-0 right-0 px-6 z-30 max-w-md mx-auto pointer-events-none">
+                        <button onClick={onShowAll} className="pointer-events-auto w-full bg-gradient-to-r from-amber-300 via-orange-400 to-amber-300 text-white py-3 rounded-xl font-serif font-bold tracking-widest shadow-lg hover:shadow-xl transition-all transform active:scale-95 animate-shimmer bg-[length:200%_100%] flex items-center justify-center gap-2">
+                            <span className="text-sm">2026年最新プレミアムフード一覧</span>
+                        </button>
+                    </div>
                 </div>
             );
         };
