@@ -430,18 +430,18 @@
             const [activeTab, setActiveTab] = useState(tabs[0]);
 
             return (
-                <div className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm flex items-end sm:items-center justify-center fade-in">
+                <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center fade-in">
                     <div className="bg-theme-base w-full max-w-md h-[85vh] sm:h-[650px] sm:rounded-3xl rounded-t-3xl shadow-2xl flex flex-col overflow-hidden animate-slide-up">
-                        <div className="p-4 border-b border-theme-muted flex justify-between items-center bg-white/50 backdrop-blur shrink-0">
-                            <h3 className="font-serif text-lg text-theme-text">{title}</h3>
-                            <button onClick={onClose} className="p-2 rounded-full hover:bg-theme-text/5 text-theme-text/50">
+                        <div className="p-4 border-b border-theme-muted flex justify-between items-center bg-white shrink-0">
+                            <h3 className="font-serif text-lg text-theme-text font-bold text-center w-full">{title}</h3>
+                            <button onClick={onClose} className="absolute right-4 p-2 rounded-full hover:bg-theme-text/5 text-theme-text/50">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                             </button>
                         </div>
-                        {/* Tabs - Improved Scrolling & Wrap for accessibility */}
-                        <div className="flex flex-wrap gap-2 p-3 border-b border-theme-muted bg-white/30 shrink-0">
+                        {/* Tabs - Distinct Background */}
+                        <div className="flex flex-wrap gap-2 p-3 border-b border-theme-muted bg-theme-muted/20 shrink-0 justify-center">
                             {tabs.map(t => (
-                                <button key={t} onClick={() => setActiveTab(t)} className={`px-3 py-2 rounded-lg text-xs font-bold transition-all ${activeTab === t ? 'bg-theme-text text-white shadow-md' : 'bg-white text-theme-text/60 border border-theme-muted hover:bg-theme-text/5'}`}>
+                                <button key={t} onClick={() => setActiveTab(t)} className={`px-3 py-2 rounded-lg text-xs font-bold transition-all shadow-sm ${activeTab === t ? 'bg-theme-primary text-white ring-2 ring-theme-primary ring-offset-1' : 'bg-white text-theme-text/70 border border-theme-muted hover:bg-white/80'}`}>
                                     {t}
                                 </button>
                             ))}
