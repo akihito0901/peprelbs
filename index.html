@@ -389,9 +389,9 @@
                     case 'menu': return <HomeMenu onNavigate={setTab} profile={dogProfile} hasDiagnosis={!!answers} onEditProfile={() => setIsProfileOpen(true)} />;
                     case 'home': return answers ? <FoodResults answers={answers} onReset={() => handleDiagnosisResult(null)} onShowAll={() => setTab('ranking')} /> : <Diagnosis onResult={handleDiagnosisResult} />;
                     case 'ranking': return <ProductRanking onBack={() => setTab('home')} />;
-                    case 'record': return <RecordTab data={vaccineData} onSave={handleVaccineSave} onBack={() => setTab('home')} />;
-                    case 'event': return <EventsTab onBack={() => setTab('home')} />;
-                    case 'lost': return <LostTab onBack={() => setTab('home')} />;
+                    case 'record': return <RecordTab data={vaccineData} onSave={handleVaccineSave} onBack={() => setTab('menu')} />;
+                    case 'event': return <EventsTab onBack={() => setTab('menu')} />;
+                    case 'lost': return <LostTab onBack={() => setTab('menu')} />;
                     default: return <HomeMenu onNavigate={setTab} profile={dogProfile} hasDiagnosis={!!answers} onEditProfile={() => setIsProfileOpen(true)} />;
                 }
             };
@@ -903,6 +903,7 @@
 
         const RecordTab = ({ data, onSave, onBack }) => {
             // data format: {mixedDate, mixedType, rabiesDate, hospitalMemo}
+            const safeData = data || {};
 
             const handleChange = (field, value) => {
                 onSave({ ...safeData, [field]: value });
