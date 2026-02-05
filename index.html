@@ -10,6 +10,30 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
+    <!-- Firebase SDK (v8 Compat for CDN usage without build step) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script>
+        // --- FIREBASE CONFIGURATION (REPLACE WITH YOUR KEYS) ---
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY_HERE",
+            authDomain: "your-project.firebaseapp.com",
+            projectId: "your-project",
+            storageBucket: "your-project.appspot.com",
+            messagingSenderId: "SENDER_ID",
+            appId: "APP_ID"
+        };
+        // Initialize Firebase
+        if (typeof firebase !== 'undefined') {
+            try {
+                firebase.initializeApp(firebaseConfig);
+                console.log("Firebase initialized");
+            } catch (e) {
+                console.warn("Firebase Init Error (Keys missing?):", e);
+            }
+        }
+    </script>
+
     <!-- Babel -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
@@ -772,13 +796,41 @@
             }, []);
 
             const handleLogin = () => {
-                // Simulate Login Flow
+                if (typeof firebase === 'undefined') {
+                    alert("Firebase SDK not loaded. Check internet connection.");
+                    return;
+                }
+                const auth = firebase.auth();
+                const provider = new firebase.auth.GoogleAuthProvider();
+
                 setIsLoading(true);
-                setTimeout(() => {
-                    localStorage.setItem('pepre_isLoggedIn', 'true');
-                    setIsLoggedIn(true);
-                    setIsLoading(false);
-                }, 1500);
+
+                auth.signInWithPopup(provider)
+                    .then((result) => {
+                        // Successful login
+                        const user = result.user;
+                        console.log("Logged in user:", user);
+
+                        // Persist session (Firebase does this automatically, but we sync our UI state)
+                        localStorage.setItem('pepre_isLoggedIn', 'true');
+                        // Optional: Store user profile info
+                        // localStorage.setItem('pepre_user_name', user.displayName);
+                        // localStorage.setItem('pepre_user_photo', user.photoURL);
+
+                        setIsLoggedIn(true);
+                        setIsLoading(false);
+                    })
+                    .catch((error) => {
+                        console.error("Login failed", error);
+
+                        // Handle Errors (e.g. invalid keys)
+                        if (error.code === 'auth/api-key-not-valid. please pass a valid api key.') {
+                            alert("【開発者用メッセージ】\nFirebaseのAPIキーが設定されていません。\nindex.htmlの 'firebaseConfig' をご自身のキーに書き換えてください。");
+                        } else {
+                            alert(`Login Failed: ${error.message}`);
+                        }
+                        setIsLoading(false);
+                    });
             };
 
             const handleLogout = () => {
