@@ -207,12 +207,10 @@
             'ま〜わ行': ['マルチーズ', 'マンチェスター・テリア', 'ミニチュア・シュナウザー', 'ミニチュア・ダックスフンド', 'ミニチュア・ピンシャー', 'ミニチュア・ブル・テリア', 'ヨークシャー・テリア', 'ラブラドール・レトリバー', 'ラフ・コリー', 'ラサ・アプソ', 'レオンベルガー', 'ロットワイラー', 'ワイマラナー', 'ワイヤー・フォックス・テリア']
         };
 
-        const AGE_DATA = {
-            '〜1歳': ['0歳', '1歳'],
-            '2〜6歳': ['2歳', '3歳', '4歳', '5歳', '6歳'],
-            '7〜10歳': ['7歳', '8歳', '9歳', '10歳'],
-            '11歳〜': ['11歳', '12歳', '13歳', '14歳', '15歳', '16歳', '17歳', '18歳', '19歳', '20歳以上']
-        };
+        const AGE_DATA = [
+            '0歳', '1歳', '2歳', '3歳', '4歳', '5歳', '6歳', '7歳', '8歳', '9歳', '10歳',
+            '11歳', '12歳', '13歳', '14歳', '15歳', '16歳', '17歳', '18歳', '19歳', '20歳以上'
+        ];
 
         const EVENTS_DATA = [
             { date: "1月31日-2月1日", title: "Marble Dog Festival 2026", place: "東京都 東京ビッグサイト", tags: ["大規模", "屋内", "フェス"], img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
@@ -673,23 +671,28 @@
             };
 
             const InlineSelector = ({ data, onSelect }) => {
-                const tabs = Object.keys(data);
-                const [activeTab, setActiveTab] = useState(tabs[0]);
+                const isArray = Array.isArray(data);
+                const tabs = isArray ? [] : Object.keys(data);
+                const [activeTab, setActiveTab] = useState(isArray ? null : tabs[0]);
+
+                const items = isArray ? data : data[activeTab];
 
                 return (
                     <div className="bg-white rounded-3xl shadow-soft overflow-hidden border border-theme-muted/20">
-                        {/* Tabs */}
-                        <div className="flex flex-wrap gap-2 p-4 bg-theme-muted/10 border-b border-theme-muted/20 justify-center">
-                            {tabs.map(t => (
-                                <button key={t} onClick={() => setActiveTab(t)} className={`px-3 py-2 rounded-lg text-xs font-bold transition-all shadow-sm ${activeTab === t ? 'bg-theme-primary text-white ring-2 ring-theme-primary ring-offset-1' : 'bg-white text-theme-text/70 border border-theme-muted hover:bg-white/80'}`}>
-                                    {t}
-                                </button>
-                            ))}
-                        </div>
+                        {/* Tabs (Only if not array) */}
+                        {!isArray && (
+                            <div className="flex flex-wrap gap-2 p-4 bg-theme-muted/10 border-b border-theme-muted/20 justify-center">
+                                {tabs.map(t => (
+                                    <button key={t} onClick={() => setActiveTab(t)} className={`px-3 py-2 rounded-lg text-xs font-bold transition-all shadow-sm ${activeTab === t ? 'bg-theme-primary text-white ring-2 ring-theme-primary ring-offset-1' : 'bg-white text-theme-text/70 border border-theme-muted hover:bg-white/80'}`}>
+                                        {t}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                         {/* Content List */}
                         <div className="h-80 overflow-y-auto p-2 scroll-smooth bg-theme-base/30">
                             <div className="grid grid-cols-1 gap-2">
-                                {data[activeTab].map(item => (
+                                {items.map(item => (
                                     <button key={item} onClick={() => onSelect(item)} className="p-4 bg-white rounded-xl text-left text-theme-text shadow-sm hover:bg-theme-secondary/10 hover:text-theme-secondary transition-all active:scale-[0.98] font-medium border border-transparent hover:border-theme-secondary/30 flex justify-between items-center group">
                                         {item}
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-theme-muted group-hover:text-theme-secondary opacity-0 group-hover:opacity-100 transition-all"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
