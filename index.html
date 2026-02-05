@@ -764,24 +764,36 @@
         // --- MAIN ENTRY POINT ---
         const App = () => {
             const [isLoggedIn, setIsLoggedIn] = useState(false);
+            const [isLoading, setIsLoading] = useState(false);
+
             useEffect(() => {
                 const session = localStorage.getItem('pepre_isLoggedIn');
                 if (session === 'true') setIsLoggedIn(true);
             }, []);
+
             const handleLogin = () => {
-                const confirmLogin = window.confirm("Log in with Google? (Demo)");
-                if (confirmLogin) {
+                // Simulate Login Flow
+                setIsLoading(true);
+                setTimeout(() => {
                     localStorage.setItem('pepre_isLoggedIn', 'true');
                     setIsLoggedIn(true);
-                }
+                    setIsLoading(false);
+                }, 1500);
             };
+
             const handleLogout = () => {
                 localStorage.removeItem('pepre_isLoggedIn');
                 setIsLoggedIn(false);
             };
 
             return (
-                <div className="w-full max-w-md mx-auto shadow-2xl min-h-screen bg-theme-base overflow-hidden">
+                <div className="w-full max-w-md mx-auto shadow-2xl min-h-screen bg-theme-base overflow-hidden relative">
+                    {isLoading && (
+                        <div className="absolute inset-0 z-50 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center fade-in">
+                            <div className="w-12 h-12 border-4 border-theme-primary/30 border-t-theme-primary rounded-full animate-spin mb-4"></div>
+                            <p className="font-serif text-theme-text tracking-widest animate-pulse">Logging in...</p>
+                        </div>
+                    )}
                     {isLoggedIn ? <Dashboard onLogout={handleLogout} /> : <LandingPage onLogin={handleLogin} />}
                 </div>
             );
