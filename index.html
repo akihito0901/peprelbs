@@ -1174,6 +1174,54 @@
 
 
         // --- MAIN ENTRY POINT ---
+        // --- UTILS & GUARDS ---
+        const AppBrowserGuard = ({ children }) => {
+            const [isInApp, setIsInApp] = useState(false);
+            const [isAndroid, setIsAndroid] = useState(false);
+
+            useEffect(() => {
+                const ua = navigator.userAgent || navigator.vendor || window.opera;
+                const isInstagram = ua.indexOf('Instagram') > -1;
+                const isLine = ua.indexOf('Line') > -1;
+                const isFB = ua.indexOf('FBAN') > -1 || ua.indexOf('FBAV') > -1;
+
+                if (isInstagram || isLine || isFB) {
+                    setIsInApp(true);
+                    const android = /android/i.test(ua);
+                    setIsAndroid(android);
+
+                    if (android) {
+                        // Android Auto-Redirect attempt
+                        const url = window.location.href;
+                        const packageUrl = url.replace(/^https?:\/\//, '');
+                        const intent = `intent://${packageUrl}#Intent;scheme=https;package=com.android.chrome;end`;
+                        window.location.href = intent;
+                    }
+                }
+            }, []);
+
+            if (isInApp && !isAndroid) {
+                return (
+                    <div className="fixed inset-0 z-[100] bg-black/80 flex flex-col items-center justify-center p-6 text-white text-center fade-in">
+                        <div className="absolute top-4 right-4 animate-bounce">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-10 h-10"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+                        </div>
+                        <h2 className="text-xl font-bold mb-4 font-serif">ブラウザで開いてください</h2>
+                        <p className="text-sm opacity-80 mb-6">Instagram/LINE等のアプリ内ブラウザでは<br />正常に動作しない場合があります。</p>
+                        <div className="bg-white/10 p-4 rounded-xl border border-white/20 text-xs text-left inline-block">
+                            <p className="mb-2">1. 右上（または右下）のメニュー <span className="inline-block align-middle"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /></svg></span> をタップ</p>
+                            <p>2. <span className="font-bold text-theme-secondary">「ブラウザで開く」</span>を選択</p>
+                        </div>
+                        <button onClick={() => setIsInApp(false)} className="mt-8 text-xs text-white/50 underline">
+                            このまま進む (非推奨)
+                        </button>
+                    </div>
+                );
+            }
+
+            return children;
+        };
+
         const App = () => {
             const [user, setUser] = useState(null); // Auth User Object
             const [isLoading, setIsLoading] = useState(true); // Initial Check
