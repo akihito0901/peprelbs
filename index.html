@@ -836,10 +836,8 @@
                             return null;
                         }
 
-                        // 1. Quality/Priority
-                        if (p.tags.priority === 'S') score += 50;
-                        if (p.tags.priority === 'A') score += 30;
-                        if (p.tags.priority === 'B') score += 10;
+                        // 1. Quality/Priority (REMOVED: prioritizing fit over rank)
+                        // score += 0; 
 
                         // 2. Age Match
                         const pAge = p.tags.age;
