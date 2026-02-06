@@ -203,29 +203,19 @@
         const PRODUCTS = [
             { id: 1, name: "アカナ", tags: { age: 'all', concern: 'coat', priority: 'A', secondaryConcern: ['joints'], targetSizes: ['all'] }, img: "./images/acana.jpg", description: "生物学的に適正な栄養。新鮮な肉類を最大75%使用し、筋肉と被毛をサポート。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+CWE66A+5FPU+61JSH", feature: "High Protein" },
             { id: 2, name: "アランズ ナチュラル", tags: { age: 'all', concern: 'allergy', priority: 'A', secondaryConcern: ['tear_burn'], targetSizes: ['small', 'medium'] }, img: "./images/alans.jpg", description: "野生の食事を再現。ラム肉とサツマイモ、わずか9種の厳選素材。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+BRB9FM+3J8+C1DUP", feature: "Hypoallergenic" },
-            { id: 4, name: "うまか", tags: { age: 'all', concern: 'tear_burn', priority: 'A', secondaryConcern: ['joints', 'digest'], targetSizes: ['small', 'medium'] }, img: "./images/umaka.jpg", description: "九州産「華味鳥」100%。涙やけと関節に配慮した、内側から溢れる美しさ。", price: "¥5,478", link: "http://msm.to/2U5R2J2", feature: "Premium Care" },
-            { id: 5, name: "エッセンシャル", tags: { age: 'adult', concern: 'coat', priority: 'B', secondaryConcern: ['allergy'], targetSizes: ['all'] }, img: "./images/essential.jpg", description: "お肉不使用、魚77.5%。アレルゲン排除とオメガ3で皮膚トラブルに特化。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX4SE+3DGHQA+3J8+15R4NL", feature: "Fish Based" },
-            { id: 6, name: "カナガン", tags: { age: 'all', concern: 'appetite', priority: 'S', secondaryConcern: ['active'], targetSizes: ['all'] }, img: "./images/canagan.jpg", description: "世界中で愛されるグレインフリー。チキン60%の食いつきと栄養バランス。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+C7DYRM+3J8+64EGFL", feature: "Grain Free" },
+            { id: 4, name: "うまか", tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['joints', 'digest'], targetSizes: ['small', 'medium'] }, img: "./images/umaka.jpg", description: "九州産「華味鳥」100%。涙やけと関節に配慮した、内側から溢れる美しさ。", price: "¥5,478", link: "http://msm.to/2U5R2J2", feature: "Premium Care" },
+            { id: 5, name: "エッセンシャル", tags: { age: 'adult', concern: 'coat', priority: 'B', secondaryConcern: ['allergy'], targetSizes: ['all'] }, img: "./images/essential.jpg", description: "お肉不使用、魚77.5%。アレルゲン排除とオメガ3で皮膚トラブルに特化。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+BDMAIQ+3J8+3H2YHD", feature: "Fish Based" },
+            { id: 6, name: "カナガン", tags: { age: 'all', concern: 'appetite', priority: 'S', secondaryConcern: ['active'], targetSizes: ['all'] }, img: "./images/canagan.jpg", description: "世界中で愛されるグレインフリー。チキン60%の食いつきと栄養バランス。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+C7DYRM+3J8+64L3MQ", feature: "Grain Free" },
             { id: 7, name: "カナガン デンタル", tags: { age: 'all', concern: 'teeth', priority: 'A', secondaryConcern: ['appetite'], targetSizes: ['all'] }, img: "./images/canagan_dental.jpg", description: "特許成分配合。食べるだけで愛犬の「口内の健康」を守る画期的フード。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+B8UTOI+3J8+3B6C5T", feature: "Oral Care" },
             { id: 8, name: "カナガン チキン＆サーモン", tags: { age: 'all', concern: 'coat', priority: 'A', secondaryConcern: ['appetite'], targetSizes: ['all'] }, img: "./images/canagan_chickensalmon.jpg", description: "チキンとサーモンの相乗効果。偏食対策と美しい毛並みの維持に。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3NGVLD+2TT6RM+3J8+HV7V6", feature: "Multi Protein" },
             { id: 9, name: "グランツ", tags: { age: 'all', concern: 'tear_burn', priority: 'B', secondaryConcern: ['allergy'], targetSizes: ['all'] }, img: "./images/grands.jpg", description: "無添加・グレインフリー。小粒設計でお腹に優しいフランス産プレミアム。", price: "¥要確認", link: "http://msm.to/APkBGUm", feature: "Digest Support" },
-            { id: 10, name: "グレボ", tags: { age: 'all', concern: 'joints', priority: 'B', secondaryConcern: ['tear_burn'], targetSizes: ['small', 'medium'] }, img: "./images/glebo.jpg", description: "国産・関節ケア。鶏軟骨抽出成分とグルコサミン配合でシニアの元気を維持。", price: "¥要確認", link: "http://msm.to/3OyO6nm", feature: "Anti-Aging" },
-            { id: 11, name: "このこのごはん", tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['coat', 'odor'], targetSizes: ['small'] }, img: "./images/konokono.jpg", description: "小型犬の「涙やけ・毛並み・におい」に特化。自然素材のやさしい国産ご飯。", price: "¥要確認", link: "http://msm.to/7C7CAGn", feature: "Tear Burn Care" },
-            { id: 12, name: "ネルソンズ", tags: { age: 'adult', concern: 'appetite', priority: 'B', secondaryConcern: ['digest'], targetSizes: ['medium', 'large'] }, img: "./images/nelsons.jpg", description: "中型・大型犬向けの大容量。グレインフリーで消化と家計を両立。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3HRCDC+2Z6SY+3J8+ZQ80I", feature: "Large Breed" },
-            { id: 13, name: "ハッピードッグ", tags: { age: 'all', concern: 'allergy', priority: 'B', secondaryConcern: ['obesity'], targetSizes: ['all'] }, img: "./images/happydog.jpg", description: "ドイツ品質のナチュラルフード。珍しいタンパク源でアレルギー・体調管理に。", price: "¥要確認", link: "http://msm.to/EBBt1b9", feature: "German Quality" },
-            { id: 14, name: "ペトコト", tags: { age: 'all', concern: 'appetite', priority: 'S', secondaryConcern: ['digest'], targetSizes: ['all'] }, img: "./images/petokoto.jpg", description: "新鮮な食材を急速冷凍。手作りごはんの栄養と香りで、驚きの食いつきを。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3ZJU37+EGYCN6+4NYE+61Z81", feature: "Fresh Food" },
-            { id: 15, name: "ミシュワン", tags: { age: 'all', concern: 'joints', priority: 'S', secondaryConcern: ['tear_burn', 'coat'], targetSizes: ['all'] }, img: "./images/mishone.jpg", description: "関節ケアの最高峰。緑イ貝配合で、いつまでも軽やかなステップを。", price: "¥4,378", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+C1FP16+4PA6+BXYE9", feature: "Joint Support" },
-            { id: 16, name: "モグキューブ", tags: { age: 'all', concern: 'appetite', priority: 'B', secondaryConcern: [], targetSizes: ['all'] }, img: "./images/mogcube.jpg", description: "NZ産ラムのフリーズドライ。栄養そのままでトッピングやおやつにも最適。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3HQZ35+BN56NM+3J8+354KNM", feature: "Freeze Dried" },
-            { id: 17, name: "モグワン", tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['coat', 'appetite'], targetSizes: ['all'] }, img: "./images/mogwan.jpg", description: "手作り食レシピの美味しさと栄養バランス。野菜とフルーツたっぷりの人気No.1。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3NGVLD+2NUUPU+3J8+1BPOF5", feature: "Best Seller" },
-            { id: 18, name: "やわか", tags: { age: 'senior', concern: 'appetite', priority: 'A', secondaryConcern: ['digest'], targetSizes: ['small', 'medium'] }, img: "./images/yawaka.jpg", description: "水分を逃さない特殊製法。シニアも食べやすい国産セミモイストフード。", price: "¥6,578", link: "http://msm.to/ApJikKQ", feature: "Soft Touch" },
-            { id: 19, name: "ユリカゴ", tags: { age: 'all', concern: 'none', priority: 'B', secondaryConcern: [], targetSizes: ['all'] }, img: "./images/yurikago.jpg", description: "「安眠」と「リラックス」をテーマに。ハーブの力で穏やかな毎日を。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+BQ4E82+3J8+5SG2LT", feature: "Relax Care" },
             { id: 20, name: "馬肉自然づくり", tags: { age: 'all', concern: 'obesity', priority: 'A', secondaryConcern: ['allergy'], targetSizes: ['all'] }, img: "./images/baniku.jpg", description: "熊本産馬肉を贅沢に使用。高タンパク・低脂質でダイエットに最適。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3ZJZJ3+GEM2F6+3E6W+O24K1", feature: "Low Fat" },
             { id: 21, name: "和漢みらい", tags: { age: 'senior', concern: 'none', priority: 'A', secondaryConcern: ['obesity'], targetSizes: ['all'] }, img: "./images/wakan.jpg", description: "89種類の和漢植物を配合。薬善の知恵でシニア期の健康を徹底サポート。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+BAN4HU+3SZE+C5VW2", feature: "Yakuzen Care" },
             { id: 22, name: "マックアダムス", tags: { age: 'all', concern: 'appetite', priority: 'S', secondaryConcern: ['joints'], targetSizes: ['large', 'medium'] }, img: "./images/macadams.jpg", description: "一羽丸ごとのチキンを使用。愛犬が喜ぶ美味しさと栄養。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+59BWOY+3J8+5AKUQP", feature: "Whole Chicken" },
             { id: 23, name: "ミシュワン 小型犬用", tags: { age: 'all', concern: 'joints', priority: 'S', secondaryConcern: ['tear_burn', 'digest'], targetSizes: ['small'] }, img: "./images/mishone_small.png", description: "小型犬の繊細な健康維持に。食べやすい小粒タイプ。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+C1FMPU+4PA6+BXYE9", feature: "Small Breed" },
             { id: 24, name: "ペロリコドッグフード ライト", tags: { age: 'all', concern: 'obesity', priority: 'A', secondaryConcern: ['digest'], targetSizes: ['small', 'medium'] }, img: "./images/perolico_light.jpg", description: "低カロリー・低脂質。無理なく美味しく体重管理。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+5URIGY+3J8+4ASX02", feature: "Diet Support" },
             { id: 25, name: "ペロリコ アレルカット", tags: { age: 'all', concern: 'allergy', priority: 'A', secondaryConcern: ['coat'], targetSizes: ['small', 'medium'] }, img: "./images/perolico_aller.jpg", description: "食物アレルギーに配慮。厳選されたタンパク源を使用。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+679M6A+3J8+54KL8Y", feature: "Allergy Care" },
-            { id: 26, name: "ドクターケアワン", tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['joints', 'digest'], targetSizes: ['small', 'medium'] }, img: "./images/drcarewan.png", description: "獣医師監修。涙やけに悩む小型犬に特におすすめ。シニア期の健康維持もサポート。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+5VYDOI+3RW8+BX3J6", feature: "Vet Formulated" },
+            { id: 26, name: "ドクターケアワン", tags: { age: 'senior', concern: 'joints', priority: 'A', secondaryConcern: ['digest', 'tear_burn'], targetSizes: ['all'] }, img: "./images/drcarewan.jpg", description: "獣医師監修。シニア犬の健康寿命を考えた栄養設計。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+5VYDOI+3RW8+BX3J6", feature: "Vet Formulated" },
             { id: 27, name: "キュアペット 口臭ケア", tags: { age: 'all', concern: 'odor', priority: 'A', secondaryConcern: ['teeth', 'digest'], targetSizes: ['all'] }, img: "./images/curepet.jpg", description: "専門家と共同開発。内側からアプローチするお口ケア。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+6AU7SY+3RW8+5YJRM", feature: "Breath Care" },
             { id: 28, name: "ニュートラム", tags: { age: 'all', concern: 'coat', priority: 'B', secondaryConcern: ['digest'], targetSizes: ['all'] }, img: "./images/nutram.jpg", description: "カナダ発のホリスティックフード。素材の組み合わせで健康をサポート。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+5NMB7M+5OMY+5YJRM", feature: "Holistic" }
         ];
@@ -917,11 +907,6 @@
                         <div className="absolute inset-0 bg-white/20 group-hover:bg-transparent transition-colors"></div>
                     </button>
                     <button onClick={onReset} className="w-full mt-4 text-xs text-theme-text/40 tracking-widest uppercase hover:text-theme-primary transition-colors border-t border-theme-muted/30 pt-4">もう一度診断する</button>
-
-                    <div className="mt-8 p-4 bg-gray-50 rounded-xl text-[10px] text-theme-text/60 leading-relaxed text-center">
-                        <p className="font-bold mb-1">※本診断結果・推奨商品はインターネット上の情報を基に作成されています。</p>
-                        <p>愛犬の体質や健康状態には個人差があります。フードの切り替えや摂取量については、各商品のパッケージ記載事項を守り、必要に応じて獣医師にご相談の上ご判断ください。当サービスによって生じたトラブル等に関する責任は負いかねますのでご了承ください。</p>
-                    </div>
                 </div>
             );
         };
@@ -960,13 +945,7 @@
                             </div>
                         ))}
                     </div>
-
-
-                    <div className="mt-8 p-4 bg-gray-50 rounded-xl text-[10px] text-theme-text/60 leading-relaxed text-center">
-                        <p className="font-bold mb-1">※推奨商品はインターネット上の情報を基に作成されています。</p>
-                        <p>愛犬の体質や健康状態には個人差があります。フードの切り替えや摂取量については、各商品のパッケージ記載事項を守り、必要に応じて獣医師にご相談の上ご判断ください。当サービスによって生じたトラブル等に関する責任は負いかねますのでご了承ください。</p>
-                    </div>
-                </div >
+                </div>
             );
         };
 

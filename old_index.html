@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PepLab (ペプラボ) - 愛犬との暮らしを、もっと美しく。</title>
+    <title>PepLab (繝壹・繝ｩ繝・ - 諢帷堪縺ｨ縺ｮ證ｮ繧峨＠繧偵√ｂ縺｣縺ｨ鄒弱＠縺上・/title>
 
     <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -170,103 +170,103 @@
         // --- DATA ---
         const BREED_SIZE_MAP = {
             // Small
-            'トイ・プードル': 'small', 'チワワ': 'small', 'ミニチュア・ダックスフンド': 'small', 'ポメラニアン': 'small',
-            '柴犬(小)': 'small', 'ヨークシャー・テリア': 'small', 'マルチーズ': 'small', 'シー・ズー': 'small', 'パピヨン': 'small',
-            'フレンチ・ブルドッグ': 'small', 'ミニチュア・シュナウザー': 'small', 'パグ': 'small', 'キャバリア・キング・チャールズ・スパニエル': 'small',
-            'ジャック・ラッセル・テリア': 'small', 'ボストン・テリア': 'small', 'ペキニーズ': 'small', 'イタリアン・グレーハウンド': 'small',
-            'ビション・フリーゼ': 'small', 'ウェスト・ハイランド・ホワイト・テリア': 'small', 'カニーンヘン・ダックスフンド': 'small',
-            'ケアーン・テリア': 'small', 'スコティッシュ・テリア': 'small', 'チン（狆）': 'small', 'ティーカップ・プードル': 'small',
-            'トイ・マンチェスター・テリア': 'small', '日本テリア': 'small', 'ノーフォーク・テリア': 'small', 'ノーリッチ・テリア': 'small',
-            'プチ・バセット・グリフォン・バンデーン': 'small', 'ブリュッセル・グリフォン': 'small', 'ミニチュア・ピンシャー': 'small',
+            '繝医う繝ｻ繝励・繝峨Ν': 'small', '繝√Ρ繝ｯ': 'small', '繝溘ル繝√Η繧｢繝ｻ繝繝・け繧ｹ繝輔Φ繝・: 'small', '繝昴Γ繝ｩ繝九い繝ｳ': 'small',
+            '譟ｴ迥ｬ(蟆・': 'small', '繝ｨ繝ｼ繧ｯ繧ｷ繝｣繝ｼ繝ｻ繝・Μ繧｢': 'small', '繝槭Ν繝√・繧ｺ': 'small', '繧ｷ繝ｼ繝ｻ繧ｺ繝ｼ': 'small', '繝代ヴ繝ｨ繝ｳ': 'small',
+            '繝輔Ξ繝ｳ繝√・繝悶Ν繝峨ャ繧ｰ': 'small', '繝溘ル繝√Η繧｢繝ｻ繧ｷ繝･繝翫え繧ｶ繝ｼ': 'small', '繝代げ': 'small', '繧ｭ繝｣繝舌Μ繧｢繝ｻ繧ｭ繝ｳ繧ｰ繝ｻ繝√Ε繝ｼ繝ｫ繧ｺ繝ｻ繧ｹ繝代ル繧ｨ繝ｫ': 'small',
+            '繧ｸ繝｣繝・け繝ｻ繝ｩ繝・そ繝ｫ繝ｻ繝・Μ繧｢': 'small', '繝懊せ繝医Φ繝ｻ繝・Μ繧｢': 'small', '繝壹く繝九・繧ｺ': 'small', '繧､繧ｿ繝ｪ繧｢繝ｳ繝ｻ繧ｰ繝ｬ繝ｼ繝上え繝ｳ繝・: 'small',
+            '繝薙す繝ｧ繝ｳ繝ｻ繝輔Μ繝ｼ繧ｼ': 'small', '繧ｦ繧ｧ繧ｹ繝医・繝上う繝ｩ繝ｳ繝峨・繝帙Ρ繧､繝医・繝・Μ繧｢': 'small', '繧ｫ繝九・繝ｳ繝倥Φ繝ｻ繝繝・け繧ｹ繝輔Φ繝・: 'small',
+            '繧ｱ繧｢繝ｼ繝ｳ繝ｻ繝・Μ繧｢': 'small', '繧ｹ繧ｳ繝・ぅ繝・す繝･繝ｻ繝・Μ繧｢': 'small', '繝√Φ・育究・・: 'small', '繝・ぅ繝ｼ繧ｫ繝・・繝ｻ繝励・繝峨Ν': 'small',
+            '繝医う繝ｻ繝槭Φ繝√ぉ繧ｹ繧ｿ繝ｼ繝ｻ繝・Μ繧｢': 'small', '譌･譛ｬ繝・Μ繧｢': 'small', '繝弱・繝輔か繝ｼ繧ｯ繝ｻ繝・Μ繧｢': 'small', '繝弱・繝ｪ繝・メ繝ｻ繝・Μ繧｢': 'small',
+            '繝励メ繝ｻ繝舌そ繝・ヨ繝ｻ繧ｰ繝ｪ繝輔か繝ｳ繝ｻ繝舌Φ繝・・繝ｳ': 'small', '繝悶Μ繝･繝・そ繝ｫ繝ｻ繧ｰ繝ｪ繝輔か繝ｳ': 'small', '繝溘ル繝√Η繧｢繝ｻ繝斐Φ繧ｷ繝｣繝ｼ': 'small',
             // Medium
-            '柴犬': 'medium', 'ウェルシュ・コーギー・ペンブローク': 'medium', 'フレンチ・ブルドッグ(大)': 'medium', 'ビーグル': 'medium',
-            'アメリカン・コッカー・スパニエル': 'medium', 'シェットランド・シープドッグ': 'medium', 'ボーダー・コリー': 'medium',
-            'イングリッシュ・コッカー・スパニエル': 'medium', 'ブルドッグ': 'medium', 'ウェルシュ・コーギー・カーディガン': 'medium',
-            'アメリカン・スタッフォードシャー・ブル・テリア': 'medium', 'アメリカン・ピット・ブル・テリア': 'medium', 'ウィペット': 'medium',
-            'オーストラリアン・キャトル・ドッグ': 'medium', 'オーストラリアン・ケルピー': 'medium', 'オーストラリアン・シェパード': 'medium',
-            '甲斐犬': 'medium', 'キースホンド': 'medium', '紀州犬': 'medium', 'ケリー・ブルー・テリア': 'medium', 'コーイケルホンディエ': 'medium',
-            'スタンダード・ダックスフンド': 'medium', 'スタッフォードシャー・ブル・テリア': 'medium', 'チャウ・チャウ': 'medium',
-            '日本スピッツ': 'medium', 'バセット・ハウンド': 'medium', 'バセンジー': 'medium', '北海道犬': 'medium',
-            'ミディアム・プードル': 'medium', 'ミニチュア・ブル・テリア': 'medium', 'ワイヤー・フォックス・テリア': 'medium',
+            '譟ｴ迥ｬ': 'medium', '繧ｦ繧ｧ繝ｫ繧ｷ繝･繝ｻ繧ｳ繝ｼ繧ｮ繝ｼ繝ｻ繝壹Φ繝悶Ο繝ｼ繧ｯ': 'medium', '繝輔Ξ繝ｳ繝√・繝悶Ν繝峨ャ繧ｰ(螟ｧ)': 'medium', '繝薙・繧ｰ繝ｫ': 'medium',
+            '繧｢繝｡繝ｪ繧ｫ繝ｳ繝ｻ繧ｳ繝・き繝ｼ繝ｻ繧ｹ繝代ル繧ｨ繝ｫ': 'medium', '繧ｷ繧ｧ繝・ヨ繝ｩ繝ｳ繝峨・繧ｷ繝ｼ繝励ラ繝・げ': 'medium', '繝懊・繝繝ｼ繝ｻ繧ｳ繝ｪ繝ｼ': 'medium',
+            '繧､繝ｳ繧ｰ繝ｪ繝・す繝･繝ｻ繧ｳ繝・き繝ｼ繝ｻ繧ｹ繝代ル繧ｨ繝ｫ': 'medium', '繝悶Ν繝峨ャ繧ｰ': 'medium', '繧ｦ繧ｧ繝ｫ繧ｷ繝･繝ｻ繧ｳ繝ｼ繧ｮ繝ｼ繝ｻ繧ｫ繝ｼ繝・ぅ繧ｬ繝ｳ': 'medium',
+            '繧｢繝｡繝ｪ繧ｫ繝ｳ繝ｻ繧ｹ繧ｿ繝・ヵ繧ｩ繝ｼ繝峨す繝｣繝ｼ繝ｻ繝悶Ν繝ｻ繝・Μ繧｢': 'medium', '繧｢繝｡繝ｪ繧ｫ繝ｳ繝ｻ繝斐ャ繝医・繝悶Ν繝ｻ繝・Μ繧｢': 'medium', '繧ｦ繧｣繝壹ャ繝・: 'medium',
+            '繧ｪ繝ｼ繧ｹ繝医Λ繝ｪ繧｢繝ｳ繝ｻ繧ｭ繝｣繝医Ν繝ｻ繝峨ャ繧ｰ': 'medium', '繧ｪ繝ｼ繧ｹ繝医Λ繝ｪ繧｢繝ｳ繝ｻ繧ｱ繝ｫ繝斐・': 'medium', '繧ｪ繝ｼ繧ｹ繝医Λ繝ｪ繧｢繝ｳ繝ｻ繧ｷ繧ｧ繝代・繝・: 'medium',
+            '逕ｲ譁千堪': 'medium', '繧ｭ繝ｼ繧ｹ繝帙Φ繝・: 'medium', '邏蟾樒堪': 'medium', '繧ｱ繝ｪ繝ｼ繝ｻ繝悶Ν繝ｼ繝ｻ繝・Μ繧｢': 'medium', '繧ｳ繝ｼ繧､繧ｱ繝ｫ繝帙Φ繝・ぅ繧ｨ': 'medium',
+            '繧ｹ繧ｿ繝ｳ繝繝ｼ繝峨・繝繝・け繧ｹ繝輔Φ繝・: 'medium', '繧ｹ繧ｿ繝・ヵ繧ｩ繝ｼ繝峨す繝｣繝ｼ繝ｻ繝悶Ν繝ｻ繝・Μ繧｢': 'medium', '繝√Ε繧ｦ繝ｻ繝√Ε繧ｦ': 'medium',
+            '譌･譛ｬ繧ｹ繝斐ャ繝・: 'medium', '繝舌そ繝・ヨ繝ｻ繝上え繝ｳ繝・: 'medium', '繝舌そ繝ｳ繧ｸ繝ｼ': 'medium', '蛹玲ｵｷ驕鍋堪': 'medium',
+            '繝溘ョ繧｣繧｢繝繝ｻ繝励・繝峨Ν': 'medium', '繝溘ル繝√Η繧｢繝ｻ繝悶Ν繝ｻ繝・Μ繧｢': 'medium', '繝ｯ繧､繝､繝ｼ繝ｻ繝輔か繝・け繧ｹ繝ｻ繝・Μ繧｢': 'medium',
             // Large
-            'ゴールデン・レトリバー': 'large', 'ラブラドール・レトリバー': 'large', 'シベリアン・ハスキー': 'large', 'バーニーズ・マウンテン・ドッグ': 'large',
-            'ジャーマン・シェパード・ドッグ': 'large', '秋田犬': 'large', 'フラットコーテッド・レトリバー': 'large', 'ダルメシアン': 'large',
-            'ドーベルマン': 'large', 'ワイマラナー': 'large', 'セント・バーナード': 'large', 'グレート・ピレニーズ': 'large',
-            'ニューファンドランド': 'large', 'ロットワイラー': 'large', 'ボルゾイ': 'large', 'グレート・デーン': 'large',
-            'アイリッシュ・ウルフハウンド': 'large', 'アイリッシュ・セター': 'large', 'アフガン・ハウンド': 'large', 'アラスカン・マラミュート': 'large',
-            'イングリッシュ・セター': 'large', 'イングリッシュ・ポインター': 'large', 'オールド・イングリッシュ・シープドッグ': 'large',
-            'カーリーコーテッド・レトリバー': 'large', 'サルーキ': 'large', 'ジャイアント・シュナウザー': 'large', 'スタンダード・プードル': 'large',
-            'チェサピーク・ベイ・レトリバー': 'large', 'ナポリタン・マスティフ': 'large', 'ベルジアン・シェパード・ドッグ': 'large',
-            'ボクサー': 'large', 'ブルマスティフ': 'large', 'ラフ・コリー': 'large', 'レオンベルガー': 'large'
+            '繧ｴ繝ｼ繝ｫ繝・Φ繝ｻ繝ｬ繝医Μ繝舌・': 'large', '繝ｩ繝悶Λ繝峨・繝ｫ繝ｻ繝ｬ繝医Μ繝舌・': 'large', '繧ｷ繝吶Μ繧｢繝ｳ繝ｻ繝上せ繧ｭ繝ｼ': 'large', '繝舌・繝九・繧ｺ繝ｻ繝槭え繝ｳ繝・Φ繝ｻ繝峨ャ繧ｰ': 'large',
+            '繧ｸ繝｣繝ｼ繝槭Φ繝ｻ繧ｷ繧ｧ繝代・繝峨・繝峨ャ繧ｰ': 'large', '遘狗伐迥ｬ': 'large', '繝輔Λ繝・ヨ繧ｳ繝ｼ繝・ャ繝峨・繝ｬ繝医Μ繝舌・': 'large', '繝繝ｫ繝｡繧ｷ繧｢繝ｳ': 'large',
+            '繝峨・繝吶Ν繝槭Φ': 'large', '繝ｯ繧､繝槭Λ繝翫・': 'large', '繧ｻ繝ｳ繝医・繝舌・繝翫・繝・: 'large', '繧ｰ繝ｬ繝ｼ繝医・繝斐Ξ繝九・繧ｺ': 'large',
+            '繝九Η繝ｼ繝輔ぃ繝ｳ繝峨Λ繝ｳ繝・: 'large', '繝ｭ繝・ヨ繝ｯ繧､繝ｩ繝ｼ': 'large', '繝懊Ν繧ｾ繧､': 'large', '繧ｰ繝ｬ繝ｼ繝医・繝・・繝ｳ': 'large',
+            '繧｢繧､繝ｪ繝・す繝･繝ｻ繧ｦ繝ｫ繝輔ワ繧ｦ繝ｳ繝・: 'large', '繧｢繧､繝ｪ繝・す繝･繝ｻ繧ｻ繧ｿ繝ｼ': 'large', '繧｢繝輔ぎ繝ｳ繝ｻ繝上え繝ｳ繝・: 'large', '繧｢繝ｩ繧ｹ繧ｫ繝ｳ繝ｻ繝槭Λ繝溘Η繝ｼ繝・: 'large',
+            '繧､繝ｳ繧ｰ繝ｪ繝・す繝･繝ｻ繧ｻ繧ｿ繝ｼ': 'large', '繧､繝ｳ繧ｰ繝ｪ繝・す繝･繝ｻ繝昴う繝ｳ繧ｿ繝ｼ': 'large', '繧ｪ繝ｼ繝ｫ繝峨・繧､繝ｳ繧ｰ繝ｪ繝・す繝･繝ｻ繧ｷ繝ｼ繝励ラ繝・げ': 'large',
+            '繧ｫ繝ｼ繝ｪ繝ｼ繧ｳ繝ｼ繝・ャ繝峨・繝ｬ繝医Μ繝舌・': 'large', '繧ｵ繝ｫ繝ｼ繧ｭ': 'large', '繧ｸ繝｣繧､繧｢繝ｳ繝医・繧ｷ繝･繝翫え繧ｶ繝ｼ': 'large', '繧ｹ繧ｿ繝ｳ繝繝ｼ繝峨・繝励・繝峨Ν': 'large',
+            '繝√ぉ繧ｵ繝斐・繧ｯ繝ｻ繝吶う繝ｻ繝ｬ繝医Μ繝舌・': 'large', '繝翫・繝ｪ繧ｿ繝ｳ繝ｻ繝槭せ繝・ぅ繝・: 'large', '繝吶Ν繧ｸ繧｢繝ｳ繝ｻ繧ｷ繧ｧ繝代・繝峨・繝峨ャ繧ｰ': 'large',
+            '繝懊け繧ｵ繝ｼ': 'large', '繝悶Ν繝槭せ繝・ぅ繝・: 'large', '繝ｩ繝輔・繧ｳ繝ｪ繝ｼ': 'large', '繝ｬ繧ｪ繝ｳ繝吶Ν繧ｬ繝ｼ': 'large'
         };
 
         const PRODUCTS = [
-            { id: 1, name: "アカナ", tags: { age: 'all', concern: 'coat', priority: 'A', secondaryConcern: ['joints'], targetSizes: ['all'] }, img: "./images/acana.jpg", description: "生物学的に適正な栄養。新鮮な肉類を最大75%使用し、筋肉と被毛をサポート。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+CWE66A+5FPU+61JSH", feature: "High Protein" },
-            { id: 2, name: "アランズ ナチュラル", tags: { age: 'all', concern: 'allergy', priority: 'A', secondaryConcern: ['tear_burn'], targetSizes: ['small', 'medium'] }, img: "./images/alans.jpg", description: "野生の食事を再現。ラム肉とサツマイモ、わずか9種の厳選素材。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+BRB9FM+3J8+C1DUP", feature: "Hypoallergenic" },
-            { id: 4, name: "うまか", tags: { age: 'all', concern: 'tear_burn', priority: 'A', secondaryConcern: ['joints', 'digest'], targetSizes: ['small', 'medium'] }, img: "./images/umaka.jpg", description: "九州産「華味鳥」100%。涙やけと関節に配慮した、内側から溢れる美しさ。", price: "¥5,478", link: "http://msm.to/2U5R2J2", feature: "Premium Care" },
-            { id: 5, name: "エッセンシャル", tags: { age: 'adult', concern: 'coat', priority: 'B', secondaryConcern: ['allergy'], targetSizes: ['all'] }, img: "./images/essential.jpg", description: "お肉不使用、魚77.5%。アレルゲン排除とオメガ3で皮膚トラブルに特化。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX4SE+3DGHQA+3J8+15R4NL", feature: "Fish Based" },
-            { id: 6, name: "カナガン", tags: { age: 'all', concern: 'appetite', priority: 'S', secondaryConcern: ['active'], targetSizes: ['all'] }, img: "./images/canagan.jpg", description: "世界中で愛されるグレインフリー。チキン60%の食いつきと栄養バランス。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+C7DYRM+3J8+64EGFL", feature: "Grain Free" },
-            { id: 7, name: "カナガン デンタル", tags: { age: 'all', concern: 'teeth', priority: 'A', secondaryConcern: ['appetite'], targetSizes: ['all'] }, img: "./images/canagan_dental.jpg", description: "特許成分配合。食べるだけで愛犬の「口内の健康」を守る画期的フード。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+B8UTOI+3J8+3B6C5T", feature: "Oral Care" },
-            { id: 8, name: "カナガン チキン＆サーモン", tags: { age: 'all', concern: 'coat', priority: 'A', secondaryConcern: ['appetite'], targetSizes: ['all'] }, img: "./images/canagan_chickensalmon.jpg", description: "チキンとサーモンの相乗効果。偏食対策と美しい毛並みの維持に。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3NGVLD+2TT6RM+3J8+HV7V6", feature: "Multi Protein" },
-            { id: 9, name: "グランツ", tags: { age: 'all', concern: 'tear_burn', priority: 'B', secondaryConcern: ['allergy'], targetSizes: ['all'] }, img: "./images/grands.jpg", description: "無添加・グレインフリー。小粒設計でお腹に優しいフランス産プレミアム。", price: "¥要確認", link: "http://msm.to/APkBGUm", feature: "Digest Support" },
-            { id: 10, name: "グレボ", tags: { age: 'all', concern: 'joints', priority: 'B', secondaryConcern: ['tear_burn'], targetSizes: ['small', 'medium'] }, img: "./images/glebo.jpg", description: "国産・関節ケア。鶏軟骨抽出成分とグルコサミン配合でシニアの元気を維持。", price: "¥要確認", link: "http://msm.to/3OyO6nm", feature: "Anti-Aging" },
-            { id: 11, name: "このこのごはん", tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['coat', 'odor'], targetSizes: ['small'] }, img: "./images/konokono.jpg", description: "小型犬の「涙やけ・毛並み・におい」に特化。自然素材のやさしい国産ご飯。", price: "¥要確認", link: "http://msm.to/7C7CAGn", feature: "Tear Burn Care" },
-            { id: 12, name: "ネルソンズ", tags: { age: 'adult', concern: 'appetite', priority: 'B', secondaryConcern: ['digest'], targetSizes: ['medium', 'large'] }, img: "./images/nelsons.jpg", description: "中型・大型犬向けの大容量。グレインフリーで消化と家計を両立。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3HRCDC+2Z6SY+3J8+ZQ80I", feature: "Large Breed" },
-            { id: 13, name: "ハッピードッグ", tags: { age: 'all', concern: 'allergy', priority: 'B', secondaryConcern: ['obesity'], targetSizes: ['all'] }, img: "./images/happydog.jpg", description: "ドイツ品質のナチュラルフード。珍しいタンパク源でアレルギー・体調管理に。", price: "¥要確認", link: "http://msm.to/EBBt1b9", feature: "German Quality" },
-            { id: 14, name: "ペトコト", tags: { age: 'all', concern: 'appetite', priority: 'S', secondaryConcern: ['digest'], targetSizes: ['all'] }, img: "./images/petokoto.jpg", description: "新鮮な食材を急速冷凍。手作りごはんの栄養と香りで、驚きの食いつきを。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3ZJU37+EGYCN6+4NYE+61Z81", feature: "Fresh Food" },
-            { id: 15, name: "ミシュワン", tags: { age: 'all', concern: 'joints', priority: 'S', secondaryConcern: ['tear_burn', 'coat'], targetSizes: ['all'] }, img: "./images/mishone.jpg", description: "関節ケアの最高峰。緑イ貝配合で、いつまでも軽やかなステップを。", price: "¥4,378", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+C1FP16+4PA6+BXYE9", feature: "Joint Support" },
-            { id: 16, name: "モグキューブ", tags: { age: 'all', concern: 'appetite', priority: 'B', secondaryConcern: [], targetSizes: ['all'] }, img: "./images/mogcube.jpg", description: "NZ産ラムのフリーズドライ。栄養そのままでトッピングやおやつにも最適。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3HQZ35+BN56NM+3J8+354KNM", feature: "Freeze Dried" },
-            { id: 17, name: "モグワン", tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['coat', 'appetite'], targetSizes: ['all'] }, img: "./images/mogwan.jpg", description: "手作り食レシピの美味しさと栄養バランス。野菜とフルーツたっぷりの人気No.1。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3NGVLD+2NUUPU+3J8+1BPOF5", feature: "Best Seller" },
-            { id: 18, name: "やわか", tags: { age: 'senior', concern: 'appetite', priority: 'A', secondaryConcern: ['digest'], targetSizes: ['small', 'medium'] }, img: "./images/yawaka.jpg", description: "水分を逃さない特殊製法。シニアも食べやすい国産セミモイストフード。", price: "¥6,578", link: "http://msm.to/ApJikKQ", feature: "Soft Touch" },
-            { id: 19, name: "ユリカゴ", tags: { age: 'all', concern: 'none', priority: 'B', secondaryConcern: [], targetSizes: ['all'] }, img: "./images/yurikago.jpg", description: "「安眠」と「リラックス」をテーマに。ハーブの力で穏やかな毎日を。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+BQ4E82+3J8+5SG2LT", feature: "Relax Care" },
-            { id: 20, name: "馬肉自然づくり", tags: { age: 'all', concern: 'obesity', priority: 'A', secondaryConcern: ['allergy'], targetSizes: ['all'] }, img: "./images/baniku.jpg", description: "熊本産馬肉を贅沢に使用。高タンパク・低脂質でダイエットに最適。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3ZJZJ3+GEM2F6+3E6W+O24K1", feature: "Low Fat" },
-            { id: 21, name: "和漢みらい", tags: { age: 'senior', concern: 'none', priority: 'A', secondaryConcern: ['obesity'], targetSizes: ['all'] }, img: "./images/wakan.jpg", description: "89種類の和漢植物を配合。薬善の知恵でシニア期の健康を徹底サポート。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+BAN4HU+3SZE+C5VW2", feature: "Yakuzen Care" },
-            { id: 22, name: "マックアダムス", tags: { age: 'all', concern: 'appetite', priority: 'S', secondaryConcern: ['joints'], targetSizes: ['large', 'medium'] }, img: "./images/macadams.jpg", description: "一羽丸ごとのチキンを使用。愛犬が喜ぶ美味しさと栄養。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+59BWOY+3J8+5AKUQP", feature: "Whole Chicken" },
-            { id: 23, name: "ミシュワン 小型犬用", tags: { age: 'all', concern: 'joints', priority: 'S', secondaryConcern: ['tear_burn', 'digest'], targetSizes: ['small'] }, img: "./images/mishone_small.png", description: "小型犬の繊細な健康維持に。食べやすい小粒タイプ。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+C1FMPU+4PA6+BXYE9", feature: "Small Breed" },
-            { id: 24, name: "ペロリコドッグフード ライト", tags: { age: 'all', concern: 'obesity', priority: 'A', secondaryConcern: ['digest'], targetSizes: ['small', 'medium'] }, img: "./images/perolico_light.jpg", description: "低カロリー・低脂質。無理なく美味しく体重管理。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+5URIGY+3J8+4ASX02", feature: "Diet Support" },
-            { id: 25, name: "ペロリコ アレルカット", tags: { age: 'all', concern: 'allergy', priority: 'A', secondaryConcern: ['coat'], targetSizes: ['small', 'medium'] }, img: "./images/perolico_aller.jpg", description: "食物アレルギーに配慮。厳選されたタンパク源を使用。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+679M6A+3J8+54KL8Y", feature: "Allergy Care" },
-            { id: 26, name: "ドクターケアワン", tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['joints', 'digest'], targetSizes: ['small', 'medium'] }, img: "./images/drcarewan.png", description: "獣医師監修。涙やけに悩む小型犬に特におすすめ。シニア期の健康維持もサポート。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+5VYDOI+3RW8+BX3J6", feature: "Vet Formulated" },
-            { id: 27, name: "キュアペット 口臭ケア", tags: { age: 'all', concern: 'odor', priority: 'A', secondaryConcern: ['teeth', 'digest'], targetSizes: ['all'] }, img: "./images/curepet.jpg", description: "専門家と共同開発。内側からアプローチするお口ケア。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+6AU7SY+3RW8+5YJRM", feature: "Breath Care" },
-            { id: 28, name: "ニュートラム", tags: { age: 'all', concern: 'coat', priority: 'B', secondaryConcern: ['digest'], targetSizes: ['all'] }, img: "./images/nutram.jpg", description: "カナダ発のホリスティックフード。素材の組み合わせで健康をサポート。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+5NMB7M+5OMY+5YJRM", feature: "Holistic" }
+            { id: 1, name: "繧｢繧ｫ繝・, tags: { age: 'all', concern: 'coat', priority: 'A', secondaryConcern: ['joints'], targetSizes: ['all'] }, img: "./images/acana.jpg", description: "逕溽黄蟄ｦ逧・↓驕ｩ豁｣縺ｪ譬・､翫よ眠魄ｮ縺ｪ閧蛾｡槭ｒ譛螟ｧ75%菴ｿ逕ｨ縺励∫ｭ玖ｉ縺ｨ陲ｫ豈帙ｒ繧ｵ繝昴・繝医・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+CWE66A+5FPU+61JSH", feature: "High Protein" },
+            { id: 2, name: "繧｢繝ｩ繝ｳ繧ｺ 繝翫メ繝･繝ｩ繝ｫ", tags: { age: 'all', concern: 'allergy', priority: 'A', secondaryConcern: ['tear_burn'], targetSizes: ['small', 'medium'] }, img: "./images/alans.jpg", description: "驥守函縺ｮ鬟滉ｺ九ｒ蜀咲樟縲ゅΛ繝閧峨→繧ｵ繝・・繧､繝｢縲√ｏ縺壹°9遞ｮ縺ｮ蜴ｳ驕ｸ邏譚舌・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+BRB9FM+3J8+C1DUP", feature: "Hypoallergenic" },
+            { id: 4, name: "縺・∪縺・, tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['joints', 'digest'], targetSizes: ['small', 'medium'] }, img: "./images/umaka.jpg", description: "荵晏ｷ樒肇縲瑚庄蜻ｳ魑･縲・00%縲よｶ吶ｄ縺代→髢｢遽縺ｫ驟肴・縺励◆縲∝・蛛ｴ縺九ｉ貅｢繧後ｋ鄒弱＠縺輔・, price: "ﾂ･5,478", link: "http://msm.to/2U5R2J2", feature: "Premium Care" },
+            { id: 5, name: "繧ｨ繝・そ繝ｳ繧ｷ繝｣繝ｫ", tags: { age: 'adult', concern: 'coat', priority: 'B', secondaryConcern: ['allergy'], targetSizes: ['all'] }, img: "./images/essential.jpg", description: "縺願ｉ荳堺ｽｿ逕ｨ縲・ｭ・7.5%縲ゅい繝ｬ繝ｫ繧ｲ繝ｳ謗帝勁縺ｨ繧ｪ繝｡繧ｬ3縺ｧ逧ｮ閹壹ヨ繝ｩ繝悶Ν縺ｫ迚ｹ蛹悶・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+BDMAIQ+3J8+3H2YHD", feature: "Fish Based" },
+            { id: 6, name: "繧ｫ繝翫ぎ繝ｳ", tags: { age: 'all', concern: 'appetite', priority: 'S', secondaryConcern: ['active'], targetSizes: ['all'] }, img: "./images/canagan.jpg", description: "荳也阜荳ｭ縺ｧ諢帙＆繧後ｋ繧ｰ繝ｬ繧､繝ｳ繝輔Μ繝ｼ縲ゅメ繧ｭ繝ｳ60%縺ｮ鬟溘＞縺､縺阪→譬・､翫ヰ繝ｩ繝ｳ繧ｹ縲・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+CWE66A+5FPU+61JSH", feature: "Grain Free" },
+            { id: 7, name: "繧ｫ繝翫ぎ繝ｳ 繝・Φ繧ｿ繝ｫ", tags: { age: 'all', concern: 'teeth', priority: 'A', secondaryConcern: ['appetite'], targetSizes: ['all'] }, img: "./images/canagan_dental.jpg", description: "迚ｹ險ｱ謌仙・驟榊粋縲る｣溘∋繧九□縺代〒諢帷堪縺ｮ縲悟哨蜀・・蛛･蠎ｷ縲阪ｒ螳医ｋ逕ｻ譛溽噪繝輔・繝峨・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+BQ4E82+3J8+5SG2LT", feature: "Oral Care" },
+            { id: 8, name: "繧ｫ繝翫ぎ繝ｳ 繝√く繝ｳ・・し繝ｼ繝｢繝ｳ", tags: { age: 'all', concern: 'coat', priority: 'A', secondaryConcern: ['appetite'], targetSizes: ['all'] }, img: "./images/canagan_chickensalmon.jpg", description: "繝√く繝ｳ縺ｨ繧ｵ繝ｼ繝｢繝ｳ縺ｮ逶ｸ荵怜柑譫懊ょ￥鬟溷ｯｾ遲悶→鄒弱＠縺・ｯ帑ｸｦ縺ｿ縺ｮ邯ｭ謖√↓縲・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=3ZJU37+EGYCN6+4NYE+61Z81", feature: "Multi Protein" },
+            { id: 9, name: "繧ｰ繝ｩ繝ｳ繝・, tags: { age: 'all', concern: 'tear_burn', priority: 'B', secondaryConcern: ['allergy'], targetSizes: ['all'] }, img: "./images/grands.jpg", description: "辟｡豺ｻ蜉繝ｻ繧ｰ繝ｬ繧､繝ｳ繝輔Μ繝ｼ縲ょｰ冗ｲ定ｨｭ險医〒縺願・縺ｫ蜆ｪ縺励＞繝輔Λ繝ｳ繧ｹ逕｣繝励Ξ繝溘い繝縲・, price: "ﾂ･隕∫｢ｺ隱・, link: "http://msm.to/APkBGUm", feature: "Digest Support" },
+            { id: 10, name: "繧ｰ繝ｬ繝・, tags: { age: 'all', concern: 'joints', priority: 'B', secondaryConcern: ['tear_burn'], targetSizes: ['small', 'medium'] }, img: "./images/glebo.jpg", description: "蝗ｽ逕｣繝ｻ髢｢遽繧ｱ繧｢縲よ蒲驟ｸ蛹匁・蛻・→繧ｰ繝ｫ繧ｳ繧ｵ繝溘Φ驟榊粋縺ｧ繧ｷ繝九い縺ｮ蜈・ｰ励ｒ邯ｭ謖√・, price: "ﾂ･隕∫｢ｺ隱・, link: "http://msm.to/3OyO6nm", feature: "Anti-Aging" },
+            { id: 11, name: "縺薙・縺薙・縺斐・繧・, tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['coat', 'odor'], targetSizes: ['small'] }, img: "./images/konokono.jpg", description: "蟆丞梛迥ｬ縺ｮ縲梧ｶ吶ｄ縺代・豈帑ｸｦ縺ｿ繝ｻ縺ｫ縺翫＞縲阪↓迚ｹ蛹悶り・辟ｶ邏譚舌・繧・＆縺励＞蝗ｽ逕｣縺秘｣ｯ縲・, price: "ﾂ･隕∫｢ｺ隱・, link: "http://msm.to/7C7CAGn", feature: "Tear Burn Care" },
+            { id: 12, name: "繝阪Ν繧ｽ繝ｳ繧ｺ", tags: { age: 'adult', concern: 'appetite', priority: 'B', secondaryConcern: ['digest'], targetSizes: ['medium', 'large'] }, img: "./images/nelsons.jpg", description: "荳ｭ蝙九・螟ｧ蝙狗堪蜷代￠縺ｮ螟ｧ螳ｹ驥上ゅげ繝ｬ繧､繝ｳ繝輔Μ繝ｼ縺ｧ豸亥喧縺ｨ螳ｶ險医ｒ荳｡遶九・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=3HRCDC+2Z6SY+3J8+ZQ80I", feature: "Large Breed" },
+            { id: 13, name: "繝上ャ繝斐・繝峨ャ繧ｰ", tags: { age: 'all', concern: 'allergy', priority: 'B', secondaryConcern: ['obesity'], targetSizes: ['all'] }, img: "./images/happydog.jpg", description: "繝峨う繝・刀雉ｪ縺ｮ繝翫メ繝･繝ｩ繝ｫ繝輔・繝峨ら渚縺励＞繧ｿ繝ｳ繝代け貅舌〒繧｢繝ｬ繝ｫ繧ｮ繝ｼ繧・ｽ楢ｪｿ邂｡逅・↓縲・, price: "ﾂ･隕∫｢ｺ隱・, link: "", feature: "German Quality" },
+            { id: 14, name: "繝壹ヨ繧ｳ繝・, tags: { age: 'all', concern: 'appetite', priority: 'S', secondaryConcern: ['digest'], targetSizes: ['all'] }, img: "./images/petokoto.jpg", description: "譁ｰ魄ｮ縺ｪ鬟滓攝繧呈･騾溷・蜃阪よ焔菴懊ｊ縺斐・繧薙・譬・､翫→鬥吶ｊ縺ｧ縲・ｩ壹″縺ｮ鬟溘＞縺､縺阪ｒ縲・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=3ZJU37+EGYCN6+4NYE+61Z81", feature: "Fresh Food" },
+            { id: 15, name: "繝溘す繝･繝ｯ繝ｳ", tags: { age: 'all', concern: 'joints', priority: 'S', secondaryConcern: ['tear_burn', 'coat'], targetSizes: ['all'] }, img: "./images/mishone.jpg", description: "髢｢遽繧ｱ繧｢縺ｮ譛鬮伜ｳｰ縲らｷ代う雋晞・蜷医〒縲√＞縺､縺ｾ縺ｧ繧りｻｽ繧・°縺ｪ繧ｹ繝・ャ繝励ｒ縲・, price: "ﾂ･4,378", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+C1FP16+4PA6+BXYE9", feature: "Joint Support" },
+            { id: 16, name: "繝｢繧ｰ繧ｭ繝･繝ｼ繝・, tags: { age: 'all', concern: 'appetite', priority: 'B', secondaryConcern: [], targetSizes: ['all'] }, img: "./images/mogcube.jpg", description: "NZ逕｣繝ｩ繝縺ｮ繝輔Μ繝ｼ繧ｺ繝峨Λ繧､縲よ・､翫◎縺ｮ縺ｾ縺ｾ縺ｧ繝医ャ繝斐Φ繧ｰ繧・♀繧・▽縺ｫ繧よ怙驕ｩ縲・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=3HQZ35+BN56NM+3J8+354KNM", feature: "Freeze Dried" },
+            { id: 17, name: "繝｢繧ｰ繝ｯ繝ｳ", tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['coat', 'appetite'], targetSizes: ['all'] }, img: "./images/mogwan.jpg", description: "謇倶ｽ懊ｊ鬟溘Ξ繧ｷ繝斐・鄒主袖縺励＆縺ｨ譬・､翫ヰ繝ｩ繝ｳ繧ｹ縲る㍽闖懊→繝輔Ν繝ｼ繝・◆縺｣縺ｷ繧翫・莠ｺ豌湧o.1縲・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=3NGVLD+2NUUPU+3J8+1BPOF5", feature: "Best Seller" },
+            { id: 18, name: "繧・ｏ縺・, tags: { age: 'senior', concern: 'appetite', priority: 'A', secondaryConcern: ['digest'], targetSizes: ['small', 'medium'] }, img: "./images/yawaka.jpg", description: "豌ｴ蛻・ｒ騾・＆縺ｪ縺・音谿願｣ｽ豕輔ゅす繝九い繧る｣溘∋繧・☆縺・嵜逕｣繧ｻ繝溘Δ繧､繧ｹ繝医ヵ繝ｼ繝峨・, price: "ﾂ･6,578", link: "http://msm.to/ApJikKQ", feature: "Soft Touch" },
+            { id: 19, name: "繝ｦ繝ｪ繧ｫ繧ｴ", tags: { age: 'all', concern: 'none', priority: 'B', secondaryConcern: [], targetSizes: ['all'] }, img: "./images/yurikago.jpg", description: "縲悟ｮ臥悛縲阪→縲後Μ繝ｩ繝・け繧ｹ縲阪ｒ繝・・繝槭↓縲ゅワ繝ｼ繝悶・蜉帙〒遨上ｄ縺九↑豈取律繧偵・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+BQ4E82+3J8+5SG2LT", feature: "Relax Care" },
+            { id: 20, name: "鬥ｬ閧芽・辟ｶ縺･縺上ｊ", tags: { age: 'all', concern: 'obesity', priority: 'A', secondaryConcern: ['allergy'], targetSizes: ['all'] }, img: "./images/baniku.jpg", description: "辭頑悽逕｣鬥ｬ閧峨ｒ雍・ｲ｢縺ｫ菴ｿ逕ｨ縲るｫ倥ち繝ｳ繝代け繝ｻ菴手р雉ｪ縺ｧ繝繧､繧ｨ繝・ヨ縺ｫ譛驕ｩ縲・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=3ZJU37+EGYCN6+4NYE+61Z81", feature: "Low Fat" },
+            { id: 21, name: "蜥梧ｼ｢縺ｿ繧峨＞", tags: { age: 'senior', concern: 'none', priority: 'A', secondaryConcern: ['obesity'], targetSizes: ['all'] }, img: "./images/wakan.jpg", description: "89遞ｮ鬘槭・蜥梧ｼ｢讀咲黄繧帝・蜷医り脈蝟・・遏･諱ｵ縺ｧ繧ｷ繝九い譛溘・蛛･蠎ｷ繧貞ｾｹ蠎輔し繝昴・繝医・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+BDMAIQ+3J8+3H2YHD", feature: "Yakuzen Care" },
+            { id: 22, name: "繝槭ャ繧ｯ繧｢繝繝繧ｹ", tags: { age: 'all', concern: 'appetite', priority: 'S', secondaryConcern: ['joints'], targetSizes: ['large', 'medium'] }, img: "./images/macadams.jpg", description: "荳鄒ｽ荳ｸ縺斐→縺ｮ繝√く繝ｳ繧剃ｽｿ逕ｨ縲よ・迥ｬ縺悟万縺ｶ鄒主袖縺励＆縺ｨ譬・､翫・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+59BWOY+3J8+5AKUQP", feature: "Whole Chicken" },
+            { id: 23, name: "繝溘す繝･繝ｯ繝ｳ 蟆丞梛迥ｬ逕ｨ", tags: { age: 'all', concern: 'joints', priority: 'S', secondaryConcern: ['tear_burn', 'digest'], targetSizes: ['small'] }, img: "./images/mishone_small.png", description: "蟆丞梛迥ｬ縺ｮ郢顔ｴｰ縺ｪ蛛･蠎ｷ邯ｭ謖√↓縲る｣溘∋繧・☆縺・ｰ冗ｲ偵ち繧､繝励・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+C1FMPU+4PA6+BXYE9", feature: "Small Breed" },
+            { id: 24, name: "繝壹Ο繝ｪ繧ｳ繝峨ャ繧ｰ繝輔・繝・繝ｩ繧､繝・, tags: { age: 'all', concern: 'obesity', priority: 'A', secondaryConcern: ['digest'], targetSizes: ['small', 'medium'] }, img: "./images/perolico_light.jpg", description: "菴弱き繝ｭ繝ｪ繝ｼ繝ｻ菴手р雉ｪ縲ら┌逅・↑縺冗ｾ主袖縺励￥菴馴㍾邂｡逅・・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+5URIGY+3J8+4ASX02", feature: "Diet Support" },
+            { id: 25, name: "繝壹Ο繝ｪ繧ｳ 繧｢繝ｬ繝ｫ繧ｫ繝・ヨ", tags: { age: 'all', concern: 'allergy', priority: 'A', secondaryConcern: ['coat'], targetSizes: ['small', 'medium'] }, img: "./images/perolico_aller.jpg", description: "鬟溽黄繧｢繝ｬ繝ｫ繧ｮ繝ｼ縺ｫ驟肴・縲ょ宍驕ｸ縺輔ｌ縺溘ち繝ｳ繝代け貅舌ｒ菴ｿ逕ｨ縲・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+679M6A+3J8+54KL8Y", feature: "Allergy Care" },
+            { id: 26, name: "繝峨け繧ｿ繝ｼ繧ｱ繧｢繝ｯ繝ｳ", tags: { age: 'senior', concern: 'joints', priority: 'A', secondaryConcern: ['digest', 'tear_burn'], targetSizes: ['all'] }, img: "./images/drcarewan.jpg", description: "迯｣蛹ｻ蟶ｫ逶｣菫ｮ縲ゅす繝九い迥ｬ縺ｮ蛛･蠎ｷ蟇ｿ蜻ｽ繧定・∴縺滓・､願ｨｭ險医・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+5VYDOI+3RW8+BX3J6", feature: "Vet Formulated" },
+            { id: 27, name: "繧ｭ繝･繧｢繝壹ャ繝・蜿｣閾ｭ繧ｱ繧｢", tags: { age: 'all', concern: 'odor', priority: 'A', secondaryConcern: ['teeth', 'digest'], targetSizes: ['all'] }, img: "./images/curepet.jpg", description: "蟆る摩螳ｶ縺ｨ蜈ｱ蜷碁幕逋ｺ縲ょ・蛛ｴ縺九ｉ繧｢繝励Ο繝ｼ繝√☆繧九♀蜿｣繧ｱ繧｢縲・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+6AU7SY+3RW8+5YJRM", feature: "Breath Care" },
+            { id: 28, name: "繝九Η繝ｼ繝医Λ繝", tags: { age: 'all', concern: 'coat', priority: 'B', secondaryConcern: ['digest'], targetSizes: ['all'] }, img: "./images/nutram.jpg", description: "繧ｫ繝翫ム逋ｺ縺ｮ繝帙Μ繧ｹ繝・ぅ繝・け繝輔・繝峨らｴ譚舌・邨・∩蜷医ｏ縺帙〒蛛･蠎ｷ繧偵し繝昴・繝医・, price: "ﾂ･隕∫｢ｺ隱・, link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+5NMB7M+5OMY+5YJRM", feature: "Holistic" }
         ];
 
         const BREEDS_DATA = {
-            'あ行': ['アイリッシュ・ウルフハウンド', 'アイリッシュ・セター', '秋田犬', 'アフガン・ハウンド', 'アラスカン・マラミュート', 'アメリカン・アキタ', 'アメリカン・コッカー・スパニエル', 'アメリカン・スタッフォードシャー・ブル・テリア', 'アメリカン・ピット・ブル・テリア', 'イタリアン・グレーハウンド', 'イングリッシュ・コッカー・スパニエル', 'イングリッシュ・セター', 'イングリッシュ・スプリンガー・スパニエル', 'イングリッシュ・ポインター', 'ウィペット', 'ウェスト・ハイランド・ホワイト・テリア', 'ウェルシュ・コーギー・カーディガン', 'ウェルシュ・コーギー・ペンブローク', 'ウェルシュ・テリア', 'エアデール・テリア', 'オーストラリアン・キャトル・ドッグ', 'オーストラリアン・ケルピー', 'オーストラリアン・シェパード', 'オーストラリアン・テリア', 'オールド・イングリッシュ・シープドッグ'],
-            'か行': ['カーリーコーテッド・レトリバー', '甲斐犬', 'カニーンヘン・ダックスフンド', 'キャバリア・キング・チャールズ・スパニエル', '紀州犬', 'グレート・デーン', 'グレート・ピレニーズ', 'ケアーン・テリア', 'ケリー・ブルー・テリア', 'コーイケルホンディエ', 'ゴールデン・レトリバー', 'コモンドール'],
-            'さ行': ['サルーキ', 'サモエド', 'サールロース・ウルフドッグ', 'シー・ズー', '柴犬', 'シベリアン・ハスキー', 'シャー・ペイ', 'ジャーマン・シェパード・ドッグ', 'ジャーマン・ショートヘアード・ポインター', 'ジャイアント・シュナウザー', 'ジャック・ラッセル・テリア', 'スキッパーキ', 'スコティッシュ・テリア', 'スタッフォードシャー・ブル・テリア', 'スタンダード・プードル', 'セント・バーナード'],
-            'た行': ['タイ・リッジバック・ドッグ', 'ダルメシアン', 'チェサピーク・ベイ・レトリバー', 'チワワ', '狆（ちん）', 'チャウ・チャウ', 'ティーカップ・プードル', 'トイ・マンチェスター・テリア', 'トイ・プードル', 'ドーベルマン', 'ドゴ・アルヘンティーノ'],
-            'な・は行': ['ナポリタン・マスティフ', 'ニューファンドランド', '日本スピッツ', '日本テリア', 'ノルウェー・エルクハウンド', 'ノーフォーク・テリア', 'ノーリッチ・テリア', 'バーニーズ・マウンテン・ドッグ', 'パグ', 'バセット・ハウンド', 'バセンジー', 'パピヨン', 'ビアデッド・コリー', 'ビション・フリーゼ', 'ビーグル', 'フラットコーテッド・レトリバー', 'フレンチ・ブルドッグ', 'ブリタニー・スパニエル', 'ブル・テリア', 'ブルドッグ', 'ブルマスティフ', 'プードル', 'プチ・バセット・グリフォン・バンデーン', 'ペキニーズ', 'ベルジアン・シェパード・ドッグ・マリノア', 'ボーダー・コリー', 'ボクサー', 'ボストン・テリア', '北海道犬', 'ボルゾイ', 'ポメラニアン', 'ポリッシュ・ローランド・シープドッグ'],
-            'ま〜わ行': ['マルチーズ', 'マンチェスター・テリア', 'ミニチュア・シュナウザー', 'ミニチュア・ダックスフンド', 'ミニチュア・ピンシャー', 'ミニチュア・ブル・テリア', 'ヨークシャー・テリア', 'ラブラドール・レトリバー', 'ラフ・コリー', 'ラサ・アプソ', 'レオンベルガー', 'ロットワイラー', 'ワイマラナー', 'ワイヤー・フォックス・テリア']
+            '縺り｡・: ['繧｢繧､繝ｪ繝・す繝･繝ｻ繧ｦ繝ｫ繝輔ワ繧ｦ繝ｳ繝・, '繧｢繧､繝ｪ繝・す繝･繝ｻ繧ｻ繧ｿ繝ｼ', '遘狗伐迥ｬ', '繧｢繝輔ぎ繝ｳ繝ｻ繝上え繝ｳ繝・, '繧｢繝ｩ繧ｹ繧ｫ繝ｳ繝ｻ繝槭Λ繝溘Η繝ｼ繝・, '繧｢繝｡繝ｪ繧ｫ繝ｳ繝ｻ繧｢繧ｭ繧ｿ', '繧｢繝｡繝ｪ繧ｫ繝ｳ繝ｻ繧ｳ繝・き繝ｼ繝ｻ繧ｹ繝代ル繧ｨ繝ｫ', '繧｢繝｡繝ｪ繧ｫ繝ｳ繝ｻ繧ｹ繧ｿ繝・ヵ繧ｩ繝ｼ繝峨す繝｣繝ｼ繝ｻ繝悶Ν繝ｻ繝・Μ繧｢', '繧｢繝｡繝ｪ繧ｫ繝ｳ繝ｻ繝斐ャ繝医・繝悶Ν繝ｻ繝・Μ繧｢', '繧､繧ｿ繝ｪ繧｢繝ｳ繝ｻ繧ｰ繝ｬ繝ｼ繝上え繝ｳ繝・, '繧､繝ｳ繧ｰ繝ｪ繝・す繝･繝ｻ繧ｳ繝・き繝ｼ繝ｻ繧ｹ繝代ル繧ｨ繝ｫ', '繧､繝ｳ繧ｰ繝ｪ繝・す繝･繝ｻ繧ｻ繧ｿ繝ｼ', '繧､繝ｳ繧ｰ繝ｪ繝・す繝･繝ｻ繧ｹ繝励Μ繝ｳ繧ｬ繝ｼ繝ｻ繧ｹ繝代ル繧ｨ繝ｫ', '繧､繝ｳ繧ｰ繝ｪ繝・す繝･繝ｻ繝昴う繝ｳ繧ｿ繝ｼ', '繧ｦ繧｣繝壹ャ繝・, '繧ｦ繧ｧ繧ｹ繝医・繝上う繝ｩ繝ｳ繝峨・繝帙Ρ繧､繝医・繝・Μ繧｢', '繧ｦ繧ｧ繝ｫ繧ｷ繝･繝ｻ繧ｳ繝ｼ繧ｮ繝ｼ繝ｻ繧ｫ繝ｼ繝・ぅ繧ｬ繝ｳ', '繧ｦ繧ｧ繝ｫ繧ｷ繝･繝ｻ繧ｳ繝ｼ繧ｮ繝ｼ繝ｻ繝壹Φ繝悶Ο繝ｼ繧ｯ', '繧ｦ繧ｧ繝ｫ繧ｷ繝･繝ｻ繝・Μ繧｢', '繧ｨ繧｢繝・・繝ｫ繝ｻ繝・Μ繧｢', '繧ｪ繝ｼ繧ｹ繝医Λ繝ｪ繧｢繝ｳ繝ｻ繧ｭ繝｣繝医Ν繝ｻ繝峨ャ繧ｰ', '繧ｪ繝ｼ繧ｹ繝医Λ繝ｪ繧｢繝ｳ繝ｻ繧ｱ繝ｫ繝斐・', '繧ｪ繝ｼ繧ｹ繝医Λ繝ｪ繧｢繝ｳ繝ｻ繧ｷ繧ｧ繝代・繝・, '繧ｪ繝ｼ繧ｹ繝医Λ繝ｪ繧｢繝ｳ繝ｻ繝・Μ繧｢', '繧ｪ繝ｼ繝ｫ繝峨・繧､繝ｳ繧ｰ繝ｪ繝・す繝･繝ｻ繧ｷ繝ｼ繝励ラ繝・げ'],
+            '縺玖｡・: ['繧ｫ繝ｼ繝ｪ繝ｼ繧ｳ繝ｼ繝・ャ繝峨・繝ｬ繝医Μ繝舌・', '逕ｲ譁千堪', '繧ｫ繝九・繝ｳ繝倥Φ繝ｻ繝繝・け繧ｹ繝輔Φ繝・, '繧ｭ繝｣繝舌Μ繧｢繝ｻ繧ｭ繝ｳ繧ｰ繝ｻ繝√Ε繝ｼ繝ｫ繧ｺ繝ｻ繧ｹ繝代ル繧ｨ繝ｫ', '邏蟾樒堪', '繧ｰ繝ｬ繝ｼ繝医・繝・・繝ｳ', '繧ｰ繝ｬ繝ｼ繝医・繝斐Ξ繝九・繧ｺ', '繧ｱ繧｢繝ｼ繝ｳ繝ｻ繝・Μ繧｢', '繧ｱ繝ｪ繝ｼ繝ｻ繝悶Ν繝ｼ繝ｻ繝・Μ繧｢', '繧ｳ繝ｼ繧､繧ｱ繝ｫ繝帙Φ繝・ぅ繧ｨ', '繧ｴ繝ｼ繝ｫ繝・Φ繝ｻ繝ｬ繝医Μ繝舌・', '繧ｳ繝｢繝ｳ繝峨・繝ｫ'],
+            '縺戊｡・: ['繧ｵ繝ｫ繝ｼ繧ｭ', '繧ｵ繝｢繧ｨ繝・, '繧ｵ繝ｼ繝ｫ繝ｭ繝ｼ繧ｹ繝ｻ繧ｦ繝ｫ繝輔ラ繝・げ', '繧ｷ繝ｼ繝ｻ繧ｺ繝ｼ', '譟ｴ迥ｬ', '繧ｷ繝吶Μ繧｢繝ｳ繝ｻ繝上せ繧ｭ繝ｼ', '繧ｷ繝｣繝ｼ繝ｻ繝壹う', '繧ｸ繝｣繝ｼ繝槭Φ繝ｻ繧ｷ繧ｧ繝代・繝峨・繝峨ャ繧ｰ', '繧ｸ繝｣繝ｼ繝槭Φ繝ｻ繧ｷ繝ｧ繝ｼ繝医・繧｢繝ｼ繝峨・繝昴う繝ｳ繧ｿ繝ｼ', '繧ｸ繝｣繧､繧｢繝ｳ繝医・繧ｷ繝･繝翫え繧ｶ繝ｼ', '繧ｸ繝｣繝・け繝ｻ繝ｩ繝・そ繝ｫ繝ｻ繝・Μ繧｢', '繧ｹ繧ｭ繝・ヱ繝ｼ繧ｭ', '繧ｹ繧ｳ繝・ぅ繝・す繝･繝ｻ繝・Μ繧｢', '繧ｹ繧ｿ繝・ヵ繧ｩ繝ｼ繝峨す繝｣繝ｼ繝ｻ繝悶Ν繝ｻ繝・Μ繧｢', '繧ｹ繧ｿ繝ｳ繝繝ｼ繝峨・繝励・繝峨Ν', '繧ｻ繝ｳ繝医・繝舌・繝翫・繝・],
+            '縺溯｡・: ['繧ｿ繧､繝ｻ繝ｪ繝・ず繝舌ャ繧ｯ繝ｻ繝峨ャ繧ｰ', '繝繝ｫ繝｡繧ｷ繧｢繝ｳ', '繝√ぉ繧ｵ繝斐・繧ｯ繝ｻ繝吶う繝ｻ繝ｬ繝医Μ繝舌・', '繝√Ρ繝ｯ', '迢・ｼ医■繧難ｼ・, '繝√Ε繧ｦ繝ｻ繝√Ε繧ｦ', '繝・ぅ繝ｼ繧ｫ繝・・繝ｻ繝励・繝峨Ν', '繝医う繝ｻ繝槭Φ繝√ぉ繧ｹ繧ｿ繝ｼ繝ｻ繝・Μ繧｢', '繝医う繝ｻ繝励・繝峨Ν', '繝峨・繝吶Ν繝槭Φ', '繝峨ざ繝ｻ繧｢繝ｫ繝倥Φ繝・ぅ繝ｼ繝・],
+            '縺ｪ繝ｻ縺ｯ陦・: ['繝翫・繝ｪ繧ｿ繝ｳ繝ｻ繝槭せ繝・ぅ繝・, '繝九Η繝ｼ繝輔ぃ繝ｳ繝峨Λ繝ｳ繝・, '譌･譛ｬ繧ｹ繝斐ャ繝・, '譌･譛ｬ繝・Μ繧｢', '繝弱Ν繧ｦ繧ｧ繝ｼ繝ｻ繧ｨ繝ｫ繧ｯ繝上え繝ｳ繝・, '繝弱・繝輔か繝ｼ繧ｯ繝ｻ繝・Μ繧｢', '繝弱・繝ｪ繝・メ繝ｻ繝・Μ繧｢', '繝舌・繝九・繧ｺ繝ｻ繝槭え繝ｳ繝・Φ繝ｻ繝峨ャ繧ｰ', '繝代げ', '繝舌そ繝・ヨ繝ｻ繝上え繝ｳ繝・, '繝舌そ繝ｳ繧ｸ繝ｼ', '繝代ヴ繝ｨ繝ｳ', '繝薙い繝・ャ繝峨・繧ｳ繝ｪ繝ｼ', '繝薙す繝ｧ繝ｳ繝ｻ繝輔Μ繝ｼ繧ｼ', '繝薙・繧ｰ繝ｫ', '繝輔Λ繝・ヨ繧ｳ繝ｼ繝・ャ繝峨・繝ｬ繝医Μ繝舌・', '繝輔Ξ繝ｳ繝√・繝悶Ν繝峨ャ繧ｰ', '繝悶Μ繧ｿ繝九・繝ｻ繧ｹ繝代ル繧ｨ繝ｫ', '繝悶Ν繝ｻ繝・Μ繧｢', '繝悶Ν繝峨ャ繧ｰ', '繝悶Ν繝槭せ繝・ぅ繝・, '繝励・繝峨Ν', '繝励メ繝ｻ繝舌そ繝・ヨ繝ｻ繧ｰ繝ｪ繝輔か繝ｳ繝ｻ繝舌Φ繝・・繝ｳ', '繝壹く繝九・繧ｺ', '繝吶Ν繧ｸ繧｢繝ｳ繝ｻ繧ｷ繧ｧ繝代・繝峨・繝峨ャ繧ｰ繝ｻ繝槭Μ繝弱い', '繝懊・繝繝ｼ繝ｻ繧ｳ繝ｪ繝ｼ', '繝懊け繧ｵ繝ｼ', '繝懊せ繝医Φ繝ｻ繝・Μ繧｢', '蛹玲ｵｷ驕鍋堪', '繝懊Ν繧ｾ繧､', '繝昴Γ繝ｩ繝九い繝ｳ', '繝昴Μ繝・す繝･繝ｻ繝ｭ繝ｼ繝ｩ繝ｳ繝峨・繧ｷ繝ｼ繝励ラ繝・げ'],
+            '縺ｾ縲懊ｏ陦・: ['繝槭Ν繝√・繧ｺ', '繝槭Φ繝√ぉ繧ｹ繧ｿ繝ｼ繝ｻ繝・Μ繧｢', '繝溘ル繝√Η繧｢繝ｻ繧ｷ繝･繝翫え繧ｶ繝ｼ', '繝溘ル繝√Η繧｢繝ｻ繝繝・け繧ｹ繝輔Φ繝・, '繝溘ル繝√Η繧｢繝ｻ繝斐Φ繧ｷ繝｣繝ｼ', '繝溘ル繝√Η繧｢繝ｻ繝悶Ν繝ｻ繝・Μ繧｢', '繝ｨ繝ｼ繧ｯ繧ｷ繝｣繝ｼ繝ｻ繝・Μ繧｢', '繝ｩ繝悶Λ繝峨・繝ｫ繝ｻ繝ｬ繝医Μ繝舌・', '繝ｩ繝輔・繧ｳ繝ｪ繝ｼ', '繝ｩ繧ｵ繝ｻ繧｢繝励た', '繝ｬ繧ｪ繝ｳ繝吶Ν繧ｬ繝ｼ', '繝ｭ繝・ヨ繝ｯ繧､繝ｩ繝ｼ', '繝ｯ繧､繝槭Λ繝翫・', '繝ｯ繧､繝､繝ｼ繝ｻ繝輔か繝・け繧ｹ繝ｻ繝・Μ繧｢']
         };
 
         const AGE_DATA = [
-            '0歳', '1歳', '2歳', '3歳', '4歳', '5歳', '6歳', '7歳', '8歳', '9歳', '10歳',
-            '11歳', '12歳', '13歳', '14歳', '15歳', '16歳', '17歳', '18歳', '19歳', '20歳以上'
+            '0豁ｳ', '1豁ｳ', '2豁ｳ', '3豁ｳ', '4豁ｳ', '5豁ｳ', '6豁ｳ', '7豁ｳ', '8豁ｳ', '9豁ｳ', '10豁ｳ',
+            '11豁ｳ', '12豁ｳ', '13豁ｳ', '14豁ｳ', '15豁ｳ', '16豁ｳ', '17豁ｳ', '18豁ｳ', '19豁ｳ', '20豁ｳ莉･荳・
         ];
 
         const EVENTS_DATA = [
-            { date: "3月14日", title: "GO WITH わんこマラソン", place: "福岡県 大濠公園", tags: ["マラソン", "スポーツ", "屋外"], img: "https://images.unsplash.com/photo-1591769225440-811ad7d6eca6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "2月21日-23日", title: "ABURAYAMA WANT", place: "福岡県 油山", tags: ["マルシェ", "撮影会", "屋外"], img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "2月7日-8日", title: "広島わんわんバレンタイン", place: "広島県 広島広域公園", tags: ["最大級", "屋外", "マルシェ"], img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "2月14日-15日", title: "犬っこまつり", place: "秋田県 湯沢市", tags: ["伝統行事", "雪祭り", "屋外"], img: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "2月14日-15日", title: "成田ゆめのドッグフェスティバル", place: "千葉県 成田ゆめ牧場", tags: ["牧場", "撮影会", "屋外"], img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "2月14日-15日", title: "わんこのフェス", place: "埼玉県 埼玉スタジアム", tags: ["フェス", "屋外", "コア層"], img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "2月14日-15日", title: "犬祭り", place: "岐阜県 清流里山公園", tags: ["大規模", "マルシェ", "中部"], img: "https://images.unsplash.com/photo-1591769225440-811ad7d6eca6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "2月21日-22日", title: "わんにゃんドーム 2026", place: "愛知県 Aichi Sky Expo", tags: ["国内最大", "屋内", "展示"], img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "2月21日-22日", title: "千葉わんわん冬まつり", place: "千葉県 幕張メッセ", tags: ["屋内", "マーケット", "冬祭り"], img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "2月22日", title: "HUSKY JAPAN SUMMIT", place: "岡山県 黒井山", tags: ["ハスキー", "オフ会", "特化"], img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "2月28日-3月1日", title: "水元ドッグフェスティバル", place: "東京都 水元公園", tags: ["公園", "屋外", "23区最大"], img: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "2月28日-3月1日", title: "みのおわんわんモール", place: "大阪府 箕面", tags: ["マルシェ", "おしゃれ", "屋外"], img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "3月7日-8日", title: "佐倉Wanパーク", place: "千葉県 佐倉城址公園", tags: ["マルシェ", "屋外", "新定番"], img: "https://images.unsplash.com/photo-1591769225440-811ad7d6eca6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "3月7日-8日", title: "わんだらけフェス", place: "愛知県 富浜緑地", tags: ["日本最大級", "マルシェ", "屋外"], img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "3月7日-8日", title: "柏の葉公園DogFesta", place: "千葉県 柏の葉公園", tags: ["公園", "フェス", "屋外"], img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "3月14日-15日", title: "RKB福岡百道浜ドッグフェスタ", place: "福岡県 百道浜", tags: ["九州最大", "フェス", "屋外"], img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "3月14日-15日", title: "伊豆高原わんわんマルシェ", place: "静岡県 伊豆高原", tags: ["観光地", "マルシェ", "屋外"], img: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "3月19日-22日", title: "赤レンガでわんさんぽ", place: "神奈川県 横浜赤レンガ倉庫", tags: ["景観", "おしゃれ", "屋外"], img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "3月20日", title: "はなぺちゃフェスティバル", place: "滋賀県 (予定)", tags: ["短頭種", "オフ会", "熱狂的"], img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "3月20日-22日", title: "川西ドッグランマルシェ", place: "兵庫県 川西", tags: ["ドッグラン", "マルシェ", "関西"], img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "3月28日-29日", title: "広島わんわん桜まつり", place: "広島県 ジアウトレット", tags: ["桜", "撮影会", "映え"], img: "https://images.unsplash.com/photo-1591769225440-811ad7d6eca6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-            { date: "3月28日-29日", title: "柏の葉T-SITE ドッグイベント", place: "千葉県 柏T-SITE", tags: ["ライフスタイル", "蔦屋書店", "屋外"], img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" }
+            { date: "3譛・4譌･", title: "GO WITH 繧上ｓ縺薙・繝ｩ繧ｽ繝ｳ", place: "遖丞ｲ｡逵・螟ｧ豼蜈ｬ蝨・, tags: ["繝槭Λ繧ｽ繝ｳ", "繧ｹ繝昴・繝・, "螻句､・], img: "https://images.unsplash.com/photo-1591769225440-811ad7d6eca6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "2譛・1譌･-23譌･", title: "ABURAYAMA WANT", place: "遖丞ｲ｡逵・豐ｹ螻ｱ", tags: ["繝槭Ν繧ｷ繧ｧ", "謦ｮ蠖ｱ莨・, "螻句､・], img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "2譛・譌･-8譌･", title: "蠎・ｳｶ繧上ｓ繧上ｓ繝舌Ξ繝ｳ繧ｿ繧､繝ｳ", place: "蠎・ｳｶ逵・蠎・ｳｶ蠎・沺蜈ｬ蝨・, tags: ["譛螟ｧ邏・, "螻句､・, "繝槭Ν繧ｷ繧ｧ"], img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "2譛・4譌･-15譌･", title: "迥ｬ縺｣縺薙∪縺､繧・, place: "遘狗伐逵・貉ｯ豐｢蟶・, tags: ["莨晉ｵｱ陦御ｺ・, "髮ｪ逾ｭ繧・, "螻句､・], img: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "2譛・4譌･-15譌･", title: "謌千伐繧・ａ縺ｮ繝峨ャ繧ｰ繝輔ぉ繧ｹ繝・ぅ繝舌Ν", place: "蜊・痩逵・謌千伐繧・ａ迚ｧ蝣ｴ", tags: ["迚ｧ蝣ｴ", "謦ｮ蠖ｱ莨・, "螻句､・], img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "2譛・4譌･-15譌･", title: "繧上ｓ縺薙・繝輔ぉ繧ｹ", place: "蝓ｼ邇臥恁 蝓ｼ邇峨せ繧ｿ繧ｸ繧｢繝", tags: ["繝輔ぉ繧ｹ", "螻句､・, "繧ｳ繧｢螻､"], img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "2譛・4譌･-15譌･", title: "迥ｬ逾ｭ繧・, place: "蟯宣・逵・貂・ｵ・㈹螻ｱ蜈ｬ蝨・, tags: ["螟ｧ隕乗ｨ｡", "繝槭Ν繧ｷ繧ｧ", "荳ｭ驛ｨ"], img: "https://images.unsplash.com/photo-1591769225440-811ad7d6eca6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "2譛・1譌･-22譌･", title: "繧上ｓ縺ｫ繧・ｓ繝峨・繝 2026", place: "諢帷衍逵・Aichi Sky Expo", tags: ["蝗ｽ蜀・怙螟ｧ", "螻句・", "螻慕､ｺ"], img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "2譛・1譌･-22譌･", title: "蜊・痩繧上ｓ繧上ｓ蜀ｬ縺ｾ縺､繧・, place: "蜊・痩逵・蟷募ｼｵ繝｡繝・そ", tags: ["螻句・", "繝槭・繧ｱ繝・ヨ", "蜀ｬ逾ｭ繧・], img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "2譛・2譌･", title: "HUSKY JAPAN SUMMIT", place: "蟯｡螻ｱ逵・鮟剃ｺ募ｱｱ", tags: ["繝上せ繧ｭ繝ｼ", "繧ｪ繝穂ｼ・, "迚ｹ蛹・], img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "2譛・8譌･-3譛・譌･", title: "豌ｴ蜈・ラ繝・げ繝輔ぉ繧ｹ繝・ぅ繝舌Ν", place: "譚ｱ莠ｬ驛ｽ 豌ｴ蜈・・蝨・, tags: ["蜈ｬ蝨・, "螻句､・, "23蛹ｺ譛螟ｧ"], img: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "2譛・8譌･-3譛・譌･", title: "縺ｿ縺ｮ縺翫ｏ繧薙ｏ繧薙Δ繝ｼ繝ｫ", place: "螟ｧ髦ｪ蠎・邂暮擇", tags: ["繝槭Ν繧ｷ繧ｧ", "縺翫＠繧・ｌ", "螻句､・], img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "3譛・譌･-8譌･", title: "菴仙姥an繝代・繧ｯ", place: "蜊・痩逵・菴仙牙沁蝮蜈ｬ蝨・, tags: ["繝槭Ν繧ｷ繧ｧ", "螻句､・, "譁ｰ螳夂分"], img: "https://images.unsplash.com/photo-1591769225440-811ad7d6eca6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "3譛・譌･-8譌･", title: "繧上ｓ縺繧峨￠繝輔ぉ繧ｹ", place: "諢帷衍逵・蟇梧ｵ懃ｷ大慍", tags: ["譌･譛ｬ譛螟ｧ邏・, "繝槭Ν繧ｷ繧ｧ", "螻句､・], img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "3譛・譌･-8譌･", title: "譟上・闡牙・蝨奪ogFesta", place: "蜊・痩逵・譟上・闡牙・蝨・, tags: ["蜈ｬ蝨・, "繝輔ぉ繧ｹ", "螻句､・], img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "3譛・4譌･-15譌･", title: "RKB遖丞ｲ｡逋ｾ驕捺ｵ懊ラ繝・げ繝輔ぉ繧ｹ繧ｿ", place: "遖丞ｲ｡逵・逋ｾ驕捺ｵ・, tags: ["荵晏ｷ樊怙螟ｧ", "繝輔ぉ繧ｹ", "螻句､・], img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "3譛・4譌･-15譌･", title: "莨願ｱ・ｫ伜次繧上ｓ繧上ｓ繝槭Ν繧ｷ繧ｧ", place: "髱吝ｲ｡逵・莨願ｱ・ｫ伜次", tags: ["隕ｳ蜈牙慍", "繝槭Ν繧ｷ繧ｧ", "螻句､・], img: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "3譛・9譌･-22譌･", title: "襍､繝ｬ繝ｳ繧ｬ縺ｧ繧上ｓ縺輔ｓ縺ｽ", place: "逾槫･亥ｷ晉恁 讓ｪ豬懆ｵ､繝ｬ繝ｳ繧ｬ蛟牙ｺｫ", tags: ["譎ｯ隕ｳ", "縺翫＠繧・ｌ", "螻句､・], img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "3譛・0譌･", title: "縺ｯ縺ｪ縺ｺ縺｡繧・ヵ繧ｧ繧ｹ繝・ぅ繝舌Ν", place: "貊玖ｳ逵・(莠亥ｮ・", tags: ["遏ｭ鬆ｭ遞ｮ", "繧ｪ繝穂ｼ・, "辭ｱ迢ら噪"], img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "3譛・0譌･-22譌･", title: "蟾晁･ｿ繝峨ャ繧ｰ繝ｩ繝ｳ繝槭Ν繧ｷ繧ｧ", place: "蜈ｵ蠎ｫ逵・蟾晁･ｿ", tags: ["繝峨ャ繧ｰ繝ｩ繝ｳ", "繝槭Ν繧ｷ繧ｧ", "髢｢隘ｿ"], img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "3譛・8譌･-29譌･", title: "蠎・ｳｶ繧上ｓ繧上ｓ譯懊∪縺､繧・, place: "蠎・ｳｶ逵・繧ｸ繧｢繧ｦ繝医Ξ繝・ヨ", tags: ["譯・, "謦ｮ蠖ｱ莨・, "譏縺・], img: "https://images.unsplash.com/photo-1591769225440-811ad7d6eca6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
+            { date: "3譛・8譌･-29譌･", title: "譟上・闡欝-SITE 繝峨ャ繧ｰ繧､繝吶Φ繝・, place: "蜊・痩逵・譟週-SITE", tags: ["繝ｩ繧､繝輔せ繧ｿ繧､繝ｫ", "阡ｦ螻区嶌蠎・, "螻句､・], img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" }
         ];
 
         const LOST_DATA = [];
@@ -283,45 +283,43 @@
                     {/* Text Section (Clean Layout) */}
                     <div className="text-center px-6 mb-16 relative z-10 text-theme-text">
                         <h1 className="font-serif text-3xl md:text-4xl font-medium leading-relaxed tracking-wide drop-shadow-sm mb-6">
-                            愛犬の管理、<br />スマホ一つで。
-                        </h1>
+                            諢帷堪縺ｮ邂｡逅・・br />繧ｹ繝槭・荳縺､縺ｧ縲・                        </h1>
                         <p className="text-sm text-theme-text/70 font-sans tracking-wider leading-loose">
-                            フード診断、イベント情報、<br />ワクチン接種記録まで全て完結。
-                        </p>
+                            繝輔・繝芽ｨｺ譁ｭ縲√う繝吶Φ繝域ュ蝣ｱ縲・br />繝ｯ繧ｯ繝√Φ謗･遞ｮ險倬鹸縺ｾ縺ｧ蜈ｨ縺ｦ螳檎ｵ舌・                        </p>
                     </div>
 
                     <div className="w-full max-w-md px-6 relative z-10 grid grid-cols-2 gap-x-4 gap-y-8 mb-16">
                         <FeatureCard
                             icon={<IconFood />}
                             title="Food Diagnosis"
-                            jp="フード診断"
-                            desc="年齢と体質に合わせた最適な一皿を提案"
+                            jp="繝輔・繝芽ｨｺ譁ｭ"
+                            desc="蟷ｴ鮨｢縺ｨ菴楢ｳｪ縺ｫ蜷医ｏ縺帙◆譛驕ｩ縺ｪ荳逧ｿ繧呈署譯・
                         />
                         <FeatureCard
                             icon={<IconHealth />}
                             title="Health Record"
-                            jp="ヘルスケア記録"
-                            desc="ワクチン接種日と次回予定を管理"
+                            jp="繝倥Ν繧ｹ繧ｱ繧｢險倬鹸"
+                            desc="繝ｯ繧ｯ繝√Φ謗･遞ｮ譌･縺ｨ谺｡蝗樔ｺ亥ｮ壹ｒ邂｡逅・
                         />
                         <FeatureCard
                             icon={<IconEventNews />}
                             title="Event News"
-                            jp="イベント情報"
-                            desc="週末のお出かけ先を全国から検索"
+                            jp="繧､繝吶Φ繝域ュ蝣ｱ"
+                            desc="騾ｱ譛ｫ縺ｮ縺雁・縺九￠蜈医ｒ蜈ｨ蝗ｽ縺九ｉ讀懃ｴ｢"
                         />
                         <FeatureCard
                             icon={<IconLostFound />}
                             title="Lost & Found"
-                            jp="迷子掲示板"
-                            desc="地域のみんなで守る安心ネットワーク"
+                            jp="霑ｷ蟄先軸遉ｺ譚ｿ"
+                            desc="蝨ｰ蝓溘・縺ｿ繧薙↑縺ｧ螳医ｋ螳牙ｿ・ロ繝・ヨ繝ｯ繝ｼ繧ｯ"
                         />
                     </div>
 
                     {/* Google Login Section (Moved Below) */}
                     <div className="w-full max-w-xs px-6 mb-16">
                         <div className="text-center mb-6">
-                            <p className="font-serif text-theme-text text-lg mb-1">さあ、始めましょう</p>
-                            <p className="text-xs text-theme-text/50">登録も管理も、これひとつ。</p>
+                            <p className="font-serif text-theme-text text-lg mb-1">縺輔≠縲∝ｧ九ａ縺ｾ縺励ｇ縺・/p>
+                            <p className="text-xs text-theme-text/50">逋ｻ骭ｲ繧らｮ｡逅・ｂ縲√％繧後・縺ｨ縺､縲・/p>
                         </div>
                         <button onClick={onLogin} className="w-full group relative overflow-hidden bg-white border border-theme-primary/30 text-theme-text font-serif px-6 py-5 rounded-2xl shadow-soft hover:shadow-card transition-all duration-300 active:scale-95 flex items-center justify-center gap-3">
                             <svg className="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -330,12 +328,12 @@
                                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
                                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
                             </svg>
-                            <span className="tracking-widest font-bold text-sm">Googleでログイン</span>
+                            <span className="tracking-widest font-bold text-sm">Google縺ｧ繝ｭ繧ｰ繧､繝ｳ</span>
                         </button>
                     </div>
 
                     <footer className="text-center text-[10px] text-theme-text/30 pb-8 font-sans">
-                        © 2026 PepLab Inc.
+                        ﾂｩ 2026 PepLab Inc.
                     </footer>
                 </div>
             );
@@ -395,7 +393,7 @@
                     }, { merge: true });
                 } catch (e) {
                     console.error("Save Error:", e);
-                    alert("保存に失敗しました");
+                    alert("菫晏ｭ倥↓螟ｱ謨励＠縺ｾ縺励◆");
                 } finally {
                     setTimeout(() => setIsSyncing(false), 500); // Visual delay for UX
                 }
@@ -451,10 +449,10 @@
                         {renderContent()}
                     </main>
                     <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/90 backdrop-blur-lg border-t border-theme-muted flex justify-around py-2 pb-safe z-50">
-                        <NavButton active={tab === 'menu'} onClick={() => { setTab('menu'); setIsProfileOpen(false); }} icon={<IconHome active={tab === 'menu'} />} label="ホーム" />
-                        <NavButton active={tab === 'record'} onClick={() => { setTab('record'); setIsProfileOpen(false); }} icon={<IconRecord active={tab === 'record'} />} label="記録" />
-                        <NavButton active={tab === 'event'} onClick={() => { setTab('event'); setIsProfileOpen(false); }} icon={<IconEvent active={tab === 'event'} />} label="イベント" />
-                        <NavButton active={tab === 'lost'} onClick={() => { setTab('lost'); setIsProfileOpen(false); }} icon={<IconLost active={tab === 'lost'} />} label="迷子" />
+                        <NavButton active={tab === 'menu'} onClick={() => { setTab('menu'); setIsProfileOpen(false); }} icon={<IconHome active={tab === 'menu'} />} label="繝帙・繝" />
+                        <NavButton active={tab === 'record'} onClick={() => { setTab('record'); setIsProfileOpen(false); }} icon={<IconRecord active={tab === 'record'} />} label="險倬鹸" />
+                        <NavButton active={tab === 'event'} onClick={() => { setTab('event'); setIsProfileOpen(false); }} icon={<IconEvent active={tab === 'event'} />} label="繧､繝吶Φ繝・ />
+                        <NavButton active={tab === 'lost'} onClick={() => { setTab('lost'); setIsProfileOpen(false); }} icon={<IconLost active={tab === 'lost'} />} label="霑ｷ蟄・ />
                     </nav>
                 </div>
             );
@@ -501,7 +499,7 @@
         const ProfileEditor = ({ current, onSave, onCancel }) => {
             const [name, setName] = useState(current?.name || '');
             const [breed, setBreed] = useState(current?.breed || '');
-            const [age, setAge] = useState(current?.age ? current.age.toString() + '歳' : '');
+            const [age, setAge] = useState(current?.age ? current.age.toString() + '豁ｳ' : '');
             const [image, setImage] = useState(current?.image || null);
             const [isProcessing, setIsProcessing] = useState(false); // New: Processing state
 
@@ -556,7 +554,7 @@
                         setImage(resizedDataUrl);
                     } catch (error) {
                         console.error("Image resize error:", error);
-                        alert("画像の処理に失敗しました");
+                        alert("逕ｻ蜒上・蜃ｦ逅・↓螟ｱ謨励＠縺ｾ縺励◆");
                     } finally {
                         setIsProcessing(false);
                     }
@@ -575,12 +573,12 @@
 
             return (
                 <div className="fade-in pt-4">
-                    <TabbedModal isOpen={isBreedOpen} onClose={() => setIsBreedOpen(false)} title="犬種を選択" data={BREEDS_DATA} onSelect={handleBreedSelect} />
-                    <TabbedModal isOpen={isAgeOpen} onClose={() => setIsAgeOpen(false)} title="年齢を選択" data={AGE_DATA} onSelect={handleAgeSelect} />
+                    <TabbedModal isOpen={isBreedOpen} onClose={() => setIsBreedOpen(false)} title="迥ｬ遞ｮ繧帝∈謚・ data={BREEDS_DATA} onSelect={handleBreedSelect} />
+                    <TabbedModal isOpen={isAgeOpen} onClose={() => setIsAgeOpen(false)} title="蟷ｴ鮨｢繧帝∈謚・ data={AGE_DATA} onSelect={handleAgeSelect} />
 
                     <div className="text-center mb-6">
                         <h2 className="font-serif text-xl text-theme-text mb-2">My Partner</h2>
-                        <p className="text-xs text-theme-text/60">愛犬の情報を登録・編集します</p>
+                        <p className="text-xs text-theme-text/60">諢帷堪縺ｮ諠・ｱ繧堤匳骭ｲ繝ｻ邱ｨ髮・＠縺ｾ縺・/p>
                     </div>
 
                     <div className="flex flex-col gap-6">
@@ -599,20 +597,20 @@
                         <div className="space-y-4">
                             <div>
                                 <label className="block text-xs font-bold text-theme-text/50 mb-1 tracking-widest uppercase">Name</label>
-                                <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="お名前" className="w-full p-4 rounded-xl bg-white border border-theme-muted outline-none focus:border-theme-primary transition-colors text-theme-text" />
+                                <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="縺雁錐蜑・ className="w-full p-4 rounded-xl bg-white border border-theme-muted outline-none focus:border-theme-primary transition-colors text-theme-text" />
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-xs font-bold text-theme-text/50 mb-1 tracking-widest uppercase">Breed</label>
                                     <button onClick={() => setIsBreedOpen(true)} className={`w-full p-4 rounded-xl border outline-none transition-colors text-left flex justify-between items-center ${breed ? 'bg-white border-theme-muted text-theme-text' : 'bg-white border-theme-muted text-theme-text/40'}`}>
-                                        <span className="truncate">{breed || "犬種を選択"}</span>
+                                        <span className="truncate">{breed || "迥ｬ遞ｮ繧帝∈謚・}</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 opacity-50"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
                                     </button>
                                 </div>
                                 <div>
                                     <label className="block text-xs font-bold text-theme-text/50 mb-1 tracking-widest uppercase">Age</label>
                                     <button onClick={() => setIsAgeOpen(true)} className={`w-full p-4 rounded-xl border outline-none transition-colors text-left flex justify-between items-center ${age ? 'bg-white border-theme-muted text-theme-text' : 'bg-white border-theme-muted text-theme-text/40'}`}>
-                                        <span className="truncate">{age || "年齢"}</span>
+                                        <span className="truncate">{age || "蟷ｴ鮨｢"}</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 opacity-50"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
                                     </button>
                                 </div>
@@ -640,7 +638,7 @@
                     </div>
                     <div className="flex-1">
                         <h2 className="font-serif text-xl text-theme-text">{profile?.name || "No Name"}</h2>
-                        <p className="text-xs text-theme-text/50">{profile?.breed ? `${profile.breed} / ${profile.age}歳` : "プロフィール未登録"}</p>
+                        <p className="text-xs text-theme-text/50">{profile?.breed ? `${profile.breed} / ${profile.age}豁ｳ` : "繝励Ο繝輔ぅ繝ｼ繝ｫ譛ｪ逋ｻ骭ｲ"}</p>
                     </div>
                     <div className="text-theme-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
@@ -651,13 +649,13 @@
                     <MenuButton
                         onClick={() => onNavigate('home')}
                         icon={<IconFood />}
-                        title="フード診断"
-                        desc={hasDiagnosis ? "診断結果" : "カンタン3問"}
+                        title="繝輔・繝芽ｨｺ譁ｭ"
+                        desc={hasDiagnosis ? "險ｺ譁ｭ邨先棡" : "繧ｫ繝ｳ繧ｿ繝ｳ3蝠・}
                     // accent removed
                     />
-                    <MenuButton onClick={() => onNavigate('record')} icon={<IconHealth />} title="ワクチン記録" desc="記録と期限管理" />
-                    <MenuButton onClick={() => onNavigate('event')} icon={<IconEventNews />} title="イベント" desc="全国版" />
-                    <MenuButton onClick={() => onNavigate('lost')} icon={<IconLostFound />} title="迷子掲示板" desc="情報はここへ！" />
+                    <MenuButton onClick={() => onNavigate('record')} icon={<IconHealth />} title="繝ｯ繧ｯ繝√Φ險倬鹸" desc="險倬鹸縺ｨ譛滄剞邂｡逅・ />
+                    <MenuButton onClick={() => onNavigate('event')} icon={<IconEventNews />} title="繧､繝吶Φ繝・ desc="蜈ｨ蝗ｽ迚・ />
+                    <MenuButton onClick={() => onNavigate('lost')} icon={<IconLostFound />} title="霑ｷ蟄先軸遉ｺ譚ｿ" desc="諠・ｱ縺ｯ縺薙％縺ｸ・・ />
                 </div>
             </div>
         );
@@ -696,7 +694,7 @@
             };
 
             const handleAgeSelect = (valStr) => {
-                // Map "5歳" -> "Adult" tag
+                // Map "5豁ｳ" -> "Adult" tag
                 const ageNum = parseInt(valStr);
                 let stage = "Adult"; // Default
                 if (ageNum <= 1) stage = "Puppy";
@@ -744,18 +742,18 @@
             };
 
             const steps = [
-                { t: "犬種をお選びください", c: <InlineSelector data={BREEDS_DATA} onSelect={(val) => submit('breed', val)} /> },
-                { t: "現在の年齢は？", c: <InlineSelector data={AGE_DATA} onSelect={handleAgeSelect} /> },
+                { t: "迥ｬ遞ｮ繧偵♀驕ｸ縺ｳ縺上□縺輔＞", c: <InlineSelector data={BREEDS_DATA} onSelect={(val) => submit('breed', val)} /> },
+                { t: "迴ｾ蝨ｨ縺ｮ蟷ｴ鮨｢縺ｯ・・, c: <InlineSelector data={AGE_DATA} onSelect={handleAgeSelect} /> },
                 // Changed title for multiple selection
-                { t: "気になることはありますか？ (複数選択可)", c: <ConcernSelector submit={(val) => submit('concern', val)} /> },
+                { t: "豌励↓縺ｪ繧九％縺ｨ縺ｯ縺ゅｊ縺ｾ縺吶°・・(隍・焚驕ｸ謚槫庄)", c: <ConcernSelector submit={(val) => submit('concern', val)} /> },
             ];
 
             return (
                 <div className="h-full flex flex-col pt-4 fade-in relative pb-20">
                     <div className="text-center mb-6">
-                        <h1 className="font-serif text-2xl md:text-3xl text-theme-text mb-4">愛犬にピッタリの一皿を</h1>
+                        <h1 className="font-serif text-2xl md:text-3xl text-theme-text mb-4">諢帷堪縺ｫ繝斐ャ繧ｿ繝ｪ縺ｮ荳逧ｿ繧・/h1>
                         <div className="mb-6 bg-white/50 inline-block px-4 py-2 rounded-full border border-theme-muted/50">
-                            <p className="text-xs text-theme-text/70 font-sans tracking-wide">3つの質問に答えるだけで<br />最新の人気フードを自動でチョイスします</p>
+                            <p className="text-xs text-theme-text/70 font-sans tracking-wide">3縺､縺ｮ雉ｪ蝠上↓遲斐∴繧九□縺代〒<br />譛譁ｰ縺ｮ莠ｺ豌励ヵ繝ｼ繝峨ｒ閾ｪ蜍輔〒繝√Ι繧､繧ｹ縺励∪縺・/p>
                         </div>
                         <h2 className="text-xl font-serif text-theme-text border-b-2 border-theme-primary/20 inline-block pb-1 px-4">{steps[step].t}</h2>
                     </div>
@@ -765,7 +763,7 @@
                     <div className="mt-12 px-2 pb-8 z-30 max-w-md mx-auto w-full">
                         <button onClick={onShowAll} className="w-full bg-gradient-to-r from-amber-300 via-orange-400 to-amber-300 text-white py-5 rounded-xl font-serif font-bold tracking-widest shadow-lg hover:shadow-xl transition-all transform active:scale-95 animate-shimmer bg-[length:200%_100%] flex items-center justify-center gap-2 relative overflow-hidden group">
                             <span className="relative z-10 flex items-center gap-2 text-lg drop-shadow-sm">
-                                2026年最新プレミアムフード一覧
+                                2026蟷ｴ譛譁ｰ繝励Ξ繝溘い繝繝輔・繝我ｸ隕ｧ
                             </span>
                             <div className="absolute inset-0 bg-white/20 group-hover:bg-transparent transition-colors"></div>
                         </button>
@@ -786,14 +784,14 @@
 
             // Options: Added 'cost'
             const options = [
-                { l: "Tear Burn", jp: "涙やけ", v: 'tear_burn', icon: <IconEye /> },
-                { l: "Coat", jp: "毛並み", v: 'coat', icon: <IconCoat /> },
-                { l: "Joints", jp: "関節", v: 'joints', icon: <IconBone /> },
-                { l: "Weight", jp: "体重管理", v: 'obesity', icon: <IconWeight /> },
-                { l: "Appetite", jp: "食いつき", v: 'appetite', icon: <IconBowl /> },
-                { l: "Teeth", jp: "歯のケア", v: 'teeth', icon: <IconPaw /> },
-                { l: "Odor", jp: "口臭・ニオイ", v: 'odor', icon: <IconSparkles /> },
-                { l: "Cost", jp: "コスパ", v: 'cost', icon: <span className="text-2xl font-serif">¥</span> } // New
+                { l: "Tear Burn", jp: "豸吶ｄ縺・, v: 'tear_burn', icon: <IconEye /> },
+                { l: "Coat", jp: "豈帑ｸｦ縺ｿ", v: 'coat', icon: <IconCoat /> },
+                { l: "Joints", jp: "髢｢遽", v: 'joints', icon: <IconBone /> },
+                { l: "Weight", jp: "菴馴㍾邂｡逅・, v: 'obesity', icon: <IconWeight /> },
+                { l: "Appetite", jp: "鬟溘＞縺､縺・, v: 'appetite', icon: <IconBowl /> },
+                { l: "Teeth", jp: "豁ｯ縺ｮ繧ｱ繧｢", v: 'teeth', icon: <IconPaw /> },
+                { l: "Odor", jp: "蜿｣閾ｭ繝ｻ繝九が繧､", v: 'odor', icon: <IconSparkles /> },
+                { l: "Cost", jp: "繧ｳ繧ｹ繝・, v: 'cost', icon: <span className="text-2xl font-serif">ﾂ･</span> } // New
             ];
 
             return (
@@ -811,7 +809,7 @@
                         })}
                     </div>
                     <button onClick={() => submit(selected)} className="w-full py-4 bg-theme-text text-white rounded-xl shadow-lg hover:bg-theme-text/90 transition-all font-serif tracking-widest">
-                        診断結果を見る
+                        險ｺ譁ｭ邨先棡繧定ｦ九ｋ
                     </button>
                 </div>
             );
@@ -852,7 +850,7 @@
                         // 3. Concern Match
                         userConcerns.forEach(c => {
                             if (c === 'cost') {
-                                if (p.price && p.price !== "¥要確認") {
+                                if (p.price && p.price !== "ﾂ･隕∫｢ｺ隱・) {
                                     const priceNum = parseInt(p.price.replace(/[^0-9]/g, ''));
                                     if (priceNum < 5000) score += 30;
                                 }
@@ -877,9 +875,9 @@
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
                         </button>
                         <div className="text-center">
-                            <p className="font-serif text-lg">あなたへのベストセレクト</p>
+                            <p className="font-serif text-lg">縺ゅ↑縺溘∈縺ｮ繝吶せ繝医そ繝ｬ繧ｯ繝・/p>
                             <p className="text-xs text-theme-text/50 font-sans mt-1">
-                                {answers.breed} / {answers.age === 'Puppy' ? '子犬' : answers.age === 'Senior' ? 'シニア' : '成犬'}
+                                {answers.breed} / {answers.age === 'Puppy' ? '蟄千堪' : answers.age === 'Senior' ? '繧ｷ繝九い' : '謌千堪'}
                             </p>
                         </div>
                     </div>
@@ -889,7 +887,7 @@
                             <div key={p.id} className="group cursor-pointer" onClick={() => p.link && window.open(p.link, '_blank')}>
                                 <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-4 shadow-float">
                                     <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full z-10">
-                                        <span className="text-[10px] font-bold tracking-widest uppercase text-theme-text">マッチ度 No.{i + 1}</span>
+                                        <span className="text-[10px] font-bold tracking-widest uppercase text-theme-text">繝槭ャ繝∝ｺｦ No.{i + 1}</span>
                                     </div>
                                     {p.tags.priority === 'S' && (
                                         <div className="absolute top-4 right-4 bg-theme-primary/90 backdrop-blur px-3 py-1 rounded-full z-10 text-white">
@@ -904,7 +902,7 @@
                                     <p className="text-sm text-theme-text/60 leading-relaxed mb-3">{p.description}</p>
 
                                     <button className="w-full bg-theme-text text-white text-xs px-6 py-4 rounded-xl shadow-lg hover:bg-theme-text/90 transition-all uppercase tracking-widest">
-                                        公式サイトを見る
+                                        蜈ｬ蠑上し繧､繝医ｒ隕九ｋ
                                     </button>
                                 </div>
                             </div>
@@ -912,16 +910,11 @@
                     </div>
                     <button onClick={onShowAll} className="w-full mt-10 bg-gradient-to-r from-amber-300 via-orange-400 to-amber-300 text-white py-5 rounded-xl font-serif font-bold tracking-widest shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 relative overflow-hidden group animate-shimmer bg-[length:200%_100%]">
                         <span className="relative z-10 flex items-center justify-center gap-2 text-lg drop-shadow-sm">
-                            2026年最新プレミアムフード一覧
+                            2026蟷ｴ譛譁ｰ繝励Ξ繝溘い繝繝輔・繝我ｸ隕ｧ
                         </span>
                         <div className="absolute inset-0 bg-white/20 group-hover:bg-transparent transition-colors"></div>
                     </button>
-                    <button onClick={onReset} className="w-full mt-4 text-xs text-theme-text/40 tracking-widest uppercase hover:text-theme-primary transition-colors border-t border-theme-muted/30 pt-4">もう一度診断する</button>
-
-                    <div className="mt-8 p-4 bg-gray-50 rounded-xl text-[10px] text-theme-text/60 leading-relaxed text-center">
-                        <p className="font-bold mb-1">※本診断結果・推奨商品はインターネット上の情報を基に作成されています。</p>
-                        <p>愛犬の体質や健康状態には個人差があります。フードの切り替えや摂取量については、各商品のパッケージ記載事項を守り、必要に応じて獣医師にご相談の上ご判断ください。当サービスによって生じたトラブル等に関する責任は負いかねますのでご了承ください。</p>
-                    </div>
+                    <button onClick={onReset} className="w-full mt-4 text-xs text-theme-text/40 tracking-widest uppercase hover:text-theme-primary transition-colors border-t border-theme-muted/30 pt-4">繧ゅ≧荳蠎ｦ險ｺ譁ｭ縺吶ｋ</button>
                 </div>
             );
         };
@@ -941,8 +934,8 @@
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
                         </button>
                         <div className="text-center">
-                            <h2 className="text-xl font-serif text-theme-text">2026年 最新コレクション</h2>
-                            <p className="text-[10px] text-theme-text/50 tracking-widest mt-1">厳選プレミアムドッグフード</p>
+                            <h2 className="text-xl font-serif text-theme-text">2026蟷ｴ 譛譁ｰ繧ｳ繝ｬ繧ｯ繧ｷ繝ｧ繝ｳ</h2>
+                            <p className="text-[10px] text-theme-text/50 tracking-widest mt-1">蜴ｳ驕ｸ繝励Ξ繝溘い繝繝峨ャ繧ｰ繝輔・繝・/p>
                         </div>
                     </div>
 
@@ -960,13 +953,7 @@
                             </div>
                         ))}
                     </div>
-
-
-                    <div className="mt-8 p-4 bg-gray-50 rounded-xl text-[10px] text-theme-text/60 leading-relaxed text-center">
-                        <p className="font-bold mb-1">※推奨商品はインターネット上の情報を基に作成されています。</p>
-                        <p>愛犬の体質や健康状態には個人差があります。フードの切り替えや摂取量については、各商品のパッケージ記載事項を守り、必要に応じて獣医師にご相談の上ご判断ください。当サービスによって生じたトラブル等に関する責任は負いかねますのでご了承ください。</p>
-                    </div>
-                </div >
+                </div>
             );
         };
 
@@ -995,8 +982,8 @@
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
                         </button>
                         <div className="text-center">
-                            <h2 className="text-xl font-serif text-theme-text">ワクチン管理</h2>
-                            <p className="text-[10px] text-theme-text/50 mt-1">大切な記録をクラウドに保存</p>
+                            <h2 className="text-xl font-serif text-theme-text">繝ｯ繧ｯ繝√Φ邂｡逅・/h2>
+                            <p className="text-[10px] text-theme-text/50 mt-1">螟ｧ蛻・↑險倬鹸繧偵け繝ｩ繧ｦ繝峨↓菫晏ｭ・/p>
                         </div>
                     </div>
 
@@ -1006,27 +993,27 @@
                             <span className="w-8 h-8 rounded-full bg-theme-primary/10 text-theme-primary flex items-center justify-center">
                                 <IconHealth />
                             </span>
-                            <h3 className="font-serif text-theme-text font-bold">混合ワクチン</h3>
+                            <h3 className="font-serif text-theme-text font-bold">豺ｷ蜷医Ρ繧ｯ繝√Φ</h3>
                         </div>
                         <div className="grid grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label className="block text-xs font-bold text-theme-text mb-2">接種日</label>
+                                <label className="block text-xs font-bold text-theme-text mb-2">謗･遞ｮ譌･</label>
                                 <input type="date" value={safeData.mixedDate || ''} onChange={(e) => handleChange('mixedDate', e.target.value)} className="w-full bg-theme-base p-3 rounded-xl text-base text-theme-text outline-none focus:ring-2 focus:ring-theme-primary/20" />
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-theme-text mb-2">種類</label>
-                                <select value={safeData.mixedType || '5種'} onChange={(e) => handleChange('mixedType', e.target.value)} className="w-full bg-theme-base p-3 rounded-xl text-base text-theme-text outline-none focus:ring-2 focus:ring-theme-primary/20">
-                                    <option>5種</option>
-                                    <option>6種</option>
-                                    <option>7種</option>
-                                    <option>8種</option>
-                                    <option>10種</option>
+                                <label className="block text-xs font-bold text-theme-text mb-2">遞ｮ鬘・/label>
+                                <select value={safeData.mixedType || '5遞ｮ'} onChange={(e) => handleChange('mixedType', e.target.value)} className="w-full bg-theme-base p-3 rounded-xl text-base text-theme-text outline-none focus:ring-2 focus:ring-theme-primary/20">
+                                    <option>5遞ｮ</option>
+                                    <option>6遞ｮ</option>
+                                    <option>7遞ｮ</option>
+                                    <option>8遞ｮ</option>
+                                    <option>10遞ｮ</option>
                                 </select>
                             </div>
                         </div>
                         {nextMixed && (
                             <div className="text-center bg-theme-primary/5 rounded-xl p-3 mt-2">
-                                <p className="text-xs text-theme-primary/80 mb-1 font-bold">次回の予定</p>
+                                <p className="text-xs text-theme-primary/80 mb-1 font-bold">谺｡蝗槭・莠亥ｮ・/p>
                                 <p className="font-serif text-xl text-theme-primary font-bold">{nextMixed}</p>
                             </div>
                         )}
@@ -1038,15 +1025,15 @@
                             <span className="w-8 h-8 rounded-full bg-theme-secondary/10 text-theme-secondary flex items-center justify-center">
                                 <IconPaw />
                             </span>
-                            <h3 className="font-serif text-theme-text font-bold">狂犬病ワクチン</h3>
+                            <h3 className="font-serif text-theme-text font-bold">迢ら堪逞・Ρ繧ｯ繝√Φ</h3>
                         </div>
                         <div className="mb-4">
-                            <label className="block text-xs font-bold text-theme-text mb-2">接種日</label>
+                            <label className="block text-xs font-bold text-theme-text mb-2">謗･遞ｮ譌･</label>
                             <input type="date" value={safeData.rabiesDate || ''} onChange={(e) => handleChange('rabiesDate', e.target.value)} className="w-full bg-theme-base p-3 rounded-xl text-base text-theme-text outline-none focus:ring-2 focus:ring-theme-secondary/20" />
                         </div>
                         {nextRabies && (
                             <div className="text-center bg-theme-secondary/5 rounded-xl p-3 mt-2">
-                                <p className="text-xs text-theme-secondary/80 mb-1 font-bold">次回の予定</p>
+                                <p className="text-xs text-theme-secondary/80 mb-1 font-bold">谺｡蝗槭・莠亥ｮ・/p>
                                 <p className="font-serif text-xl text-theme-secondary font-bold">{nextRabies}</p>
                             </div>
                         )}
@@ -1054,11 +1041,11 @@
 
                     {/* Hospital Memo */}
                     <div className="bg-white p-6 rounded-3xl shadow-sm border border-theme-muted">
-                        <label className="block text-xs font-bold text-theme-text mb-2">かかりつけ病院メモ</label>
+                        <label className="block text-xs font-bold text-theme-text mb-2">縺九°繧翫▽縺醍羅髯｢繝｡繝｢</label>
                         <textarea
                             value={safeData.hospitalMemo || ''}
                             onChange={(e) => handleChange('hospitalMemo', e.target.value)}
-                            placeholder="病院名や住所、診察券番号など..."
+                            placeholder="逞・劼蜷阪ｄ菴乗園縲∬ｨｺ蟇溷虻逡ｪ蜿ｷ縺ｪ縺ｩ..."
                             className="w-full h-24 bg-theme-base p-3 rounded-xl text-sm text-theme-text resize-none outline-none focus:ring-2 focus:ring-theme-muted/50"
                         ></textarea>
                     </div>
@@ -1069,7 +1056,7 @@
         const EventsTab = ({ onBack }) => {
             const sortedEvents = useMemo(() => {
                 const parseDate = (dStr) => {
-                    const match = dStr.match(/(\d+)月(\d+)日/);
+                    const match = dStr.match(/(\d+)譛・\d+)譌･/);
                     if (!match) return 9999;
                     return parseInt(match[1]) * 100 + parseInt(match[2]);
                 };
@@ -1083,16 +1070,16 @@
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
                         </button>
                         <div className="text-center">
-                            <h2 className="text-xl font-serif text-theme-text">イベント情報</h2>
-                            <p className="text-[10px] text-theme-text/50 mt-1">週末のお出かけ・イベント検索</p>
+                            <h2 className="text-xl font-serif text-theme-text">繧､繝吶Φ繝域ュ蝣ｱ</h2>
+                            <p className="text-[10px] text-theme-text/50 mt-1">騾ｱ譛ｫ縺ｮ縺雁・縺九￠繝ｻ繧､繝吶Φ繝域､懃ｴ｢</p>
                         </div>
                     </div>
                     <div className="space-y-4">
                         {sortedEvents.map((e, i) => {
                             // Extract prefecture and simplify
-                            let prefecture = e.place.split(' ')[0] || "関東";
+                            let prefecture = e.place.split(' ')[0] || "髢｢譚ｱ";
                             // Remove suffixes
-                            prefecture = prefecture.replace(/(都|府|県)$/, '');
+                            prefecture = prefecture.replace(/(驛ｽ|蠎忿逵・$/, '');
 
                             return (
                                 <div key={i} className="bg-white rounded-2xl p-4 shadow-sm flex gap-5 items-center hover:shadow-md transition-shadow cursor-pointer">
@@ -1119,10 +1106,9 @@
                     {/* Disclaimer */}
                     <div className="mt-8 text-center px-4">
                         <p className="text-[10px] text-theme-text/40 leading-relaxed">
-                            ※掲載されているイベント情報はインターネット上の情報を元にまとめています。<br />
-                            天候や主催者の都合により変更になる場合がありますので、<br />
-                            最新情報は必ず公式サイト等でご自身でご確認ください。
-                        </p>
+                            窶ｻ謗ｲ霈峨＆繧後※縺・ｋ繧､繝吶Φ繝域ュ蝣ｱ縺ｯ繧､繝ｳ繧ｿ繝ｼ繝阪ャ繝井ｸ翫・諠・ｱ繧貞・縺ｫ縺ｾ縺ｨ繧√※縺・∪縺吶・br />
+                            螟ｩ蛟吶ｄ荳ｻ蛯ｬ閠・・驛ｽ蜷医↓繧医ｊ螟画峩縺ｫ縺ｪ繧句ｴ蜷医′縺ゅｊ縺ｾ縺吶・縺ｧ縲・br />
+                            譛譁ｰ諠・ｱ縺ｯ蠢・★蜈ｬ蠑上し繧､繝育ｭ峨〒縺碑・霄ｫ縺ｧ縺皮｢ｺ隱阪￥縺縺輔＞縲・                        </p>
                     </div>
                 </div>
             );
@@ -1136,8 +1122,8 @@
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
                         </button>
                         <div className="text-center">
-                            <h2 className="text-xl font-serif text-theme-text">迷子掲示板</h2>
-                            <p className="text-[10px] text-theme-text/50 mt-1">地域の迷子情報を共有</p>
+                            <h2 className="text-xl font-serif text-theme-text">霑ｷ蟄先軸遉ｺ譚ｿ</h2>
+                            <p className="text-[10px] text-theme-text/50 mt-1">蝨ｰ蝓溘・霑ｷ蟄先ュ蝣ｱ繧貞・譛・/p>
                         </div>
                     </div>
                     {LOST_DATA.length > 0 ? (
@@ -1147,7 +1133,7 @@
                                     <img src={d.img} className="w-12 h-12 rounded-full object-cover" />
                                     <div>
                                         <p className="font-serif text-theme-text">{d.name} <span className="text-xs text-theme-text/50 font-sans ml-2">({d.breed})</span></p>
-                                        <p className="text-xs text-theme-text/40 mt-1">📍 {d.place}</p>
+                                        <p className="text-xs text-theme-text/40 mt-1">桃 {d.place}</p>
                                     </div>
                                 </div>
                             ))}
@@ -1157,12 +1143,11 @@
                             <div className="w-16 h-16 bg-theme-muted/20 rounded-full flex items-center justify-center mx-auto mb-4 text-theme-text/50">
                                 <IconLostFound />
                             </div>
-                            <h3 className="font-serif text-lg text-theme-text mb-2">現在、迷子情報はありません</h3>
+                            <h3 className="font-serif text-lg text-theme-text mb-2">迴ｾ蝨ｨ縲∬ｿｷ蟄先ュ蝣ｱ縺ｯ縺ゅｊ縺ｾ縺帙ｓ</h3>
                             <p className="text-xs text-theme-text/60 leading-relaxed">
-                                付近で迷子の目撃情報があった場合、<br />こちらに表示されます。
-                            </p>
+                                莉倩ｿ代〒霑ｷ蟄舌・逶ｮ謦・ュ蝣ｱ縺後≠縺｣縺溷ｴ蜷医・br />縺薙■繧峨↓陦ｨ遉ｺ縺輔ｌ縺ｾ縺吶・                            </p>
                             <button className="mt-6 w-full py-3 bg-theme-base text-theme-text/70 rounded-xl text-xs font-bold tracking-widest hover:bg-theme-secondary/10 hover:text-theme-secondary transition-colors">
-                                情報を投稿する
+                                諠・ｱ繧呈兜遞ｿ縺吶ｋ
                             </button>
                         </div>
                     )}
