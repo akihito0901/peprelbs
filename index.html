@@ -215,7 +215,7 @@
             { id: 23, name: "ミシュワン 小型犬用", tags: { age: 'all', concern: 'joints', priority: 'S', secondaryConcern: ['tear_burn', 'digest'], targetSizes: ['small'] }, img: "./images/mishone_small.png", description: "小型犬の繊細な健康維持に。食べやすい小粒タイプ。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+C1FMPU+4PA6+BXYE9", feature: "Small Breed" },
             { id: 24, name: "ペロリコドッグフード ライト", tags: { age: 'all', concern: 'obesity', priority: 'A', secondaryConcern: ['digest'], targetSizes: ['small', 'medium'] }, img: "./images/perolico_light.jpg", description: "低カロリー・低脂質。無理なく美味しく体重管理。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+5URIGY+3J8+4ASX02", feature: "Diet Support" },
             { id: 25, name: "ペロリコ アレルカット", tags: { age: 'all', concern: 'allergy', priority: 'A', secondaryConcern: ['coat'], targetSizes: ['small', 'medium'] }, img: "./images/perolico_aller.jpg", description: "食物アレルギーに配慮。厳選されたタンパク源を使用。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+679M6A+3J8+54KL8Y", feature: "Allergy Care" },
-            { id: 26, name: "ドクターケアワン", tags: { age: 'senior', concern: 'joints', priority: 'A', secondaryConcern: ['digest', 'tear_burn'], targetSizes: ['all'] }, img: "./images/drcarewan.png", description: "獣医師監修。シニア犬の健康寿命を考えた栄養設計。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+5VYDOI+3RW8+BX3J6", feature: "Vet Formulated" },
+            { id: 26, name: "ドクターケアワン", tags: { age: 'senior', concern: 'tear_burn', priority: 'A', secondaryConcern: ['joints', 'digest'], targetSizes: ['all'] }, img: "./images/drcarewan.png", description: "獣医師監修。涙やけに悩む小型犬に特におすすめ。シニア期の健康維持もサポート。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+5VYDOI+3RW8+BX3J6", feature: "Vet Formulated" },
             { id: 27, name: "キュアペット 口臭ケア", tags: { age: 'all', concern: 'odor', priority: 'A', secondaryConcern: ['teeth', 'digest'], targetSizes: ['all'] }, img: "./images/curepet.jpg", description: "専門家と共同開発。内側からアプローチするお口ケア。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+6AU7SY+3RW8+5YJRM", feature: "Breath Care" },
             { id: 28, name: "ニュートラム", tags: { age: 'all', concern: 'coat', priority: 'B', secondaryConcern: ['digest'], targetSizes: ['all'] }, img: "./images/nutram.jpg", description: "カナダ発のホリスティックフード。素材の組み合わせで健康をサポート。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+5NMB7M+5OMY+5YJRM", feature: "Holistic" }
         ];
@@ -907,6 +907,11 @@
                         <div className="absolute inset-0 bg-white/20 group-hover:bg-transparent transition-colors"></div>
                     </button>
                     <button onClick={onReset} className="w-full mt-4 text-xs text-theme-text/40 tracking-widest uppercase hover:text-theme-primary transition-colors border-t border-theme-muted/30 pt-4">もう一度診断する</button>
+
+                    <div className="mt-8 p-4 bg-gray-50 rounded-xl text-[10px] text-theme-text/60 leading-relaxed text-center">
+                        <p className="font-bold mb-1">※本診断結果・推奨商品はインターネット上の情報を基に作成されています。</p>
+                        <p>愛犬の体質や健康状態には個人差があります。フードの切り替えや摂取量については、各商品のパッケージ記載事項を守り、必要に応じて獣医師にご相談の上ご判断ください。当サービスによって生じたトラブル等に関する責任は負いかねますのでご了承ください。</p>
+                    </div>
                 </div>
             );
         };
@@ -945,7 +950,13 @@
                             </div>
                         ))}
                     </div>
-                </div>
+
+
+                    <div className="mt-8 p-4 bg-gray-50 rounded-xl text-[10px] text-theme-text/60 leading-relaxed text-center">
+                        <p className="font-bold mb-1">※推奨商品はインターネット上の情報を基に作成されています。</p>
+                        <p>愛犬の体質や健康状態には個人差があります。フードの切り替えや摂取量については、各商品のパッケージ記載事項を守り、必要に応じて獣医師にご相談の上ご判断ください。当サービスによって生じたトラブル等に関する責任は負いかねますのでご了承ください。</p>
+                    </div>
+                </div >
             );
         };
 
