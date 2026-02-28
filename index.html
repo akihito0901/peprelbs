@@ -1293,7 +1293,7 @@
         };
 
         const CafeDetailModal = ({ cafe, onClose, onOpenMap }) => {
-            return ReactDOM.createPortal(
+            return (
                 <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end justify-center fade-in">
                     <div className="bg-theme-base w-full max-w-md h-[85vh] rounded-t-3xl flex flex-col overflow-hidden animate-slide-up relative">
                         {/* Header Image or Placeholder */}
