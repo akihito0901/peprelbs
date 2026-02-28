@@ -1293,8 +1293,8 @@
         };
 
         const CafeDetailModal = ({ cafe, onClose, onOpenMap }) => {
-            return (
-                <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end justify-center fade-in">
+            return ReactDOM.createPortal(
+                <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end justify-center fade-in">
                     <div className="bg-theme-base w-full max-w-md h-[85vh] rounded-t-3xl flex flex-col overflow-hidden animate-slide-up relative">
                         {/* Header Image or Placeholder */}
                         <div className="h-64 w-full relative shrink-0 bg-theme-muted/30 flex items-center justify-center">
@@ -1408,8 +1408,8 @@
                 setIsSubmitting(false);
             };
 
-            return (
-                <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-end justify-center fade-in">
+            return ReactDOM.createPortal(
+                <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end justify-center fade-in">
                     <div className="bg-theme-base w-full max-w-md h-[90vh] rounded-t-3xl flex flex-col overflow-hidden animate-slide-up relative">
                         {/* Header */}
                         <div className="p-4 border-b border-theme-muted flex justify-between items-center bg-white shrink-0 shadow-sm z-10">
@@ -1474,7 +1474,8 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             );
         };
 
