@@ -166,6 +166,7 @@
         const IconCheck = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>;
         const IconSparkles = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" /></svg>;
         const IconPaw = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" /></svg>; // Simple Paw/Face
+        const IconCafe = ({ active }) => <svg xmlns="http://www.w3.org/2000/svg" fill={active ? "currentColor" : "none"} viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>; // Placeholder for cafe pin
 
         // --- DATA ---
         const BREED_SIZE_MAP = {
@@ -271,6 +272,20 @@
 
         const LOST_DATA = [];
 
+        const INITIAL_CAFE_DATA = [
+            { id: "c1", name: "サモエドカフェ アル 横浜中華街店", pref: "神奈川県", city: "横浜市中区", address: "神奈川県横浜市中区", desc: "日本初のサモエド特化型。約10頭の白い大型犬と触れ合える。", img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=500&q=80" },
+            { id: "c2", name: "Atelier & Cafe Kizuna", pref: "神奈川県", city: "横浜市青葉区", address: "神奈川県横浜市青葉区", desc: "保護犬の譲渡活動と連動した交流カフェ。犬種も多彩。", img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=500&q=80" },
+            { id: "c3", name: "Lu's CAFE", pref: "神奈川県", city: "横浜市西区", address: "神奈川県横浜市西区", desc: "横浜駅近く。人と犬の共生をテーマにした内装。", img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=500&q=80" },
+            { id: "c4", name: "えの木てい", pref: "神奈川県", city: "横浜市中区", address: "神奈川県横浜市中区", desc: "横浜山手の洋館。テラス席でティータイムが可能。", img: "https://images.unsplash.com/photo-1591769225440-811ad7d6eca6?w=500&q=80" },
+            { id: "c5", name: "CAFE MITSUIKE", pref: "神奈川県", city: "横浜市鶴見区", address: "神奈川県横浜市鶴見区", desc: "三ツ池公園前。散歩の拠点として機能。", img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=500&q=80" },
+            { id: "c6", name: "Laule'a Rainbow", pref: "神奈川県", city: "横浜市都筑区", address: "神奈川県横浜市都筑区", desc: "仲町台。公園に面したハワイアンレストラン。", img: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?w=500&q=80" },
+            { id: "c7", name: "鎌倉乃豆柴カフェ", pref: "神奈川県", city: "鎌倉市", address: "神奈川県鎌倉市小町", desc: "小町通り。観光の合間に立ち寄れる豆柴専門店。", img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=500&q=80" },
+            { id: "c8", name: "いぬカフェRio 鎌倉店", pref: "神奈川県", city: "鎌倉市", address: "神奈川県鎌倉市小町", desc: "子犬（5ヶ月〜2歳）専門。多数の小型犬が在籍。", img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=500&q=80" },
+            { id: "c9", name: "Double Doors 七里ガ浜", pref: "神奈川県", city: "鎌倉市", address: "神奈川県鎌倉市七里ガ浜", desc: "134号線沿い。海を望むテラスで同伴可。", img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=500&q=80" },
+            { id: "c10", name: "サザンビーチカフェ", pref: "神奈川県", city: "茅ヶ崎市", address: "神奈川県茅ヶ崎市", desc: "茅ヶ崎のシンボル的カフェ。広大なテラス席。", img: "https://images.unsplash.com/photo-1591769225440-811ad7d6eca6?w=500&q=80" },
+            { id: "c11", name: "BLUE MOON", pref: "神奈川県", city: "横須賀市", address: "神奈川県横須賀市津久井", desc: "海風を感じるレストラン。地元食材を使用。", img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=500&q=80" }
+        ];
+
         // === COMPONENTS ===
 
         // --- 1. LANDING PAGE ---
@@ -308,6 +323,12 @@
                             title="Event News"
                             jp="イベント情報"
                             desc="週末のお出かけ先を全国から検索"
+                        />
+                        <FeatureCard
+                            icon={<IconCafe />}
+                            title="Dog Cafe"
+                            jp="ドッグカフェ検索"
+                            desc="全国の犬カフェをみんなで共有"
                         />
                         <FeatureCard
                             icon={<IconLostFound />}
@@ -428,6 +449,7 @@
                     case 'ranking': return <ProductRanking onBack={() => setTab('home')} />;
                     case 'record': return <RecordTab data={vaccineData} onSave={handleVaccineSave} onBack={() => setTab('menu')} />;
                     case 'event': return <EventsTab onBack={() => setTab('menu')} />;
+                    case 'cafe': return <CafeTab onBack={() => setTab('menu')} />;
                     case 'lost': return <LostTab onBack={() => setTab('menu')} />;
                     default: return <HomeMenu onNavigate={setTab} profile={dogProfile} hasDiagnosis={!!answers} onEditProfile={() => setIsProfileOpen(true)} />;
                 }
@@ -454,6 +476,7 @@
                         <NavButton active={tab === 'menu'} onClick={() => { setTab('menu'); setIsProfileOpen(false); }} icon={<IconHome active={tab === 'menu'} />} label="ホーム" />
                         <NavButton active={tab === 'record'} onClick={() => { setTab('record'); setIsProfileOpen(false); }} icon={<IconRecord active={tab === 'record'} />} label="記録" />
                         <NavButton active={tab === 'event'} onClick={() => { setTab('event'); setIsProfileOpen(false); }} icon={<IconEvent active={tab === 'event'} />} label="イベント" />
+                        <NavButton active={tab === 'cafe'} onClick={() => { setTab('cafe'); setIsProfileOpen(false); }} icon={<IconCafe active={tab === 'cafe'} />} label="カフェ" />
                         <NavButton active={tab === 'lost'} onClick={() => { setTab('lost'); setIsProfileOpen(false); }} icon={<IconLost active={tab === 'lost'} />} label="迷子" />
                     </nav>
                 </div>
@@ -657,6 +680,7 @@
                     />
                     <MenuButton onClick={() => onNavigate('record')} icon={<IconHealth />} title="ワクチン記録" desc="記録と期限管理" />
                     <MenuButton onClick={() => onNavigate('event')} icon={<IconEventNews />} title="イベント" desc="全国版" />
+                    <MenuButton onClick={() => onNavigate('cafe')} icon={<IconCafe />} title="ドッグカフェ検索" desc="マップ連動" />
                     <MenuButton onClick={() => onNavigate('lost')} icon={<IconLostFound />} title="迷子掲示板" desc="情報はここへ！" />
                 </div>
             </div>
@@ -1171,6 +1195,223 @@
                 </div>
             );
         };
+
+        const CafeTab = ({ onBack }) => {
+            const [cafes, setCafes] = useState(INITIAL_CAFE_DATA);
+            const [filterPref, setFilterPref] = useState('すべて');
+            const [isModalOpen, setIsModalOpen] = useState(false);
+
+            // Fetch custom cafes from Firestore
+            useEffect(() => {
+                if (typeof db === 'undefined' || !db) return;
+                const unsubscribe = db.collection('shared_cafes').onSnapshot(snapshot => {
+                    const customCafes = snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    }));
+                    // Merge local data and firestore data (put firestore ones first)
+                    setCafes([...customCafes, ...INITIAL_CAFE_DATA]);
+                }, err => console.log('Cafe Load Error', err));
+
+                return () => unsubscribe();
+            }, []);
+
+            // Unique prefixes for filter
+            const prefs = ['すべて', ...new Set(cafes.map(c => c.pref))];
+
+            const filteredCafes = filterPref === 'すべて' ? cafes : cafes.filter(c => c.pref === filterPref);
+
+            const openMaps = (cafe) => {
+                const query = encodeURIComponent(`${cafe.name} ${cafe.address}`);
+                window.open(`https://maps.google.com/?q=${query}`, '_blank');
+            };
+
+            return (
+                <div className="fade-in pt-4 pb-20 relative min-h-screen">
+                    {/* Header */}
+                    <div className="relative mb-6 px-2 flex justify-between items-center bg-white/50 p-2 rounded-2xl sticky top-20 z-10 backdrop-blur-md">
+                        <button onClick={onBack} className="p-2 bg-white rounded-full shadow-sm text-theme-text/70 hover:text-theme-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
+                        </button>
+                        <div className="text-center">
+                            <h2 className="text-xl font-serif text-theme-text flex items-center justify-center gap-2"><IconCafe />ドッグカフェ</h2>
+                        </div>
+                        <button onClick={() => setIsModalOpen(true)} className="p-2 bg-theme-primary text-white rounded-full shadow-sm hover:brightness-110">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                        </button>
+                    </div>
+
+                    {/* Filter */}
+                    <div className="flex overflow-x-auto hide-scroll gap-2 px-2 mb-6">
+                        {prefs.map(p => (
+                            <button
+                                key={p}
+                                onClick={() => setFilterPref(p)}
+                                className={`px-4 py-2 rounded-full whitespace-nowrap text-xs font-bold transition-colors ${filterPref === p ? 'bg-theme-secondary text-white shadow-md' : 'bg-white text-theme-text/60 border border-theme-muted hover:bg-theme-muted/50'}`}
+                            >
+                                {p}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* List */}
+                    <div className="space-y-4 px-2">
+                        {filteredCafes.map(cafe => (
+                            <div key={cafe.id} onClick={() => openMaps(cafe)} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+                                <div className="h-40 w-full overflow-hidden relative">
+                                    <img src={cafe.img} alt={cafe.name} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
+                                    <div className="absolute top-2 right-2 bg-white/90 backdrop-blur text-xs font-bold px-3 py-1 text-theme-secondary rounded-full flex items-center gap-1 shadow-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3"><path fillRule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clipRule="evenodd" /></svg>
+                                        マップを開く
+                                    </div>
+                                </div>
+                                <div className="p-4">
+                                    <div className="flex justify-between items-start mb-2">
+                                        <h3 className="font-serif text-lg text-theme-text font-bold leading-tight">{cafe.name}</h3>
+                                    </div>
+                                    <p className="text-xs text-theme-text/50 min-h-8 mb-2 leading-relaxed">{cafe.desc}</p>
+                                    <p className="text-[10px] text-theme-text/40 bg-theme-base inline-block px-2 py-1 rounded">📍 {cafe.pref} {cafe.city}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {isModalOpen && <CafeSubmitModal onClose={() => setIsModalOpen(false)} />}
+                </div>
+            );
+        };
+
+        const CafeSubmitModal = ({ onClose }) => {
+            const [formData, setFormData] = useState({ name: '', pref: '', city: '', address: '', desc: '', img: '' });
+            const [isSubmitting, setIsSubmitting] = useState(false);
+
+            const resizeImage = (file) => {
+                return new Promise((resolve) => {
+                    const MAX_WIDTH = 800; // slightly larger for locations
+                    const MAX_HEIGHT = 800;
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = (event) => {
+                        const img = new Image();
+                        img.src = event.target.result;
+                        img.onload = () => {
+                            let width = img.width;
+                            let height = img.height;
+                            if (width > height) {
+                                if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+                            } else {
+                                if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
+                            }
+                            const canvas = document.createElement('canvas');
+                            canvas.width = width; canvas.height = height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, width, height);
+                            resolve(canvas.toDataURL('image/jpeg', 0.8));
+                        };
+                    };
+                });
+            };
+
+            const handleImage = async (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    setIsSubmitting(true); // show generic processing
+                    const resized = await resizeImage(file);
+                    setFormData({ ...formData, img: resized });
+                    setIsSubmitting(false);
+                }
+            };
+
+            const handleSubmit = async () => {
+                if (!formData.name || !formData.pref || !formData.address || !formData.img) {
+                    alert('必須項目（店名・県・住所・画像）を入力してください。');
+                    return;
+                }
+                setIsSubmitting(true);
+                try {
+                    await db.collection('shared_cafes').add({
+                        ...formData,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    onClose();
+                } catch (e) {
+                    alert('投稿に失敗しました');
+                    console.error(e);
+                }
+                setIsSubmitting(false);
+            };
+
+            return (
+                <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-end justify-center fade-in">
+                    <div className="bg-theme-base w-full max-w-md h-[90vh] rounded-t-3xl flex flex-col overflow-hidden animate-slide-up relative">
+                        {/* Header */}
+                        <div className="p-4 border-b border-theme-muted flex justify-between items-center bg-white shrink-0 shadow-sm z-10">
+                            <h3 className="font-serif text-lg text-theme-text font-bold">お店を登録</h3>
+                            <button onClick={onClose} className="p-2 rounded-full hover:bg-theme-text/5 text-theme-text/50">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                            </button>
+                        </div>
+
+                        {/* Form Body */}
+                        <div className="flex-1 overflow-y-auto p-6 space-y-6 pb-32">
+                            {/* Image Upload */}
+                            <div>
+                                <label className="block text-xs font-bold text-theme-text/50 mb-2">カフェの写真 *</label>
+                                <label className="relative w-full h-48 bg-theme-muted/50 border-2 border-dashed border-theme-primary/40 rounded-2xl flex flex-col items-center justify-center cursor-pointer overflow-hidden group">
+                                    {formData.img ? (
+                                        <img src={formData.img} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <div className="text-theme-primary flex flex-col items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 mb-2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" /></svg>
+                                            <span className="text-xs font-bold">タップして写真を選択</span>
+                                        </div>
+                                    )}
+                                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <span className="text-xs text-white font-bold bg-black/50 px-3 py-1 rounded-full">CHANGE</span>
+                                    </div>
+                                    <input type="file" accept="image/*" className="hidden" onChange={handleImage} />
+                                </label>
+                            </div>
+
+                            {/* Inputs */}
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-xs font-bold text-theme-text/50 mb-1">店名 *</label>
+                                    <input type="text" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full p-3 rounded-xl bg-white border outline-none text-theme-text input-underline focus:border-theme-primary" placeholder="例: パークサイドカフェ 犬の家" />
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-xs font-bold text-theme-text/50 mb-1">都道府県 *</label>
+                                        <input type="text" value={formData.pref} onChange={e => setFormData({ ...formData, pref: e.target.value })} className="w-full p-3 rounded-xl bg-white border outline-none text-theme-text input-underline focus:border-theme-primary" placeholder="例: 神奈川県" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-bold text-theme-text/50 mb-1">市区町村</label>
+                                        <input type="text" value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value })} className="w-full p-3 rounded-xl bg-white border outline-none text-theme-text input-underline focus:border-theme-primary" placeholder="例: 横浜市" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-bold text-theme-text/50 mb-1">詳細な住所 * (GoogleMap検索用)</label>
+                                    <input type="text" value={formData.address} onChange={e => setFormData({ ...formData, address: e.target.value })} className="w-full p-3 rounded-xl bg-white border outline-none text-theme-text input-underline focus:border-theme-primary" placeholder="神奈川県横浜市中区..." />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-bold text-theme-text/50 mb-1">おすすめポイントなど</label>
+                                    <textarea value={formData.desc} onChange={e => setFormData({ ...formData, desc: e.target.value })} className="w-full p-3 rounded-xl bg-white border outline-none text-theme-text input-underline focus:border-theme-primary h-24 resize-none" placeholder="大型犬もOKです！など"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Submit Button (Sticky Bottom) */}
+                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-theme-muted z-20">
+                            <button onClick={handleSubmit} disabled={isSubmitting} className={`w-full py-4 text-white rounded-xl shadow-lg font-serif font-bold tracking-widest ${isSubmitting ? 'bg-gray-400' : 'bg-theme-secondary hover:brightness-110 active:scale-95 transition-all'}`}>
+                                {isSubmitting ? '処理中...' : '登録する'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+
 
 
         // --- MAIN ENTRY POINT ---
