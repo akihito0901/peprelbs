@@ -95,7 +95,6 @@
         .fade-in {
             animation: fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
             opacity: 0;
-            transform: translateY(10px);
         }
 
         .fade-in-delay-1 {
@@ -113,7 +112,6 @@
         @keyframes fadeIn {
             to {
                 opacity: 1;
-                transform: translateY(0);
             }
         }
 
@@ -1293,7 +1291,7 @@
         };
 
         const CafeDetailModal = ({ cafe, onClose, onOpenMap }) => {
-            return ReactDOM.createPortal(
+            return (
                 <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end justify-center fade-in">
                     <div className="bg-theme-base w-full max-w-md h-[85vh] rounded-t-3xl flex flex-col overflow-hidden animate-slide-up relative">
                         {/* Header Image or Placeholder */}
@@ -1408,7 +1406,7 @@
                 setIsSubmitting(false);
             };
 
-            return ReactDOM.createPortal(
+            return (
                 <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end justify-center fade-in">
                     <div className="bg-theme-base w-full max-w-md h-[90vh] rounded-t-3xl flex flex-col overflow-hidden animate-slide-up relative">
                         {/* Header */}
