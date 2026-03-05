@@ -1396,6 +1396,7 @@
             const [filterPref, setFilterPref] = useState('すべて');
             const [isModalOpen, setIsModalOpen] = useState(false);
             const [selectedCafe, setSelectedCafe] = useState(null);
+            const [editingCafe, setEditingCafe] = useState(null);
 
             // Fetch custom cafes from Firestore
             useEffect(() => {
@@ -1426,6 +1427,17 @@
             const openMaps = (cafe) => {
                 const query = encodeURIComponent(`${cafe.name} ${cafe.address}`);
                 window.open(`https://maps.google.com/?q=${query}`, '_blank');
+            };
+
+            const handleEdit = (cafe) => {
+                setSelectedCafe(null);
+                setEditingCafe(cafe);
+                setIsModalOpen(true);
+            };
+
+            const handleCloseModal = () => {
+                setIsModalOpen(false);
+                setEditingCafe(null);
             };
 
             return (
@@ -1509,13 +1521,17 @@
                         ))}
                     </div>
 
-                    {isModalOpen && <CafeSubmitModal onClose={() => setIsModalOpen(false)} />}
-                    {selectedCafe && <CafeDetailModal cafe={selectedCafe} onClose={() => setSelectedCafe(null)} onOpenMap={() => openMaps(selectedCafe)} />}
+                    {isModalOpen && <CafeSubmitModal onClose={handleCloseModal} initialData={editingCafe} />}
+                    {selectedCafe && <CafeDetailModal cafe={selectedCafe} onClose={() => setSelectedCafe(null)} onOpenMap={() => openMaps(selectedCafe)} onEdit={() => handleEdit(selectedCafe)} />}
                 </div>
             );
         };
 
-        const CafeDetailModal = ({ cafe, onClose, onOpenMap }) => {
+        const CafeDetailModal = ({ cafe, onClose, onOpenMap, onEdit }) => {
+            // Firestore auto-generated IDs are 20 chars long. 
+            // We use this to distinguish user-submitted vs hardcoded initial data.
+            const isUserSubmitted = cafe.id && cafe.id.length > 10;
+
             return (
                 <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end justify-center fade-in">
                     <div className="bg-theme-base w-full max-w-md h-[85vh] rounded-t-3xl flex flex-col overflow-hidden animate-slide-up relative">
@@ -1557,13 +1573,18 @@
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur border-t border-theme-muted z-20 flex gap-3">
-                            <button onClick={onClose} className="py-4 px-6 text-theme-text/70 bg-theme-muted/30 hover:bg-theme-muted/50 rounded-xl font-bold transition-colors">
+                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur border-t border-theme-muted z-20 flex gap-2 sm:gap-3">
+                            <button onClick={onClose} className="py-4 px-4 sm:px-6 text-theme-text/70 bg-theme-muted/30 hover:bg-theme-muted/50 rounded-xl font-bold transition-colors text-xs sm:text-sm whitespace-nowrap">
                                 閉じる
                             </button>
-                            <button onClick={onOpenMap} className="flex-1 py-4 text-white rounded-xl shadow-lg font-bold tracking-widest bg-theme-secondary hover:brightness-110 active:scale-95 transition-all flex justify-center items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
-                                Google Mapで見る
+                            {isUserSubmitted && (
+                                <button onClick={onEdit} className="py-4 px-4 sm:px-6 text-theme-primary bg-theme-primary/10 hover:bg-theme-primary/20 rounded-xl font-bold transition-colors text-xs sm:text-sm whitespace-nowrap">
+                                    編集する
+                                </button>
+                            )}
+                            <button onClick={onOpenMap} className="flex-1 py-4 text-white rounded-xl shadow-lg font-bold tracking-widest bg-theme-secondary hover:brightness-110 active:scale-95 transition-all flex justify-center items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 sm:w-5 sm:h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+                                Mapで見る
                             </button>
                         </div>
                     </div>
@@ -1571,8 +1592,10 @@
             );
         };
 
-        const CafeSubmitModal = ({ onClose }) => {
-            const [formData, setFormData] = useState({ name: '', pref: '', city: '', address: '', desc: '', img: '' });
+        const CafeSubmitModal = ({ onClose, initialData }) => {
+            const [formData, setFormData] = useState(
+                initialData || { name: '', pref: '', city: '', address: '', desc: '', img: '' }
+            );
             const [isSubmitting, setIsSubmitting] = useState(false);
 
             const resizeImage = (file) => {
@@ -1619,13 +1642,27 @@
                 }
                 setIsSubmitting(true);
                 try {
-                    await db.collection('shared_cafes').add({
-                        ...formData,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
+                    if (initialData && initialData.id) {
+                        // Update existing
+                        await db.collection('shared_cafes').doc(initialData.id).update({
+                            name: formData.name,
+                            pref: formData.pref,
+                            city: formData.city,
+                            address: formData.address,
+                            desc: formData.desc,
+                            img: formData.img,
+                            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    } else {
+                        // Create new
+                        await db.collection('shared_cafes').add({
+                            ...formData,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    }
                     onClose();
                 } catch (e) {
-                    alert('投稿に失敗しました');
+                    alert('保存に失敗しました');
                     console.error(e);
                 }
                 setIsSubmitting(false);
@@ -1636,7 +1673,7 @@
                     <div className="bg-theme-base w-full max-w-md h-[90vh] rounded-t-3xl flex flex-col overflow-hidden animate-slide-up relative">
                         {/* Header */}
                         <div className="p-4 border-b border-theme-muted flex justify-between items-center bg-white shrink-0 shadow-sm z-10">
-                            <h3 className="font-serif text-lg text-theme-text font-bold">お店を登録</h3>
+                            <h3 className="font-serif text-lg text-theme-text font-bold">{initialData ? 'お店を編集' : 'お店を登録'}</h3>
                             <button onClick={onClose} className="p-2 rounded-full hover:bg-theme-text/5 text-theme-text/50">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                             </button>
@@ -1698,7 +1735,7 @@
                         {/* Submit Button (Sticky Bottom) */}
                         <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-theme-muted z-20">
                             <button onClick={handleSubmit} disabled={isSubmitting} className={`w-full py-4 text-white rounded-xl shadow-lg font-serif font-bold tracking-widest ${isSubmitting ? 'bg-gray-400' : 'bg-theme-secondary hover:brightness-110 active:scale-95 transition-all'}`}>
-                                {isSubmitting ? '処理中...' : '登録する'}
+                                {isSubmitting ? '処理中...' : (initialData ? '変更を保存する' : '登録する')}
                             </button>
                         </div>
                     </div>
