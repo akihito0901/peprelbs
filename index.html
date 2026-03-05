@@ -1493,7 +1493,7 @@
                     {/* List */}
                     <div className="space-y-4 px-2">
                         {filteredCafes.map(cafe => (
-                            <div key={cafe.id} onClick={() => setSelectedCafe(cafe)} className="bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer group">
+                            <div key={cafe.id} onClick={() => setSelectedCafe(cafe)} className="bg-white rounded-2xl overflow-hidden shadow-sm border-2 border-theme-primary/40 cursor-pointer group">
                                 <div className="h-40 w-full overflow-hidden relative bg-theme-base flex items-center justify-center border-b border-theme-primary/10">
                                     {cafe.img ? (
                                         <img loading="lazy" src={cafe.img} alt={cafe.name} className="w-full h-full object-cover" />
