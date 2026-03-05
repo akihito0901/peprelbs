@@ -1528,10 +1528,6 @@
         };
 
         const CafeDetailModal = ({ cafe, onClose, onOpenMap, onEdit }) => {
-            // Firestore auto-generated IDs are 20 chars long. 
-            // We use this to distinguish user-submitted vs hardcoded initial data.
-            const isUserSubmitted = cafe.id && cafe.id.length > 10;
-
             return (
                 <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end justify-center fade-in">
                     <div className="bg-theme-base w-full max-w-md h-[85vh] rounded-t-3xl flex flex-col overflow-hidden animate-slide-up relative">
@@ -1577,11 +1573,9 @@
                             <button onClick={onClose} className="py-4 px-4 sm:px-6 text-theme-text/70 bg-theme-muted/30 hover:bg-theme-muted/50 rounded-xl font-bold transition-colors text-xs sm:text-sm whitespace-nowrap">
                                 閉じる
                             </button>
-                            {isUserSubmitted && (
-                                <button onClick={onEdit} className="py-4 px-4 sm:px-6 text-theme-primary bg-theme-primary/10 hover:bg-theme-primary/20 rounded-xl font-bold transition-colors text-xs sm:text-sm whitespace-nowrap">
-                                    編集する
-                                </button>
-                            )}
+                            <button onClick={onEdit} className="py-4 px-4 sm:px-6 text-theme-primary bg-theme-primary/10 hover:bg-theme-primary/20 rounded-xl font-bold transition-colors text-xs sm:text-sm whitespace-nowrap">
+                                編集する
+                            </button>
                             <button onClick={onOpenMap} className="flex-1 py-4 text-white rounded-xl shadow-lg font-bold tracking-widest bg-theme-secondary hover:brightness-110 active:scale-95 transition-all flex justify-center items-center gap-1 sm:gap-2 text-xs sm:text-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 sm:w-5 sm:h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
                                 Mapで見る
@@ -1643,8 +1637,8 @@
                 setIsSubmitting(true);
                 try {
                     if (initialData && initialData.id) {
-                        // Update existing
-                        await db.collection('shared_cafes').doc(initialData.id).update({
+                        // Use set with merge: true so that if it's a hardcoded ID that doesn't exist in Firestore yet, it gets created.
+                        await db.collection('shared_cafes').doc(initialData.id).set({
                             name: formData.name,
                             pref: formData.pref,
                             city: formData.city,
@@ -1652,9 +1646,9 @@
                             desc: formData.desc,
                             img: formData.img,
                             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                        });
+                        }, { merge: true });
                     } else {
-                        // Create new
+                        // Create new completely
                         await db.collection('shared_cafes').add({
                             ...formData,
                             createdAt: firebase.firestore.FieldValue.serverTimestamp()
