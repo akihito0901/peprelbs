@@ -871,19 +871,19 @@
         );
 
         const MenuButton = ({ onClick, icon, title, desc, accent }) => (
-            <button onClick={onClick} className={`p-6 rounded-3xl text-center flex flex-col items-center gap-3 transition-all duration-300 active:scale-95 group ${accent ? 'bg-theme-text text-white shadow-lg' : 'bg-white text-theme-text shadow-sm hover:shadow-soft'}`}>
-                <div className={`p-3 rounded-full ${accent ? 'bg-white/10' : 'bg-theme-muted/50 text-theme-primary'}`}>
+            <button onClick={onClick} className={`p-6 rounded-3xl text-center flex flex-col items-center gap-3 border-2 border-theme-primary/40 ${accent ? 'bg-theme-text text-white shadow-lg' : 'bg-white text-theme-text shadow-sm'}`}>
+                <div className={`p-3 rounded-full ${accent ? 'bg-white/20' : 'bg-theme-primary/20 text-theme-primary'}`}>
                     {React.cloneElement(icon, { className: `w-8 h-8 ${accent ? 'text-white' : 'text-theme-primary'}` })}
                 </div>
                 <div>
                     <h3 className="font-serif text-base mb-1">{title}</h3>
-                    <p className={`text-[10px] ${accent ? 'text-white/60' : 'text-theme-text'}`}>{desc}</p>
+                    <p className={`text-[10px] ${accent ? 'text-white' : 'text-theme-text'}`}>{desc}</p>
                 </div>
             </button>
         );
 
         const NavButton = ({ active, onClick, icon, label }) => (
-            <button onClick={onClick} className={`flex flex-col items-center gap-1 w-16 py-2 transition-all duration-500 ${active ? 'text-theme-primary' : 'text-theme-text'}`}>
+            <button onClick={onClick} className={`flex flex-col items-center gap-1 w-16 py-2 ${active ? 'text-theme-primary' : 'text-theme-text'}`}>
                 {icon}
                 <span className="text-[10px] font-medium">{label}</span>
             </button>
