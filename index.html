@@ -1664,17 +1664,17 @@
 
             return (
                 <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end justify-center">
-                    <div className="bg-theme-base w-full max-w-md h-[90vh] rounded-t-3xl flex flex-col overflow-hidden relative">
+                    <div className="bg-theme-base w-full max-w-md h-[90vh] rounded-t-3xl flex flex-col overflow-hidden relative mt-16">
                         {/* Header */}
-                        <div className="p-4 border-b border-theme-muted flex justify-between items-center bg-white shrink-0 shadow-sm z-10">
+                        <div className="p-4 border-b border-theme-muted flex justify-between items-center bg-white shrink-0 shadow-sm z-50 rounded-t-3xl">
                             <h3 className="font-serif text-lg text-theme-text font-bold">{initialData ? 'お店を編集' : 'お店を登録'}</h3>
-                            <button onClick={onClose} className="p-2 rounded-full text-theme-text">
+                            <button onClick={onClose} className="p-2 rounded-full text-theme-text bg-theme-muted/20 hover:bg-theme-muted/50 transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                             </button>
                         </div>
 
                         {/* Form Body */}
-                        <div className="flex-1 overflow-y-auto p-6 space-y-6 pb-32">
+                        <div className="flex-1 overflow-y-auto p-6 space-y-6 pb-32 bg-theme-base">
                             {/* Image Upload */}
                             <div>
                                 <label className="block text-xs font-bold text-theme-text mb-2">カフェの写真 <span className="text-[10px] font-normal text-theme-primary ml-2 border border-theme-primary/30 px-1 rounded">任意</span></label>
