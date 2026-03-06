@@ -3,1845 +3,320 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PepLab (ペプラボ) - 愛犬との暮らしを、もっと美しく。</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>整骨院の成功ノウハウ | オンラインスクール</title>
 
     <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-
-    <!-- Firebase SDK (v8 Compat for CDN usage without build step) -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <script>
-        // --- FIREBASE CONFIGURATION (REPLACE WITH YOUR KEYS) ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyDs1z1ZYTb7ISy-uGnxHQV0yqm2vrQBCw8",
-            authDomain: "pepre-app.firebaseapp.com",
-            projectId: "pepre-app",
-            storageBucket: "pepre-app.firebasestorage.app",
-            messagingSenderId: "211917167439",
-            appId: "1:211917167439:web:5bf9dfdde895e8fb46833a"
-        };
-        // Initialize Firebase
-        if (typeof firebase !== 'undefined') {
-            try {
-                firebase.initializeApp(firebaseConfig);
-                console.log("Firebase initialized");
-            } catch (e) {
-                console.warn("Firebase Init Error (Keys missing?):", e);
-            }
-        }
-        // Initialize Firestore
-        const db = typeof firebase !== 'undefined' ? firebase.firestore() : null;
-    </script>
-
     <!-- Babel -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Fonts: Shippori Mincho for elegance, Zen Maru Gothic for rounded softness -->
+    <!-- Google Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;700&family=Zen+Maru+Gothic:wght@300;400;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Playfair+Display:ital,wght@1,600&display=swap"
         rel="stylesheet">
 
-    <!-- Tailwind Config -->
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        theme: {
-                            base: '#FFFFFF',      // Warm White
-                            text: '#222222',      // Warm Dark Gray
-                            primary: '#D3756B',   // Dusty Pink (Main Accent)
-                            secondary: '#5D8A73', // Sage Green (Health/Healing)
-                            accent: '#B08B68',    // Sand/Greige (Neutral Accent)
-                            surface: '#FFFFFF',   // Pure White
-                            muted: '#F2EBE5'      // Muted background
-                        }
+                        primary: '#1e3a8a', // deep blue
+                        accent: '#d97706',  // gold/amber
+                        dark: '#0f172a',
                     },
                     fontFamily: {
-                        sans: ['Zen Maru Gothic', 'sans-serif'],
-                        serif: ['Shippori Mincho', 'serif'],
-                    },
-                    boxShadow: {
-                        'soft': '0 4px 20px -2px rgba(229, 181, 168, 0.15)',
-                        'float': '0 10px 30px -5px rgba(74, 66, 56, 0.05)',
+                        sans: ['Noto Sans JP', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
                     }
                 }
             }
         }
     </script>
-
     <style>
         body {
-            background-color: #FFFBF5;
-            color: #4A4238;
-            -webkit-tap-highlight-color: transparent;
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            overflow-x: hidden;
         }
 
-        .font-serif {
-            font-family: 'Shippori Mincho', serif;
+        .gradient-text {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .font-sans {
-            font-family: 'Zen Maru Gothic', sans-serif;
+        .hero-pattern {
+            background-color: #0f172a;
+            background-image: radial-gradient(circle at 15% 50%, rgba(30, 58, 138, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(217, 119, 6, 0.1) 0%, transparent 50%);
         }
 
-        .fade-in {
-            animation: fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-            opacity: 0;
-        }
-
-        .fade-in-delay-1 {
-            animation-delay: 0.1s;
-        }
-
-        .fade-in-delay-2 {
-            animation-delay: 0.2s;
-        }
-
-        .fade-in-delay-3 {
-            animation-delay: 0.3s;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* Hide scrollbar */
-        .hide-scroll::-webkit-scrollbar {
-            display: none;
-        }
-
-        .hide-scroll {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        /* Custom styling for inputs */
-        .input-underline {
-            background: transparent;
-            border-bottom: 1px solid #DBC1AC;
-            transition: all 0.3s ease;
-        }
-
-        .input-underline:focus {
-            border-color: #E5B5A8;
-            outline: none;
+        .glass {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
     </style>
 </head>
 
-<body class="bg-theme-base text-theme-text font-sans antialiased">
+<body>
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useMemo, useEffect } = React;
+        const { useEffect } = React;
 
-        // --- ICONS (Thin & Elegant) ---
-        const IconHome = ({ active }) => <svg xmlns="http://www.w3.org/2000/svg" fill={active ? "currentColor" : "none"} viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>;
-        const IconRecord = ({ active }) => <svg xmlns="http://www.w3.org/2000/svg" fill={active ? "currentColor" : "none"} viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>;
-        const IconEvent = ({ active }) => <svg xmlns="http://www.w3.org/2000/svg" fill={active ? "currentColor" : "none"} viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" /></svg>;
-        const IconLost = ({ active }) => <svg xmlns="http://www.w3.org/2000/svg" fill={active ? "currentColor" : "none"} viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819" /></svg>;
+        const App = () => {
+            useEffect(() => {
+                feather.replace();
+            }, []);
 
-        const IconFood = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 mb-2 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" /></svg>;
-        const IconHealth = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 mb-2 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>; // Reusing Heart
-        const IconEventNews = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 mb-2 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" /></svg>;
-        const IconLostFound = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 mb-2 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" /></svg>;
-
-        const IconEye = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>;
-        const IconCoat = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" /></svg>;
-        const IconBone = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>; // Simulating bone with search... actually wait, let's use a nice shape
-        const IconWeight = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>; // Scale like
-        const IconBowl = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" /></svg>;
-        const IconCheck = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>;
-        const IconSparkles = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" /></svg>;
-        const IconPaw = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-theme-primary"><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" /></svg>; // Simple Paw/Face
-        const IconCafe = ({ active }) => <svg xmlns="http://www.w3.org/2000/svg" fill={active ? "currentColor" : "none"} viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>; // Placeholder for cafe pin
-
-        // --- DATA ---
-        const BREED_SIZE_MAP = {
-            // Small
-            'トイ・プードル': 'small', 'チワワ': 'small', 'ミニチュア・ダックスフンド': 'small', 'ポメラニアン': 'small',
-            '柴犬(小)': 'small', 'ヨークシャー・テリア': 'small', 'マルチーズ': 'small', 'シー・ズー': 'small', 'パピヨン': 'small',
-            'フレンチ・ブルドッグ': 'small', 'ミニチュア・シュナウザー': 'small', 'パグ': 'small', 'キャバリア・キング・チャールズ・スパニエル': 'small',
-            'ジャック・ラッセル・テリア': 'small', 'ボストン・テリア': 'small', 'ペキニーズ': 'small', 'イタリアン・グレーハウンド': 'small',
-            'ビション・フリーゼ': 'small', 'ウェスト・ハイランド・ホワイト・テリア': 'small', 'カニーンヘン・ダックスフンド': 'small',
-            'ケアーン・テリア': 'small', 'スコティッシュ・テリア': 'small', 'チン（狆）': 'small', 'ティーカップ・プードル': 'small',
-            'トイ・マンチェスター・テリア': 'small', '日本テリア': 'small', 'ノーフォーク・テリア': 'small', 'ノーリッチ・テリア': 'small',
-            'プチ・バセット・グリフォン・バンデーン': 'small', 'ブリュッセル・グリフォン': 'small', 'ミニチュア・ピンシャー': 'small',
-            // Medium
-            '柴犬': 'medium', 'ウェルシュ・コーギー・ペンブローク': 'medium', 'フレンチ・ブルドッグ(大)': 'medium', 'ビーグル': 'medium',
-            'アメリカン・コッカー・スパニエル': 'medium', 'シェットランド・シープドッグ': 'medium', 'ボーダー・コリー': 'medium',
-            'イングリッシュ・コッカー・スパニエル': 'medium', 'ブルドッグ': 'medium', 'ウェルシュ・コーギー・カーディガン': 'medium',
-            'アメリカン・スタッフォードシャー・ブル・テリア': 'medium', 'アメリカン・ピット・ブル・テリア': 'medium', 'ウィペット': 'medium',
-            'オーストラリアン・キャトル・ドッグ': 'medium', 'オーストラリアン・ケルピー': 'medium', 'オーストラリアン・シェパード': 'medium',
-            '甲斐犬': 'medium', 'キースホンド': 'medium', '紀州犬': 'medium', 'ケリー・ブルー・テリア': 'medium', 'コーイケルホンディエ': 'medium',
-            'スタンダード・ダックスフンド': 'medium', 'スタッフォードシャー・ブル・テリア': 'medium', 'チャウ・チャウ': 'medium',
-            '日本スピッツ': 'medium', 'バセット・ハウンド': 'medium', 'バセンジー': 'medium', '北海道犬': 'medium',
-            'ミディアム・プードル': 'medium', 'ミニチュア・ブル・テリア': 'medium', 'ワイヤー・フォックス・テリア': 'medium',
-            // Large
-            'ゴールデン・レトリバー': 'large', 'ラブラドール・レトリバー': 'large', 'シベリアン・ハスキー': 'large', 'バーニーズ・マウンテン・ドッグ': 'large',
-            'ジャーマン・シェパード・ドッグ': 'large', '秋田犬': 'large', 'フラットコーテッド・レトリバー': 'large', 'ダルメシアン': 'large',
-            'ドーベルマン': 'large', 'ワイマラナー': 'large', 'セント・バーナード': 'large', 'グレート・ピレニーズ': 'large',
-            'ニューファンドランド': 'large', 'ロットワイラー': 'large', 'ボルゾイ': 'large', 'グレート・デーン': 'large',
-            'アイリッシュ・ウルフハウンド': 'large', 'アイリッシュ・セター': 'large', 'アフガン・ハウンド': 'large', 'アラスカン・マラミュート': 'large',
-            'イングリッシュ・セター': 'large', 'イングリッシュ・ポインター': 'large', 'オールド・イングリッシュ・シープドッグ': 'large',
-            'カーリーコーテッド・レトリバー': 'large', 'サルーキ': 'large', 'ジャイアント・シュナウザー': 'large', 'スタンダード・プードル': 'large',
-            'チェサピーク・ベイ・レトリバー': 'large', 'ナポリタン・マスティフ': 'large', 'ベルジアン・シェパード・ドッグ': 'large',
-            'ボクサー': 'large', 'ブルマスティフ': 'large', 'ラフ・コリー': 'large', 'レオンベルガー': 'large'
-        };
-
-        const PRODUCTS = [
-            { id: 1, name: "アカナ", tags: { age: 'all', concern: 'coat', priority: 'A', secondaryConcern: ['joints'], targetSizes: ['all'] }, img: "./images/acana.jpg", description: "生物学的に適正な栄養。新鮮な肉類を最大75%使用し、筋肉と被毛をサポート。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+CWE66A+5FPU+61JSH", feature: "High Protein" },
-            { id: 2, name: "アランズ ナチュラル", tags: { age: 'all', concern: 'allergy', priority: 'A', secondaryConcern: ['tear_burn'], targetSizes: ['small', 'medium'] }, img: "./images/alans.jpg", description: "野生の食事を再現。ラム肉とサツマイモ、わずか9種の厳選素材。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+BRB9FM+3J8+C1DUP", feature: "Hypoallergenic" },
-            { id: 4, name: "うまか", tags: { age: 'all', concern: 'tear_burn', priority: 'A', secondaryConcern: ['joints', 'digest'], targetSizes: ['small', 'medium'] }, img: "./images/umaka.jpg", description: "九州産「華味鳥」100%。涙やけと関節に配慮した、内側から溢れる美しさ。", price: "¥5,478", link: "http://msm.to/2U5R2J2", feature: "Premium Care" },
-            { id: 5, name: "エッセンシャル", tags: { age: 'adult', concern: 'coat', priority: 'B', secondaryConcern: ['allergy'], targetSizes: ['all'] }, img: "./images/essential.jpg", description: "お肉不使用、魚77.5%。アレルゲン排除とオメガ3で皮膚トラブルに特化。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX4SE+3DGHQA+3J8+15R4NL", feature: "Fish Based" },
-            { id: 6, name: "カナガン", tags: { age: 'all', concern: 'appetite', priority: 'S', secondaryConcern: ['active'], targetSizes: ['all'] }, img: "./images/canagan.jpg", description: "世界中で愛されるグレインフリー。チキン60%の食いつきと栄養バランス。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+C7DYRM+3J8+64EGFL", feature: "Grain Free" },
-            { id: 7, name: "カナガン デンタル", tags: { age: 'all', concern: 'teeth', priority: 'A', secondaryConcern: ['appetite'], targetSizes: ['all'] }, img: "./images/canagan_dental.jpg", description: "特許成分配合。食べるだけで愛犬の「口内の健康」を守る画期的フード。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+B8UTOI+3J8+3B6C5T", feature: "Oral Care" },
-            { id: 8, name: "カナガン チキン＆サーモン", tags: { age: 'all', concern: 'coat', priority: 'A', secondaryConcern: ['appetite'], targetSizes: ['all'] }, img: "./images/canagan_chickensalmon.jpg", description: "チキンとサーモンの相乗効果。偏食対策と美しい毛並みの維持に。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3NGVLD+2TT6RM+3J8+HV7V6", feature: "Multi Protein" },
-            { id: 9, name: "グランツ", tags: { age: 'all', concern: 'tear_burn', priority: 'B', secondaryConcern: ['allergy'], targetSizes: ['all'] }, img: "./images/grands.jpg", description: "無添加・グレインフリー。小粒設計でお腹に優しいフランス産プレミアム。", price: "¥要確認", link: "http://msm.to/APkBGUm", feature: "Digest Support" },
-            { id: 10, name: "グレボ", tags: { age: 'all', concern: 'joints', priority: 'B', secondaryConcern: ['tear_burn'], targetSizes: ['small', 'medium'] }, img: "./images/glebo.jpg", description: "国産・関節ケア。鶏軟骨抽出成分とグルコサミン配合でシニアの元気を維持。", price: "¥要確認", link: "http://msm.to/3OyO6nm", feature: "Anti-Aging" },
-            { id: 11, name: "このこのごはん", tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['coat', 'odor'], targetSizes: ['small'] }, img: "./images/konokono.jpg", description: "小型犬の「涙やけ・毛並み・におい」に特化。自然素材のやさしい国産ご飯。", price: "¥要確認", link: "http://msm.to/7C7CAGn", feature: "Tear Burn Care" },
-            { id: 12, name: "ネルソンズ", tags: { age: 'adult', concern: 'appetite', priority: 'B', secondaryConcern: ['digest'], targetSizes: ['medium', 'large'] }, img: "./images/nelsons.jpg", description: "中型・大型犬向けの大容量。グレインフリーで消化と家計を両立。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3HRCDC+2Z6SY+3J8+ZQ80I", feature: "Large Breed" },
-            { id: 13, name: "ハッピードッグ", tags: { age: 'all', concern: 'allergy', priority: 'B', secondaryConcern: ['obesity'], targetSizes: ['all'] }, img: "./images/happydog.jpg", description: "ドイツの老舗ブランド。年齢や体質に合わせた豊富なラインナップと高いコストパフォーマンスで、長く続けやすい。", price: "¥1,150〜", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+CMV8HU+41IC+661TT", feature: "German Quality" },
-            { id: 14, name: "ペトコト", tags: { age: 'all', concern: 'appetite', priority: 'S', secondaryConcern: ['digest'], targetSizes: ['all'] }, img: "./images/petokoto.jpg", description: "新鮮な食材を急速冷凍。手作りごはんの栄養と香りで、驚きの食いつきを。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3ZJU37+EGYCN6+4NYE+61Z81", feature: "Fresh Food" },
-            { id: 15, name: "ミシュワン", tags: { age: 'senior', concern: 'joints', priority: 'S', secondaryConcern: ['tear_burn', 'coat'], targetSizes: ['small'] }, img: "./images/mishone.jpg", description: "関節ケアの最高峰。緑イ貝配合で、いつまでも軽やかなステップを。シニアの小型犬に最適。", price: "¥4,378", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+C1FP16+4PA6+BXYE9", feature: "Joint Support" },
-            { id: 16, name: "モグキューブ", tags: { age: 'all', concern: 'appetite', priority: 'B', secondaryConcern: [], targetSizes: ['all'] }, img: "./images/mogcube.jpg", description: "ラム生肉74.6%使用。高タンパク・高脂質で食いつき抜群。トッピングやおやつ、主食としても使えるフリーズドライ。", price: "¥5,852", link: "https://px.a8.net/svt/ejp?a8mat=3HQZ35+BN56NM+3J8+354KNM", feature: "Freeze Dry & Topping" },
-            { id: 17, name: "モグワン", tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['coat', 'appetite'], targetSizes: ['all'] }, img: "./images/mogwan.jpg", description: "手作り食レシピの美味しさと栄養バランス。野菜とフルーツたっぷりの人気No.1。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3NGVLD+2NUUPU+3J8+1BPOF5", feature: "Best Seller" },
-            { id: 18, name: "やわか", tags: { age: 'senior', concern: 'appetite', priority: 'A', secondaryConcern: ['digest'], targetSizes: ['small', 'medium'] }, img: "./images/yawaka.jpg", description: "水分を逃さない特殊製法。シニアも食べやすい国産セミモイストフード。", price: "¥6,578", link: "http://msm.to/ApJikKQ", feature: "Soft Touch" },
-            { id: 19, name: "ユリカゴ", tags: { age: 'all', concern: 'none', priority: 'B', secondaryConcern: [], targetSizes: ['all'] }, img: "./images/yurikago.jpg", description: "「安眠」と「リラックス」をテーマに。ハーブの力で穏やかな毎日を。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+BQ4E82+3J8+5SG2LT", feature: "Relax Care" },
-            { id: 20, name: "馬肉自然づくり", tags: { age: 'all', concern: 'obesity', priority: 'A', secondaryConcern: ['allergy'], targetSizes: ['all'] }, img: "./images/baniku.jpg", description: "熊本産馬肉を贅沢に使用。高タンパク・低脂質でダイエットに最適。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=3ZJZJ3+GEM2F6+3E6W+O24K1", feature: "Low Fat" },
-            { id: 21, name: "和漢みらい", tags: { age: 'senior', concern: 'none', priority: 'A', secondaryConcern: ['obesity'], targetSizes: ['all'] }, img: "./images/wakan.jpg", description: "89種類の和漢植物を配合。薬善の知恵でシニア期の健康を徹底サポート。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+BAN4HU+3SZE+C5VW2", feature: "Yakuzen Care" },
-            { id: 22, name: "マックアダムス", tags: { age: 'all', concern: 'appetite', priority: 'S', secondaryConcern: ['joints'], targetSizes: ['large', 'medium'] }, img: "./images/macadams.jpg", description: "一羽丸ごとのチキンを使用。愛犬が喜ぶ美味しさと栄養。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+59BWOY+3J8+5AKUQP", feature: "Whole Chicken" },
-            { id: 23, name: "ミシュワン 小型犬用", tags: { age: 'all', concern: 'joints', priority: 'S', secondaryConcern: ['tear_burn', 'digest'], targetSizes: ['small'] }, img: "./images/mishone_small.png", description: "小型犬の繊細な健康維持に。食べやすい小粒タイプ。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=45GGT8+C1FMPU+4PA6+BXYE9", feature: "Small Breed" },
-            { id: 24, name: "ペロリコドッグフード ライト", tags: { age: 'all', concern: 'obesity', priority: 'A', secondaryConcern: ['digest'], targetSizes: ['small', 'medium'] }, img: "./images/perolico_light.jpg", description: "低カロリー・低脂質。無理なく美味しく体重管理。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+5URIGY+3J8+4ASX02", feature: "Diet Support" },
-            { id: 25, name: "ペロリコ アレルカット", tags: { age: 'all', concern: 'allergy', priority: 'A', secondaryConcern: ['coat'], targetSizes: ['small', 'medium'] }, img: "./images/perolico_aller.jpg", description: "食物アレルギーに配慮。厳選されたタンパク源を使用。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+679M6A+3J8+54KL8Y", feature: "Allergy Care" },
-            { id: 26, name: "ドクターケアワン", tags: { age: 'all', concern: 'tear_burn', priority: 'S', secondaryConcern: ['joints', 'digest'], targetSizes: ['small', 'medium'] }, img: "./images/drcarewan.png", description: "獣医師監修。涙やけに悩む小型犬に特におすすめ。シニア期の健康維持もサポート。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+5VYDOI+3RW8+BX3J6", feature: "Vet Formulated" },
-            { id: 27, name: "キュアペット 口臭ケア", tags: { age: 'all', concern: 'odor', priority: 'A', secondaryConcern: ['teeth', 'digest'], targetSizes: ['all'] }, img: "./images/curepet.jpg", description: "専門家と共同開発。内側からアプローチするお口ケア。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+6AU7SY+3RW8+5YJRM", feature: "Breath Care" },
-            { id: 28, name: "ニュートラム", tags: { age: 'all', concern: 'coat', priority: 'B', secondaryConcern: ['digest'], targetSizes: ['all'] }, img: "./images/nutram.jpg", description: "カナダ発のホリスティックフード。素材の組み合わせで健康をサポート。", price: "¥要確認", link: "https://px.a8.net/svt/ejp?a8mat=4AX40F+5NMB7M+5OMY+5YJRM", feature: "Holistic" }
-        ];
-
-        const BREEDS_DATA = {
-            'あ行': ['アイリッシュ・ウルフハウンド', 'アイリッシュ・セター', '秋田犬', 'アフガン・ハウンド', 'アラスカン・マラミュート', 'アメリカン・アキタ', 'アメリカン・コッカー・スパニエル', 'アメリカン・スタッフォードシャー・ブル・テリア', 'アメリカン・ピット・ブル・テリア', 'イタリアン・グレーハウンド', 'イングリッシュ・コッカー・スパニエル', 'イングリッシュ・セター', 'イングリッシュ・スプリンガー・スパニエル', 'イングリッシュ・ポインター', 'ウィペット', 'ウェスト・ハイランド・ホワイト・テリア', 'ウェルシュ・コーギー・カーディガン', 'ウェルシュ・コーギー・ペンブローク', 'ウェルシュ・テリア', 'エアデール・テリア', 'オーストラリアン・キャトル・ドッグ', 'オーストラリアン・ケルピー', 'オーストラリアン・シェパード', 'オーストラリアン・テリア', 'オールド・イングリッシュ・シープドッグ'],
-            'か行': ['カーリーコーテッド・レトリバー', '甲斐犬', 'カニーンヘン・ダックスフンド', 'キャバリア・キング・チャールズ・スパニエル', '紀州犬', 'グレート・デーン', 'グレート・ピレニーズ', 'ケアーン・テリア', 'ケリー・ブルー・テリア', 'コーイケルホンディエ', 'ゴールデン・レトリバー', 'コモンドール'],
-            'さ行': ['サルーキ', 'サモエド', 'サールロース・ウルフドッグ', 'シー・ズー', '柴犬', 'シベリアン・ハスキー', 'シャー・ペイ', 'ジャーマン・シェパード・ドッグ', 'ジャーマン・ショートヘアード・ポインター', 'ジャイアント・シュナウザー', 'ジャック・ラッセル・テリア', 'スキッパーキ', 'スコティッシュ・テリア', 'スタッフォードシャー・ブル・テリア', 'スタンダード・プードル', 'セント・バーナード'],
-            'た行': ['タイ・リッジバック・ドッグ', 'ダルメシアン', 'チェサピーク・ベイ・レトリバー', 'チワワ', '狆（ちん）', 'チャウ・チャウ', 'ティーカップ・プードル', 'トイ・マンチェスター・テリア', 'トイ・プードル', 'ドーベルマン', 'ドゴ・アルヘンティーノ'],
-            'な・は行': ['ナポリタン・マスティフ', 'ニューファンドランド', '日本スピッツ', '日本テリア', 'ノルウェー・エルクハウンド', 'ノーフォーク・テリア', 'ノーリッチ・テリア', 'バーニーズ・マウンテン・ドッグ', 'パグ', 'バセット・ハウンド', 'バセンジー', 'パピヨン', 'ビアデッド・コリー', 'ビション・フリーゼ', 'ビーグル', 'フラットコーテッド・レトリバー', 'フレンチ・ブルドッグ', 'ブリタニー・スパニエル', 'ブル・テリア', 'ブルドッグ', 'ブルマスティフ', 'プードル', 'プチ・バセット・グリフォン・バンデーン', 'ペキニーズ', 'ベルジアン・シェパード・ドッグ・マリノア', 'ボーダー・コリー', 'ボクサー', 'ボストン・テリア', '北海道犬', 'ボルゾイ', 'ポメラニアン', 'ポリッシュ・ローランド・シープドッグ'],
-            'ま〜わ行': ['マルチーズ', 'マンチェスター・テリア', 'ミニチュア・シュナウザー', 'ミニチュア・ダックスフンド', 'ミニチュア・ピンシャー', 'ミニチュア・ブル・テリア', 'ヨークシャー・テリア', 'ラブラドール・レトリバー', 'ラフ・コリー', 'ラサ・アプソ', 'レオンベルガー', 'ロットワイラー', 'ワイマラナー', 'ワイヤー・フォックス・テリア']
-        };
-
-        const AGE_DATA = [
-            '0歳', '1歳', '2歳', '3歳', '4歳', '5歳', '6歳', '7歳', '8歳', '9歳', '10歳',
-            '11歳', '12歳', '13歳', '14歳', '15歳', '16歳', '17歳', '18歳', '19歳', '20歳以上'
-        ];
-
-        const EVENTS_DATA = [
-            { date: "3月14日", title: "GO WITH わんこマラソン", place: "福岡県 大濠公園", tags: ["マラソン", "スポーツ", "屋外"], img: "https://images.unsplash.com/photo-1591769225440-811ad7d6eca6?auto=format&fit=crop&w=600&q=60" },
-            { date: "2月21日-23日", title: "ABURAYAMA WANT", place: "福岡県 油山", tags: ["マルシェ", "撮影会", "屋外"], img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=600&q=60" },
-            { date: "2月7日-8日", title: "広島わんわんバレンタイン", place: "広島県 広島広域公園", tags: ["最大級", "屋外", "マルシェ"], img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=600&q=60" },
-            { date: "2月14日-15日", title: "犬っこまつり", place: "秋田県 湯沢市", tags: ["伝統行事", "雪祭り", "屋外"], img: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=600&q=60" },
-            { date: "2月14日-15日", title: "成田ゆめのドッグフェスティバル", place: "千葉県 成田ゆめ牧場", tags: ["牧場", "撮影会", "屋外"], img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=60" },
-            { date: "2月14日-15日", title: "わんこのフェス", place: "埼玉県 埼玉スタジアム", tags: ["フェス", "屋外", "コア層"], img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=600&q=60" },
-            { date: "2月14日-15日", title: "犬祭り", place: "岐阜県 清流里山公園", tags: ["大規模", "マルシェ", "中部"], img: "https://images.unsplash.com/photo-1591769225440-811ad7d6eca6?auto=format&fit=crop&w=600&q=60" },
-            { date: "2月21日-22日", title: "わんにゃんドーム 2026", place: "愛知県 Aichi Sky Expo", tags: ["国内最大", "屋内", "展示"], img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=60" },
-            { date: "2月21日-22日", title: "千葉わんわん冬まつり", place: "千葉県 幕張メッセ", tags: ["屋内", "マーケット", "冬祭り"], img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=600&q=60" },
-            { date: "2月22日", title: "HUSKY JAPAN SUMMIT", place: "岡山県 黒井山", tags: ["ハスキー", "オフ会", "特化"], img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=600&q=60" },
-            { date: "2月28日-3月1日", title: "水元ドッグフェスティバル", place: "東京都 水元公園", tags: ["公園", "屋外", "23区最大"], img: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=600&q=60" },
-            { date: "2月28日-3月1日", title: "みのおわんわんモール", place: "大阪府 箕面", tags: ["マルシェ", "おしゃれ", "屋外"], img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=600&q=60" },
-            { date: "3月7日-8日", title: "佐倉Wanパーク", place: "千葉県 佐倉城址公園", tags: ["マルシェ", "屋外", "新定番"], img: "https://images.unsplash.com/photo-1591769225440-811ad7d6eca6?auto=format&fit=crop&w=600&q=60" },
-            { date: "3月7日-8日", title: "わんだらけフェス", place: "愛知県 富浜緑地", tags: ["日本最大級", "マルシェ", "屋外"], img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=600&q=60" },
-            { date: "3月7日-8日", title: "柏の葉公園DogFesta", place: "千葉県 柏の葉公園", tags: ["公園", "フェス", "屋外"], img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=600&q=60" },
-            { date: "3月14日-15日", title: "RKB福岡百道浜ドッグフェスタ", place: "福岡県 百道浜", tags: ["九州最大", "フェス", "屋外"], img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=60" },
-            { date: "3月14日-15日", title: "伊豆高原わんわんマルシェ", place: "静岡県 伊豆高原", tags: ["観光地", "マルシェ", "屋外"], img: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=600&q=60" },
-            { date: "3月19日-22日", title: "赤レンガでわんさんぽ", place: "神奈川県 横浜赤レンガ倉庫", tags: ["景観", "おしゃれ", "屋外"], img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=600&q=60" },
-            { date: "3月20日", title: "はなぺちゃフェスティバル", place: "滋賀県 (予定)", tags: ["短頭種", "オフ会", "熱狂的"], img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=600&q=60" },
-            { date: "3月20日-22日", title: "川西ドッグランマルシェ", place: "兵庫県 川西", tags: ["ドッグラン", "マルシェ", "関西"], img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=600&q=60" },
-            { date: "3月28日-29日", title: "広島わんわん桜まつり", place: "広島県 ジアウトレット", tags: ["桜", "撮影会", "映え"], img: "https://images.unsplash.com/photo-1591769225440-811ad7d6eca6?auto=format&fit=crop&w=600&q=60" },
-            { date: "3月28日-29日", title: "柏の葉T-SITE ドッグイベント", place: "千葉県 柏T-SITE", tags: ["ライフスタイル", "蔦屋書店", "屋外"], img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=60" }
-        ];
-
-        const LOST_DATA = [];
-
-        const INITIAL_CAFE_DATA = [
-            // 関東地方（既存＋新規追加）
-            { id: "c1", name: "サモエドカフェ アル 横浜中華街店", pref: "神奈川県", city: "横浜市中区", address: "神奈川県横浜市中区", desc: "日本初のサモエド特化型。約10頭の白い大型犬と触れ合える。" },
-            { id: "c2", name: "Atelier & Cafe Kizuna", pref: "神奈川県", city: "横浜市青葉区", address: "神奈川県横浜市青葉区", desc: "保護犬の譲渡活動と連動した交流カフェ。犬種も多彩。" },
-            { id: "c3", name: "Lu's CAFE", pref: "神奈川県", city: "横浜市西区", address: "神奈川県横浜市西区", desc: "横浜駅近く。人と犬の共生をテーマにした内装。" },
-            { id: "c4", name: "えの木てい", pref: "神奈川県", city: "横浜市中区", address: "神奈川県横浜市中区", desc: "横浜山手の洋館。テラス席でティータイムが可能。" },
-            { id: "c5", name: "CAFE MITSUIKE", pref: "神奈川県", city: "横浜市鶴見区", address: "神奈川県横浜市鶴見区", desc: "三ツ池公園前。散歩の拠点として機能。" },
-            { id: "c6", name: "Laule'a Rainbow", pref: "神奈川県", city: "横浜市都筑区", address: "神奈川県横浜市都筑区", desc: "仲町台。公園に面したハワイアンレストラン。" },
-            { id: "c7", name: "鎌倉乃豆柴カフェ", pref: "神奈川県", city: "鎌倉市", address: "神奈川県鎌倉市小町", desc: "小町通り。観光の合間に立ち寄れる豆柴専門店。" },
-            { id: "c8", name: "いぬカフェRio 鎌倉店", pref: "神奈川県", city: "鎌倉市", address: "神奈川県鎌倉市小町", desc: "子犬（5ヶ月〜2歳）専門。多数の小型犬が在籍。" },
-            { id: "c9", name: "Double Doors 七里ガ浜", pref: "神奈川県", city: "鎌倉市", address: "神奈川県鎌倉市七里ガ浜", desc: "134号線沿い。海を望むテラスで同伴可。" },
-            { id: "c10", name: "サザンビーチカフェ", pref: "神奈川県", city: "茅ヶ崎市", address: "神奈川県茅ヶ崎市", desc: "茅ヶ崎のシンボル的カフェ。広大なテラス席。" },
-            { id: "c11", name: "BLUE MOON", pref: "神奈川県", city: "横須賀市", address: "神奈川県横須賀市津久井", desc: "海風を感じるレストラン。地元食材を使用。" },
-
-            { id: "e1", name: "HOT DOG TOWN Ariake", pref: "東京都", city: "江東区", address: "東京都江東区有明", desc: "23区内最大級。屋内ドッグランやスパを併設した複合施設。" },
-            { id: "e2", name: "GREEN DOG Daikanyama", pref: "東京都", city: "渋谷区", address: "東京都渋谷区代官山町", desc: "オーガニック犬用メニューやセレクトショップを併設。" },
-            { id: "e3", name: "自由が丘スイーツフォレスト", pref: "東京都", city: "目黒区", address: "東京都目黒区自由が丘", desc: "犬用デザート提供。テラスや店内一部で同伴可能。" },
-            { id: "e4", name: "Dog Cafe Florence", pref: "東京都", city: "足立区", address: "東京都足立区東伊興", desc: "アットホームな空間で手作りおやつや本格ランチを提供。" },
-            { id: "e5", name: "にくきゅうカフェ", pref: "東京都", city: "西東京市", address: "東京都西東京市中町", desc: "小金井公園近く。個室感のある空間で犬用メニューあり。" },
-            { id: "e6", name: "Micro Tea Cup Cafe", pref: "東京都", city: "千代田区", address: "東京都千代田区", desc: "ティーカップサイズの犬種に特化した人気の触れ合いカフェ。" },
-
-            { id: "e7", name: "ドッグランカフェ加恋ちゃん家", pref: "千葉県", city: "千葉市緑区", address: "千葉県千葉市緑区", desc: "100坪の室内ドッグランや夏期プールを完備した全天候型。" },
-            { id: "e8", name: "Cafe nönöha", pref: "千葉県", city: "千葉市若葉区", address: "千葉県千葉市若葉区", desc: "人工芝ドッグランや季節のフォトスポット。県産食材を使用。" },
-            { id: "e9", name: "しろいぬカフェ", pref: "千葉県", city: "松戸市", address: "千葉県松戸市五香", desc: "動物病院併設。無添加メニューや3Dラテアートが人気。" },
-            { id: "e10", name: "3-2-WAN!", pref: "千葉県", city: "柏市", address: "千葉県柏市大井", desc: "常緑芝ドッグランと夏季プールあり。小型犬は店内OK。" },
-            { id: "e11", name: "マメノキドッグパーク", pref: "千葉県", city: "富津市", address: "千葉県富津市志駒", desc: "旧小学校を活用した広大な天然芝ドッグラン。静寂な環境。" },
-            { id: "e12", name: "オーシャンテーブル", pref: "千葉県", city: "千葉市中央区", address: "千葉県千葉市中央区", desc: "海を見渡すテラス席でハワイアンブッフェを楽しめるリゾート空間。" },
-
-            { id: "e13", name: "CAFE HANA", pref: "埼玉県", city: "熊谷市", address: "埼玉県熊谷市今井", desc: "西海岸風のデザイン。天然芝ランやドッグプールを完備。" },
-            { id: "e14", name: "蔵カフェ 風音", pref: "埼玉県", city: "さいたま市岩槻区", address: "埼玉県さいたま市岩槻区", desc: "蔵をリノベーションした和モダン空間。犬用メニューが豊富。" },
-            { id: "e15", name: "穂高ドッグラン＆カフェN36°", pref: "埼玉県", city: "桶川市", address: "埼玉県桶川市坂田", desc: "山小屋風のカフェで石窯ピザを提供。本格ドッグラン併設。" },
-            { id: "e16", name: "RAIN DOGS", pref: "埼玉県", city: "さいたま市南区", address: "埼玉県さいたま市南区", desc: "リードフック完備の地域密着型カフェ。自家製キッシュが人気。" },
-            { id: "e17", name: "Cherry with DOG", pref: "埼玉県", city: "狭山市", address: "埼玉県狭山市狭山台", desc: "室内ドッグラン完備。看板犬のシェルティが出迎える。" },
-            { id: "e18", name: "テソロカフェ", pref: "埼玉県", city: "加須市", address: "埼玉県加須市多門寺", desc: "精肉店が運営。絶品のお肉メニューを愛犬と店内で楽しめる。" },
-
-            { id: "e19", name: "PENNY LANE DOGS つくば", pref: "茨城県", city: "つくば市", address: "茨城県つくば市稲岡", desc: "ビートルズの世界観。大規模ランや犬用ケーキが楽しめる。" },
-            { id: "e20", name: "ディンズカフェ", pref: "茨城県", city: "小美玉市", address: "茨城県小美玉市中延", desc: "店内にテントがありキャンプ気分が味わえる。犬用メニューあり。" },
-
-            { id: "e21", name: "Dog Park HULOT", pref: "栃木県", city: "栃木市", address: "栃木県栃木市大平町", desc: "室内外ドッグラン併設。本格派バーガーが味わえる。" },
-            { id: "e22", name: "Cafe Maera", pref: "栃木県", city: "鹿沼市", address: "栃木県鹿沼市日吉町", desc: "セラピードッグと触れ合える。ジビエメニューも提供。" },
-            { id: "e23", name: "ステーキハウス寿楽 本店", pref: "栃木県", city: "那須町", address: "栃木県那須町湯本", desc: "絶品の和牛ステーキ。空調完備の店内一部で犬同伴可能。" },
-
-            { id: "e24", name: "世界の名犬牧場 &ME", pref: "群馬県", city: "前橋市", address: "群馬県前橋市富士見町", desc: "日本最大級のプールやランを備えた複合施設内のドッグカフェ。" },
-            { id: "e25", name: "るしあん", pref: "群馬県", city: "吉岡町", address: "群馬県吉岡町大久保", desc: "地元野菜を使った料理が自慢。ドッグランも併設している。" },
-            { id: "e26", name: "NOiR CAFE", pref: "群馬県", city: "高崎市", address: "群馬県高崎市上中居町", desc: "店内での大型犬同伴OK。フレブルの看板犬とオムライスが人気。" },
-            { id: "e27", name: "PISMO CAFE", pref: "群馬県", city: "前橋市", address: "群馬県前橋市元総社町", desc: "工場を改装したカリフォルニア風カフェ。大型犬も店内OK。" },
-
-            // 関西地方（追加）
-            { id: "ks1", name: "DOG TAIL (ドッグテイル)", pref: "大阪府", city: "大阪市中央区", address: "大阪府大阪市中央区道頓堀", desc: "人懐っこい小型犬と触れ合える人気の犬カフェ。" },
-            { id: "ks2", name: "犬猫ふれあい Dolbom", pref: "大阪府", city: "大阪市天王寺区", address: "大阪府大阪市天王寺区", desc: "保護犬猫と触れ合い、保護活動を応援できるカフェ。" },
-            { id: "ks3", name: "犬カフェ COCOMO", pref: "大阪府", city: "吹田市", address: "大阪府吹田市", desc: "トイプードル等が看板犬。愛犬同伴も可能で飼い主も癒される。" },
-            { id: "ks4", name: "aiai224@HORIE", pref: "大阪府", city: "大阪市西区", address: "大阪府大阪市西区北堀江", desc: "ハワイアンな雰囲気。テラス席で愛犬同伴可能。" },
-            { id: "ks5", name: "cafe こころひかる", pref: "大阪府", city: "大阪市天王寺区", address: "大阪府大阪市天王寺区", desc: "お寺の境内の一軒家カフェ。店内・テラス同伴可。" },
-            { id: "ks6", name: "Dogcafe&Run Douxgarden", pref: "大阪府", city: "大阪狭山市", address: "大阪府大阪狭山市", desc: "約1500㎡の広いドッグラン併設。店内同伴も可能。" },
-            { id: "ks7", name: "やまやまぱーく", pref: "京都府", city: "京都市近郊", address: "京都府", desc: "広大な自然のドッグラン。エリア分けありで店内同伴OK。" },
-            { id: "ks8", name: "Mont (モン)", pref: "京都府", city: "京都市左京区", address: "京都府京都市左京区", desc: "室内ドッグラン併設。ワンちゃん用メニューも充実。" },
-            { id: "ks9", name: "YAMA NO TERRACE", pref: "京都府", city: "京都市北区", address: "京都府京都市北区", desc: "川が流れる自然に囲まれたドッグラン付きカフェ。" },
-            { id: "ks10", name: "dog cafe K3", pref: "京都府", city: "木津川市", address: "京都府木津川市", desc: "おしゃれなインテリアに囲まれた空間。店内すべて犬同伴OK。" },
-            { id: "ks11", name: "Kobe harbor kitchen Haji", pref: "兵庫県", city: "神戸市中央区", address: "兵庫県神戸市中央区", desc: "海辺のスタイリッシュなBBQカフェ。広々としたテラス席。" },
-            { id: "ks12", name: "Azzurro（アズーロ）", pref: "兵庫県", city: "神戸市中央区", address: "兵庫県神戸市中央区", desc: "アンティーク調イタリアン。美味しいワンちゃん用メニューあり。" },
-            { id: "ks13", name: "DOG CAFE 789（ナナハク）", pref: "兵庫県", city: "神戸市兵庫区", address: "兵庫県神戸市兵庫区", desc: "3匹のペキニーズ看板犬。2階席はリードフリー可能。" },
-            { id: "ks14", name: "MacWan Kitchen", pref: "兵庫県", city: "神戸市兵庫区", address: "兵庫県神戸市兵庫区", desc: "無添加・無着色の豊富なペットメニューがある健康志向レストラン。" },
-            { id: "ks15", name: "CoKo食堂", pref: "兵庫県", city: "神戸市東灘区", address: "兵庫県神戸市東灘区", desc: "夜間に同伴可能な「ドッグ居酒屋」。大型犬も入店可能。" },
-            { id: "ks16", name: "ガーデンレストラン 風舎", pref: "兵庫県", city: "神戸市兵庫区", address: "兵庫県神戸市兵庫区", desc: "森の中のイタリアン＆フレンチ。テラス席同伴可能。" },
-
-            // 中部地方（追加）
-            { id: "cb1", name: "サモエドカフェ アル 名古屋栄店", pref: "愛知県", city: "名古屋市中区", address: "愛知県名古屋市中区栄", desc: "栄の中心地でモフモフのサモエドたちと触れ合える人気カフェ。" },
-            { id: "cb2", name: "DCR Dog Cafe & Run", pref: "愛知県", city: "名古屋市港区", address: "愛知県名古屋市港区", desc: "美しい天然芝ドッグラン併設。犬に優しい手作りおやつも。" },
-            { id: "cb3", name: "ワンツースキップ", pref: "愛知県", city: "名古屋市天白区", address: "愛知県名古屋市天白区", desc: "店内同伴OK。トリミングサロン併設で犬用健康メニューも充実。" },
-            { id: "cb4", name: "ハレマウマウカフェ", pref: "愛知県", city: "名古屋市", address: "愛知県名古屋市", desc: "ハワイアン空間。テラス席にはミニドッグラン併設。" },
-            { id: "cb5", name: "Cafe moo moo", pref: "静岡県", city: "静岡市", address: "静岡県静岡市", desc: "看板犬ミントがお出迎え。手作りワンコメニューやケーキが人気。" },
-            { id: "cb6", name: "Doggardencafe Queue", pref: "静岡県", city: "静岡市", address: "静岡県静岡市", desc: "ドッグランとカフェを行き来して遊べる。リードフリーOK。" },
-            { id: "cb7", name: "Sarry's Cafe", pref: "静岡県", city: "静岡市", address: "静岡県静岡市用宗", desc: "用宗漁港隣接。屋根付きテラスで大型犬も雨の日も同伴可能。" },
-            { id: "cb8", name: "ドッグルハウス", pref: "静岡県", city: "浜松市", address: "静岡県浜松市", desc: "特製ワンコメニュー充実＆室内ドッグラン併設の全天候型。" },
-            { id: "cb9", name: "Cafe CANDY", pref: "静岡県", city: "伊東市", address: "静岡県伊東市", desc: "城ヶ崎の国立公園内にある、店内同伴可能な隠れ家カフェ。" },
-            { id: "cb10", name: "大型犬ふれあいカフェMiliMili", pref: "静岡県", city: "吉田町", address: "静岡県吉田町", desc: "ピレニーズやゴールデンなど約6種の大型犬と触れ合える。" },
-            { id: "cb11", name: "FLATY FLATY", pref: "岐阜県", city: "岐阜市", address: "岐阜県岐阜市", desc: "大型犬ウェルカムなアメリカンスタイルカフェ。グッズ販売も。" },
-            { id: "cb12", name: "ドッグカフェ さくらandドレミ", pref: "岐阜県", city: "各務原市", address: "岐阜県各務原市", desc: "広大な天然芝＆室内ドッグラン併設。カフェ利用で無料。" },
-            { id: "cb13", name: "DOGRUN Gallop", pref: "岐阜県", city: "美濃加茂市", address: "岐阜県美濃加茂市", desc: "4800㎡の巨大ドッグラン。窯焼きピザやハンバーガーが絶品。" },
-            { id: "cb14", name: "ドッグカフェさんぽ", pref: "三重県", city: "東員町", address: "三重県員弁郡東員町", desc: "カフェ利用でドッグラン無料。ワンコメニューも多数提供。" },
-            { id: "cb15", name: "音の和café", pref: "三重県", city: "四日市市", address: "三重県四日市市", desc: "ボリューム満点のランチ。小型・大型で分かれた無料ランあり。" },
-            { id: "cb16", name: "ドッグスガーデン ペスカ", pref: "三重県", city: "伊勢市", address: "三重県伊勢市", desc: "店内外同伴OKでおしゃれなランチ。イベントやオフ会も多数。" },
-
-            // 北海道・東北地方（追加）
-            { id: "ht1", name: "HawaiianFoods&PetHotel SILLY", pref: "北海道", city: "札幌市北区", address: "北海道札幌市北区", desc: "ハワイアンフードが楽しめるドッグカフェ＆ホテル。" },
-            { id: "ht2", name: "バーナード・スクエア", pref: "北海道", city: "札幌市南区", address: "北海道札幌市南区", desc: "大きなセントバーナードとドッグランで一緒に遊べるカフェ。" },
-            { id: "ht3", name: "LA BLANC MOON", pref: "北海道", city: "札幌市清田区", address: "北海道札幌市清田区", desc: "ドッグラン併設。本格的なイタリアン料理が自慢。" },
-            { id: "ht4", name: "ほっこりわんカフェ", pref: "北海道", city: "札幌市南区", address: "北海道札幌市南区", desc: "アットホーム空間で看板犬と触れ合え、しつけ教室も開催。" },
-            { id: "ht5", name: "いぬもふ ねこもふ", pref: "北海道", city: "札幌市中央区", address: "北海道札幌市中央区", desc: "屋内ドッグラン併設で、お店の犬や猫たちと癒やしの時間。" },
-            { id: "ht6", name: "いぬカフェRio 仙台店", pref: "宮城県", city: "仙台市青葉区", address: "宮城県仙台市一番町", desc: "ダックスやチワワなど約22匹の小型子犬たちと触れ合える。" },
-            { id: "ht7", name: "with DOG", pref: "宮城県", city: "仙台市", address: "宮城県仙台市", desc: "カフェ・トリミング・ホテル・ドッグラン併設の総合サロン。" },
-            { id: "ht8", name: "ハッピーわん", pref: "宮城県", city: "仙台市", address: "宮城県仙台市", desc: "フレンドリーな看板犬と遊べる室内ドッグラン併設カフェ。" },
-            { id: "ht9", name: "カフェ モーツァルト アトリエ", pref: "宮城県", city: "仙台市青葉区", address: "宮城県仙台市青葉区", desc: "広瀬川を一望できる絶景テラスで愛犬と優雅なカフェタイム。" },
-            { id: "ht10", name: "dogwood garden", pref: "宮城県", city: "仙台市", address: "宮城県仙台市", desc: "自然豊かで広大なドッグランを併設したリラックス空間。" },
-
-            // 中国・四国地方（追加）
-            { id: "cs1", name: "BowWow（バウワウ）", pref: "岡山県", city: "岡山市", address: "岡山県", desc: "ドッグラン併設のアットホームなカフェ。本格コーヒーあり。" },
-            { id: "cs2", name: "bless dog cafe", pref: "岡山県", city: "岡山市", address: "岡山県", desc: "小型犬専用ドッグランあり。店内は中〜大型犬も利用可能。" },
-            { id: "cs3", name: "レイクサイドガーデン＆カフェ", pref: "岡山県", city: "岡山市", address: "岡山県", desc: "湖畔の絶景ロケーション。テラスとデッキで愛犬同伴可。" },
-            { id: "cs4", name: "大型犬ふれあい もふちる", pref: "岡山県", city: "岡山市", address: "岡山県", desc: "13種の大型犬（保護犬など）と触れ合える癒やしカフェ。" },
-            { id: "cs5", name: "いぬカフェRio 廿日市店", pref: "広島県", city: "廿日市市", address: "広島県廿日市市", desc: "たくさんの子犬と過ごせる。ドリンク飲み放題＆おやつ付き。" },
-            { id: "cs6", name: "musashimaru cafe", pref: "広島県", city: "広島市中区", address: "広島県広島市中区", desc: "パグの看板犬3匹がお出迎え。自家製フレンチトーストが絶品。" },
-            { id: "cs7", name: "9689coffee", pref: "広島県", city: "広島市", address: "広島県", desc: "黒パグ看板犬のいるおしゃれカフェ。店内焙煎の本格珈琲。" },
-            { id: "cs8", name: "SAMOEDO'S 広島店", pref: "広島県", city: "広島市中区", address: "広島県広島市中区紙屋町", desc: "紙屋町の好立地で6頭の大型犬サモエドと触れ合える専門店。" },
-            { id: "cs9", name: "cafe&dogrun L'ecrin", pref: "愛媛県", city: "松前町", address: "愛媛県伊予郡松前町", desc: "全犬種店内OK。可愛い外観と広いドッグラン＆フォトスポット。" },
-            { id: "cs10", name: "DOGRUN＆CAFETERIA KONG", pref: "愛媛県", city: "松山市", address: "愛媛県松山市", desc: "雨でも遊べる巨大屋内ドッグラン併設。犬用メニューも好評。" },
-            { id: "cs11", name: "ハレル", pref: "香川県", city: "高松市", address: "香川県高松市", desc: "人気パン屋のランチと人工芝ドッグランが自慢のカフェ。" },
-            { id: "cs12", name: "CafeTiamo", pref: "香川県", city: "高松市", address: "香川県高松市", desc: "元和食料理人が作る海鮮料理が絶品。広いドッグラン併設。" },
-
-            // 北陸・甲信越地方（追加）
-            { id: "hr1", name: "BAKE UP 1YAISM", pref: "新潟県", city: "新潟市中央区", address: "新潟県新潟市中央区", desc: "スポーツ公園内の絶好ロケーション。テラス席で犬用パンも。" },
-            { id: "hr2", name: "GLAD GARDEN CAFE", pref: "新潟県", city: "新潟市", address: "新潟県新潟市", desc: "エアストリームのお洒落カフェ。こだわりのハーブメニュー。" },
-            { id: "hr3", name: "こかげカフェ", pref: "新潟県", city: "新潟市中央区", address: "新潟県新潟市中央区", desc: "新潟市美術館内。アレルギー配慮の健康志向メニューが人気。" },
-            { id: "hr4", name: "DOG DEPT GARDEN 軽井沢", pref: "長野県", city: "軽井沢町", address: "長野県北佐久郡軽井沢町", desc: "全国展開ブランド。専用メニュー豊富でホテルも併設する聖地。" },
-            { id: "hr5", name: "Heart2 Dog", pref: "長野県", city: "長野市", address: "長野県長野市", desc: "善光寺北側の高台にあり、市街地から千曲市まで一望できる。" },
-            { id: "hr6", name: "ごはんとカフェBlueStar", pref: "長野県", city: "長野市", address: "長野県長野市", desc: "信州牛100％絶品ハンバーグ。マッサージイベント等も開催。" },
-            { id: "hr7", name: "sunny terrace", pref: "長野県", city: "長野市", address: "長野県長野市", desc: "ヤギミルクやステーキなど、ワンちゃん用メニューが超豊富。" },
-            { id: "hr8", name: "SHIPPO CAFE", pref: "石川県", city: "金沢市", address: "石川県金沢市", desc: "30畳の広々とした室内ドッグラン完備の温かい一軒家カフェ。" },
-            { id: "hr9", name: "Choco Tea（ショコティ）", pref: "石川県", city: "金沢市", address: "石川県金沢市", desc: "金沢城公園近く。名物クロワッサンたい焼きとパスタのお店。" },
-            { id: "hr10", name: "muucoco", pref: "石川県", city: "七尾市", address: "石川県七尾市", desc: "能登島の海が見える絶景。トイプーの可愛い看板犬がお出迎え。" },
-
-            // 九州・沖縄地方（追加）
-            { id: "k1", name: "bills 福岡", pref: "福岡県", city: "福岡市中央区", address: "福岡県福岡市中央区西中洲13-1", desc: "テラス犬同伴OK。大型犬可。犬メニューなし。" },
-            { id: "k2", name: "Manly 福岡店", pref: "福岡県", city: "福岡市中央区", address: "福岡県福岡市中央区今泉1-18-55 天神南ロイヤルハイツ1F", desc: "店内・テラス犬OK。水とジャーキーサービス。" },
-            { id: "k3", name: "ワンパークカフェ大濠店", pref: "福岡県", city: "福岡市中央区", address: "福岡県福岡市中央区大濠公園3-5", desc: "店内犬OK。犬メニューあり。ドッグラン併設。" },
-            { id: "k4", name: "やさい巻き串屋 ねじけもん", pref: "福岡県", city: "福岡市中央区", address: "福岡県福岡市中央区大名2-1-29 AIビルC館 1F", desc: "テラス犬OK。串焼き人気。大型犬は要確認。" },
-            { id: "k5", name: "アグリツーリズモ アッカプントエッフェ", pref: "福岡県", city: "糸島市", address: "福岡県糸島市二丈吉井389-1", desc: "糸島の農園レストラン。犬同伴可（要確認）。" },
-            { id: "k6", name: "ファームカフェ", pref: "福岡県", city: "糸島市", address: "福岡県糸島市志摩芥屋84-2", desc: "犬同伴可（要確認）。糸島でカフェ休憩に。" },
-            { id: "k7", name: "カフェドボッコ", pref: "福岡県", city: "福津市", address: "福岡県福津市西福間4-15-37", desc: "犬同伴可（要確認）。人気の手作りカフェ。" },
-            { id: "k8", name: "ペッツザワールド", pref: "福岡県", city: "久留米市", address: "福岡県久留米市東合川2-8-12", desc: "ドッグカフェ。店内犬OK。ペットショップ併設。" },
-            { id: "k9", name: "くるみcafe", pref: "福岡県", city: "八女市", address: "福岡県八女市本町2-508-14", desc: "店内・テラス犬OK。犬メニュー&ドッグランあり。" },
-            { id: "k10", name: "ドッグカフェ BeBe", pref: "福岡県", city: "遠賀郡遠賀町", address: "福岡県遠賀郡遠賀町今古賀515-25", desc: "店内・テラス犬OK。犬メニューあり。大型犬OK。" },
-            { id: "k11", name: "たのしい農家 お百笑さん", pref: "佐賀県", city: "武雄市", address: "佐賀県武雄市若木町大字本部 山中", desc: "テラス犬OK。ドッグランあり。大型犬OK。" },
-            { id: "k12", name: "JONAI SQUARE CAFE", pref: "佐賀県", city: "佐賀市", address: "佐賀県佐賀市城内1-6-10", desc: "テラス犬同伴OK。大型犬は要確認。" },
-            { id: "k13", name: "Blue Couronne", pref: "佐賀県", city: "神埼市", address: "佐賀県神埼市脊振町服巻2310-36", desc: "完全予約制。テラス犬OK。犬メニューあり。" },
-            { id: "k14", name: "1's space", pref: "佐賀県", city: "鳥栖市", address: "佐賀県鳥栖市田代大官町812-1", desc: "店内犬OK。犬メニューあり。大型犬OK。" },
-            { id: "k15", name: "SECRET GARDEN", pref: "佐賀県", city: "佐賀市", address: "佐賀県佐賀市三瀬村藤原537-13", desc: "山のカフェ。テラス犬OK。大型犬OK。" },
-            { id: "k16", name: "旬菜舎さと山", pref: "佐賀県", city: "佐賀市", address: "佐賀県佐賀市富士町下合瀬山神739-1", desc: "テラス犬OK。大型犬OK。11時〜犬メニュー。" },
-            { id: "k17", name: "Mcafe＆M3", pref: "佐賀県", city: "佐賀市", address: "佐賀県佐賀市三瀬村藤原537-21", desc: "小型犬は店内可。中大型はテラス。犬メニュー有。" },
-            { id: "k18", name: "OND CAFE", pref: "佐賀県", city: "武雄市", address: "佐賀県武雄市武雄町大字永島18202-1", desc: "半屋外テラス犬OK。併設店で犬おやつ販売。" },
-            { id: "k19", name: "炭炎", pref: "佐賀県", city: "佐賀市", address: "佐賀県佐賀市三瀬村杠649", desc: "屋根付きテラス犬OK。犬メニューあり。大型犬OK。" },
-            { id: "k20", name: "レストランそよ風", pref: "佐賀県", city: "神埼市", address: "佐賀県神埼市脊振町広滝1472", desc: "店内犬OK。犬メニューあり。ドッグラン併設。" },
-            { id: "k21", name: "Cafe Tony＆Chloe", pref: "長崎県", city: "長崎市", address: "長崎県長崎市浜町2-17", desc: "店内犬OK。犬メニューあり。大型犬OK。" },
-            { id: "k22", name: "goo cafe", pref: "長崎県", city: "東彼杵郡東彼杵町", address: "長崎県東彼杵郡東彼杵町彼杵宿郷1081", desc: "店内・テラス犬OK。マナーウェア必須。犬メニュー有。" },
-            { id: "k23", name: "Retro Hawaii Cafe", pref: "長崎県", city: "大村市", address: "長崎県大村市日泊町1544-1", desc: "店内・テラス犬OK。ドッグラン&サロン併設。" },
-            { id: "k24", name: "ドッグラン＆ドッグカフェojyou", pref: "長崎県", city: "東彼杵郡波佐見町", address: "長崎県東彼杵郡波佐見町永尾郷32-1", desc: "店内・テラス犬OK。小中型のみ。ドッグラン併設。" },
-            { id: "k25", name: "BUCO café", pref: "長崎県", city: "東彼杵郡川棚町", address: "長崎県東彼杵郡川棚町三越郷140-39", desc: "店内犬OK。ランチ充実。大型犬は要確認。" },
-            { id: "k26", name: "庭カフェ", pref: "長崎県", city: "大村市", address: "長崎県大村市松山町254", desc: "店内・テラス犬OK。屋外&室内ドッグラン併設。" },
-            { id: "k27", name: "カフェドジーノ", pref: "長崎県", city: "西彼杵郡長与町", address: "長崎県西彼杵郡長与町まなび野2丁目1-4", desc: "緑のテラス犬OK。ランチ豊富。大型犬OK。" },
-            { id: "k28", name: "出島テラス", pref: "長崎県", city: "長崎市", address: "長崎県長崎市出島町1-1 長崎出島ワーフ 内2階", desc: "海辺テラス犬OK。眺望◎。大型犬OK。" },
-            { id: "k29", name: "TOLGA CAFE", pref: "長崎県", city: "諫早市", address: "長崎県諫早市東本町1-5 4F", desc: "店内・テラス犬OK。パフェ人気。大型犬OK。" },
-            { id: "k30", name: "ATTIC COFFEE second", pref: "長崎県", city: "長崎市", address: "長崎県長崎市出島町1-1 長崎出島ワーフ 1F中央", desc: "海が見えるテラス犬OK。朝8時〜。大型犬OK。" },
-            { id: "k31", name: "MINATO CAFE", pref: "長崎県", city: "長崎市", address: "長崎県長崎市伊王島町1丁目3277-7", desc: "港前テラス犬OK。朝6:30〜。大型犬OK。" },
-            { id: "k32", name: "レストラン チャイルドボックス", pref: "長崎県", city: "長崎市", address: "長崎県長崎市旭町14-16", desc: "店内犬OK。トルコライス。大型犬は要確認。" },
-            { id: "k33", name: "ドッグラン&カフェ Hug me", pref: "熊本県", city: "熊本市中央区", address: "熊本県熊本市中央区上林町1-30 マーケットプレイス 3F", desc: "室内ドッグラン付き。店内犬OK。小型犬のみ。" },
-            { id: "k34", name: "フラッペ×フラッペ", pref: "熊本県", city: "熊本市北区", address: "熊本県熊本市北区植木町富応1308-1", desc: "店内・テラス犬OK。ドッグラン&犬メニュー有。" },
-            { id: "k35", name: "Little Garden", pref: "熊本県", city: "熊本市東区", address: "熊本県熊本市東区長嶺南4-1-85", desc: "店内・テラス犬OK。犬メニュー有。大型犬不可。" },
-            { id: "k36", name: "Three TAILs", pref: "熊本県", city: "熊本市中央区", address: "熊本県熊本市中央区出水4丁目34-3 シャトー出水", desc: "獣医師運営。店内犬OK。健康相談も対応。" },
-            { id: "k37", name: "Cafe du gui", pref: "熊本県", city: "熊本市西区", address: "熊本県熊本市西区池上町608-4", desc: "ドッグラン併設。マナーパンツ必須。犬メニュー有。" },
-            { id: "k38", name: "Manly 熊本店", pref: "熊本県", city: "熊本市中央区", address: "熊本県熊本市中央区南坪井町5-29 The Salon Bldg 1F", desc: "店内・テラス犬OK。犬メニューあり。大型犬要確認。" },
-            { id: "k39", name: "LANI GATE", pref: "熊本県", city: "熊本市南区", address: "熊本県熊本市南区城南町さんさん2-3-10", desc: "店内・テラス犬OK。ドッグラン併設。大型犬OK。" },
-            { id: "k40", name: "ドゥリーミン Aso アンティークス カフェ", pref: "熊本県", city: "阿蘇郡西原村", address: "熊本県阿蘇郡西原村出の口1547-1", desc: "古民家カフェ。店内犬OK。犬メニューあり。" },
-            { id: "k41", name: "樹心園", pref: "熊本県", city: "玉名郡長洲町", address: "熊本県玉名郡長洲町清源寺3231-1-1F", desc: "盆栽園カフェ。テラス犬OK。犬おやつあり。" },
-            { id: "k42", name: "宝処三昧", pref: "熊本県", city: "阿蘇郡小国町", address: "熊本県阿蘇郡小国町北里429-2", desc: "要予約。店内個室で犬同伴可。大型犬OK。" },
-            { id: "k43", name: "クロスタイムクロスビー", pref: "熊本県", city: "熊本市西区", address: "熊本県熊本市西区春日1-13-1-1F", desc: "ホテルレストラン。テラス犬OK（小型10kg未満）。" },
-            { id: "k44", name: "茶房風曜日", pref: "大分県", city: "由布市", address: "大分県由布市湯布院町川北899-100", desc: "店内は小型犬のみ。テラス犬OK。犬メニュー&ドッグラン有。" },
-            { id: "k45", name: "ドッグラン＆カフェ Green Field", pref: "大分県", city: "由布市", address: "大分県由布市湯布院町川上2852-1", desc: "天然芝ドッグラン併設。テラス犬同伴OK。" },
-            { id: "k46", name: "ドッグカフェ KURU・SAN", pref: "大分県", city: "別府市", address: "大分県別府市火売6組3", desc: "店内犬OK。手作り犬ごはん有。ノーリード庭あり。" },
-            { id: "k47", name: "Cherie Storage Cafe", pref: "大分県", city: "別府市", address: "大分県別府市石垣東2丁目2-13", desc: "倉庫リノベ。1階店内犬OK。犬おやつ販売。" },
-            { id: "k48", name: "ワンLOVE", pref: "大分県", city: "大分市", address: "大分県大分市葛木1069", desc: "ドッグラン併設。店内・テラス犬OK。犬メニュー有。" },
-            { id: "k49", name: "LA LUCE80℃ 大分明野ガーデンテラス店", pref: "大分県", city: "大分市", address: "大分県大分市明野東1-2-43", desc: "全天候型テラス犬OK。大型犬不可。" },
-            { id: "k50", name: "Cafe BoiBoi", pref: "大分県", city: "竹田市", address: "大分県竹田市久住町大字久住4050-23 くじゅう花公園横", desc: "久住高原。テラス犬OK。犬メニュー&ドッグラン有。" },
-            { id: "k51", name: "SORA cafe", pref: "大分県", city: "宇佐市", address: "大分県宇佐市大字別府561-1", desc: "店内・テラス犬OK。犬メニュー&ドッグラン有。一時預かり。" },
-            { id: "k52", name: "Dog cafe WanWan", pref: "大分県", city: "大分市", address: "大分県大分市迫734", desc: "店内全席犬OK。ミニラン&撮影スポット。犬メニュー有。" },
-            { id: "k53", name: "milcoco", pref: "大分県", city: "大分市", address: "大分県大分市永興2丁目9番地1号", desc: "室内・テラス犬OK。人工芝のノーリードスペース。" },
-            { id: "k54", name: "ドッグラン&カフェICOI〜いこい〜", pref: "宮崎県", city: "宮崎市", address: "宮崎県宮崎市大島町萩崎455-6", desc: "天然芝ドッグラン併設。緑のログ風カフェ。" },
-            { id: "k55", name: "LDK", pref: "宮崎県", city: "宮崎市", address: "宮崎県宮崎市青島2-241-1 AOSHIMA BEACH VILLAGE", desc: "青島の海前。テラス犬同伴OK。" },
-            { id: "k56", name: "あめいろCAFÉ", pref: "宮崎県", city: "宮崎市", address: "宮崎県宮崎市宮田町10-18", desc: "路地裏カフェ。テラス犬同伴OK。" },
-            { id: "k57", name: "The TERRACE", pref: "宮崎県", city: "宮崎市", address: "宮崎県宮崎市吉村町天神前甲144-7", desc: "肉料理レストラン。広いテラス犬OK。" },
-            { id: "k58", name: "黒髭珈琲 マルヨコブリッジ店", pref: "宮崎県", city: "都城市", address: "宮崎県都城市中町16-22 マルヨコブリッジビル1F", desc: "図書館横カフェ。テラス犬同伴OK。" },
-            { id: "k59", name: "SWELL cafe&guesthouse", pref: "宮崎県", city: "日向市", address: "宮崎県日向市大字財光寺1848-2", desc: "海近。テラス犬OK。ドッグラン併設。" },
-            { id: "k60", name: "SHIMOASO CAFÉ", pref: "宮崎県", city: "延岡市", address: "宮崎県延岡市北浦町古江3300-17", desc: "下阿蘇ビーチ前。テラス犬OK。ミニドッグラン併設。" },
-            { id: "k61", name: "nicol cafe＆zakka", pref: "宮崎県", city: "東諸県郡綾町", address: "宮崎県東諸県郡綾町入野598-7", desc: "雑貨カフェ。テラス犬同伴OK。自然の中。" },
-            { id: "k62", name: "コニーズカフェ", pref: "宮崎県", city: "日南市", address: "宮崎県日南市梅ケ浜2丁目1-35", desc: "店内犬OK。ドッグラン&夏季ドッグプール。マナーウェア必須。" },
-            { id: "k63", name: "レシズモア", pref: "宮崎県", city: "宮崎市", address: "宮崎県宮崎市恒久5099-1", desc: "カフェ併設ドッグラン。予約制。テラス犬OK。" },
-            { id: "k64", name: "mijicafe", pref: "鹿児島県", city: "霧島市", address: "鹿児島県霧島市隼人町真孝1254-1", desc: "店内・テラス犬OK。小型ドッグランあり。しつけ教室。" },
-            { id: "k65", name: "cafeミルク", pref: "鹿児島県", city: "霧島市", address: "鹿児島県霧島市隼人町住吉1348-1", desc: "店内は小型犬OK。犬メニューあり。" },
-            { id: "k66", name: "Camp&Cafe ワンだふるガーデン", pref: "鹿児島県", city: "霧島市", address: "鹿児島県霧島市溝辺町崎森2078-6", desc: "店内・テラス犬OK。ドッグラン併設。大型犬要相談。" },
-            { id: "k67", name: "Ora カフェサロン", pref: "鹿児島県", city: "鹿児島市", address: "鹿児島県鹿児島市城山町2-11 DOLCE VITA A B1", desc: "店内犬OK。犬メニューあり。イベント多め。" },
-            { id: "k68", name: "カフェ &ドッグラン レオン", pref: "鹿児島県", city: "日置市", address: "鹿児島県日置市伊集院町古城1138-1", desc: "古民家リノベ。店内犬OK。ドッグラン&犬メニュー有。" },
-            { id: "k69", name: "縁久", pref: "鹿児島県", city: "鹿児島市", address: "鹿児島県鹿児島市吉野町6034-17", desc: "個室で犬同伴OK。犬メニューあり。チーズケーキ有名。" },
-            { id: "k70", name: "葉っぱDELI", pref: "鹿児島県", city: "肝属郡南大隅町", address: "鹿児島県肝属郡南大隅町根占川南5024", desc: "屋根付きテラス犬OK。古民家ランチ。" },
-            { id: "k71", name: "Black Smith", pref: "鹿児島県", city: "鹿児島市", address: "鹿児島県鹿児島市加治屋町20-1", desc: "公園内カフェ。テラス犬同伴OK。パスタ・ピザ。" },
-            { id: "k72", name: "風の丘のフィオレンティーナ", pref: "鹿児島県", city: "鹿児島市", address: "鹿児島県鹿児島市西別府町2794-68", desc: "桜島眺望。テラス犬OK。カフェ&ランチ。" },
-            { id: "k73", name: "平川マリーナマルシェ", pref: "鹿児島県", city: "鹿児島市", address: "鹿児島県鹿児島市平川町2884", desc: "マリーナのカフェ。テラス犬同伴OK。" },
-            { id: "k74", name: "ベーカリー＆カフェ ReeNo", pref: "鹿児島県", city: "霧島市", address: "鹿児島県霧島市国分中央6-21-37", desc: "ベーカリーカフェ。テラス犬OK。朝7時〜。" },
-            { id: "k75", name: "マテリアランチ.com", pref: "鹿児島県", city: "霧島市", address: "鹿児島県霧島市霧島田口2458-8", desc: "霧島のカフェ。テラス犬同伴OK。" },
-            { id: "k76", name: "スマイル工房パスタカフェドリィ", pref: "鹿児島県", city: "鹿屋市", address: "鹿児島県鹿屋市西祓川町373-1", desc: "緑のパスタカフェ。テラス犬同伴OK。" }
-        ];
-
-        // === COMPONENTS ===
-
-        // --- 1. LANDING PAGE ---
-        const LandingPage = ({ onLogin }) => {
             return (
-                <div className="min-h-screen bg-theme-base flex flex-col items-center pb-20 relative pt-16">
-                    {/* Logo (Restored & Centered) */}
-                    <img loading="lazy" src="./images/logo_hero_new.png" className="w-64 mb-6" />
-
-                    {/* Text Section (Clean Layout) */}
-                    <div className="text-center px-6 mb-16 relative z-10 text-theme-text">
-                        <h1 className="font-serif text-3xl md:text-4xl font-medium leading-relaxed tracking-wide drop-shadow-sm mb-6">
-                            愛犬の管理、<br />スマホ一つで。
-                        </h1>
-                        <p className="text-sm text-theme-text font-sans tracking-wider leading-loose">
-                            フード診断、イベント情報、<br />ワクチン接種記録まで全て完結。
-                        </p>
-                    </div>
-
-                    <div className="w-full max-w-md px-6 relative z-10 grid grid-cols-2 gap-x-4 gap-y-8 mb-16">
-                        <FeatureCard
-                            icon={<IconFood />}
-                            title="Food Diagnosis"
-                            jp="フード診断"
-                            desc="年齢と体質に合わせた最適な一皿を提案"
-                        />
-                        <FeatureCard
-                            icon={<IconHealth />}
-                            title="Health Record"
-                            jp="ヘルスケア記録"
-                            desc="ワクチン接種日と次回予定を管理"
-                        />
-                        <FeatureCard
-                            icon={<IconEventNews />}
-                            title="Event News"
-                            jp="イベント情報"
-                            desc="週末のお出かけ先を全国から検索"
-                        />
-                        <FeatureCard
-                            icon={<IconCafe />}
-                            title="Dog Cafe"
-                            jp="ドッグカフェ検索"
-                            desc="全国の犬カフェをみんなで共有"
-                        />
-                        <FeatureCard
-                            icon={<IconLostFound />}
-                            title="Lost & Found"
-                            jp="迷子掲示板"
-                            desc="地域のみんなで守る安心ネットワーク"
-                        />
-                    </div>
-
-                    {/* Google Login Section (Moved Below) */}
-                    <div className="w-full max-w-xs px-6 mb-16">
-                        <div className="text-center mb-6">
-                            <p className="font-serif text-theme-text text-lg mb-1">さあ、始めましょう</p>
-                            <p className="text-xs text-theme-text">登録も管理も、これひとつ。</p>
+                <div className="min-h-screen hero-pattern">
+                    {/* Header */}
+                    <header className="fixed w-full top-0 z-50 glass border-b border-white/10">
+                        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center outline-none">
+                            <div className="font-bold text-xl tracking-wider text-white flex items-center gap-2">
+                                <i data-feather="activity" className="text-accent"></i>
+                                整骨院サクセスアカデミー
+                            </div>
+                            <a href="#pricing" className="bg-gradient-to-r from-accent to-yellow-500 text-white px-5 py-2 rounded font-bold hover:shadow-lg hover:shadow-accent/30 transition-all text-sm">
+                                プランを見る
+                            </a>
                         </div>
-                        <button onClick={onLogin} className="w-full group relative overflow-hidden bg-white border border-theme-primary/30 text-theme-text font-serif px-6 py-5 rounded-2xl shadow-soft flex items-center justify-center gap-3">
-                            <svg className="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
-                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-                            </svg>
-                            <span className="tracking-widest font-bold text-sm">Googleでログイン</span>
-                        </button>
-                    </div>
+                    </header>
 
-                    <footer className="text-center text-[10px] text-theme-text pb-8 font-sans">
-                        © 2026 PepLab Inc.
+                    {/* Hero Section */}
+                    <section className="pt-32 pb-24 px-6">
+                        <div className="max-w-4xl mx-auto text-center mt-12 py-10 relative">
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[100px] -z-10"></div>
+
+                            <span className="bg-white/10 text-accent border border-accent/20 px-4 py-1.5 rounded-full text-sm font-bold tracking-widest mb-6 inline-block">
+                                実店舗オーナー必見の1年間完結プログラム
+                            </span>
+                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight mb-8">
+                                現場発、実証済みの<br className="md:hidden" />
+                                <span className="gradient-text">「集客 × 運営」</span>ノウハウ
+                            </h1>
+                            <p className="text-lg md:text-xl text-slate-400 mb-10 leading-relaxed max-w-2xl mx-auto">
+                                激戦区で成功を収めた2人の現役オーナーが、机上の空論ではない「明日から使える」戦略を共有。Lecteaを使った動画配信で、あなたのペースで確実な成長をサポートします。
+                            </p>
+
+                            <div className="flex justify-center">
+                                <a href="#details" className="group flex items-center justify-center gap-3 bg-white hover:bg-slate-200 text-slate-900 px-8 py-4 rounded-full font-bold text-lg transition-all">
+                                    プログラムの詳細を見る
+                                    <i data-feather="arrow-down" className="w-5 h-5 group-hover:translate-y-1 transition-transform"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Features / Structure */}
+                    <section id="details" className="py-20 bg-slate-900 border-y border-white/5 relative z-10">
+                        <div className="max-w-6xl mx-auto px-6">
+                            <div className="text-center mb-16">
+                                <h2 className="text-3xl font-bold mb-4">選ばれる3つの理由</h2>
+                                <p className="text-slate-400">最新トレンドから本質的なオペレーションまで網羅しています。</p>
+                            </div>
+
+                            <div className="grid md:grid-cols-3 gap-8">
+                                <div className="glass p-8 rounded-2xl hover:bg-slate-800/50 transition-colors">
+                                    <div className="w-12 h-12 bg-primary/30 rounded-lg flex items-center justify-center mb-6">
+                                        <i data-feather="video" className="text-blue-400 w-6 h-6"></i>
+                                    </div>
+                                    <h3 className="text-xl font-bold mb-3">プラットフォーム「Lectea」</h3>
+                                    <p className="text-slate-400 text-sm leading-relaxed">
+                                        最新の動画学習プラットフォームLecteaを採用。スマホからでもPCからでも、場所を選ばずいつでも復習できます。
+                                    </p>
+                                </div>
+                                <div className="glass p-8 rounded-2xl hover:bg-slate-800/50 transition-colors">
+                                    <div className="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center mb-6">
+                                        <i data-feather="users" className="text-accent w-6 h-6"></i>
+                                    </div>
+                                    <h3 className="text-xl font-bold mb-3">各分野のプロによる毎月2本配信</h3>
+                                    <p className="text-slate-400 text-sm leading-relaxed">
+                                        新規患者を呼ぶ「集客担当」と、リピートを創出する「運営担当」がそれぞれ月1本、計2本の実践的動画をお届けします。
+                                    </p>
+                                </div>
+                                <div className="glass p-8 rounded-2xl hover:bg-slate-800/50 transition-colors">
+                                    <div className="w-12 h-12 bg-emerald-500/20 rounded-lg flex items-center justify-center mb-6">
+                                        <i data-feather="map" className="text-emerald-400 w-6 h-6"></i>
+                                    </div>
+                                    <h3 className="text-xl font-bold mb-3">1年間の完成されたカリキュラム</h3>
+                                    <p className="text-slate-400 text-sm leading-relaxed">
+                                        迷わずステップアップできる、1年（12ヶ月）の年間カリキュラム案を完備。段階的に院の土台を強固にしていきます。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Roles Overview */}
+                    <section className="py-24 px-6 relative">
+                        <div className="max-w-5xl mx-auto">
+                            <div className="grid md:grid-cols-2 gap-12">
+                                {/* Marketing */}
+                                <div className="glass p-10 rounded-2xl relative overflow-hidden group">
+                                    <div className="relative z-10">
+                                        <div className="flex items-center gap-3 mb-6">
+                                            <span className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded text-xs font-bold">講義 A</span>
+                                            <h3 className="text-2xl font-bold">最強の「集客」戦略</h3>
+                                        </div>
+                                        <p className="text-slate-300 text-sm leading-relaxed mb-6">
+                                            HP、SNS、MEOなど、現代の整骨院に必須の集客経路を最適化。無駄な広告費を削り、質の高い新規患者を安定して獲得するためのデジタル・アナログ両面のアプローチを「私」が担当します。
+                                        </p>
+                                        <ul className="space-y-3 text-sm text-slate-400">
+                                            <li className="flex items-center gap-2"><i data-feather="check-circle" className="w-4 h-4 text-blue-500"></i> エリアごとのターゲティング術</li>
+                                            <li className="flex items-center gap-2"><i data-feather="check-circle" className="w-4 h-4 text-blue-500"></i> SNSとクチコミの連動・拡散</li>
+                                            <li className="flex items-center gap-2"><i data-feather="check-circle" className="w-4 h-4 text-blue-500"></i> 低予算で作る圧倒的認知度</li>
+                                        </ul>
+                                    </div>
+                                    <div className="absolute -bottom-10 -right-10 opacity-5 group-hover:opacity-10 transition-opacity">
+                                        <i data-feather="pie-chart" className="w-64 h-64"></i>
+                                    </div>
+                                </div>
+
+                                {/* Operations */}
+                                <div className="glass p-10 rounded-2xl relative overflow-hidden group">
+                                    <div className="relative z-10">
+                                        <div className="flex items-center gap-3 mb-6">
+                                            <span className="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded text-xs font-bold">講義 B</span>
+                                            <h3 className="text-2xl font-bold">離脱ゼロの「運営」術</h3>
+                                        </div>
+                                        <p className="text-slate-300 text-sm leading-relaxed mb-6">
+                                            せっかく集客してもリピートされなければ意味がありません。問診から施術後フォロー、スタッフ育成まで、患者様の心を掴んで離さない院内オペレーションの仕組みを「友人（現役オーナー）」が担当します。
+                                        </p>
+                                        <ul className="space-y-3 text-sm text-slate-400">
+                                            <li className="flex items-center gap-2"><i data-feather="check-circle" className="w-4 h-4 text-emerald-500"></i> 信頼を勝ち取る初回カウンセリング</li>
+                                            <li className="flex items-center gap-2"><i data-feather="check-circle" className="w-4 h-4 text-emerald-500"></i> 単価アップでも納得されるメニュー構築</li>
+                                            <li className="flex items-center gap-2"><i data-feather="check-circle" className="w-4 h-4 text-emerald-500"></i> スタッフが自律的に動く教育スキーム</li>
+                                        </ul>
+                                    </div>
+                                    <div className="absolute -bottom-10 -right-10 opacity-5 group-hover:opacity-10 transition-opacity">
+                                        <i data-feather="heart" className="w-64 h-64"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Pricing */}
+                    <section id="pricing" className="py-24 bg-dark">
+                        <div className="max-w-4xl mx-auto px-6 text-center">
+                            <h2 className="text-3xl font-bold mb-4">1年間のサブスクリプションで学ぶ</h2>
+                            <p className="text-slate-400 mb-16">
+                                本気で院を変えたい方のための2つのプランをご用意。クレジットカード決済に対応。
+                            </p>
+
+                            <div className="grid md:grid-cols-2 gap-8 text-left">
+                                {/* Basic Plan */}
+                                <div className="border border-slate-700 bg-slate-800/30 p-8 rounded-2xl flex flex-col">
+                                    <h3 className="text-xl font-bold mb-2">スタンダードプラン</h3>
+                                    <p className="text-slate-400 text-sm mb-6 h-10">動画をマイペースで視聴しご自身で実践できる方へ。</p>
+                                    <div className="mb-6">
+                                        <span className="text-4xl font-black">¥5,500</span>
+                                        <span className="text-slate-400"> / 月額</span>
+                                    </div>
+                                    <div className="w-full h-px bg-slate-700 mb-6"></div>
+                                    <ul className="space-y-4 mb-8 flex-1">
+                                        <li className="flex items-start gap-3 text-sm">
+                                            <i data-feather="check" className="w-5 h-5 text-accent shrink-0"></i>
+                                            <span>「集客」「運営」毎月2本の講義動画視聴</span>
+                                        </li>
+                                        <li className="flex items-start gap-3 text-sm">
+                                            <i data-feather="check" className="w-5 h-5 text-accent shrink-0"></i>
+                                            <span>Lecteaプラットフォーム利用権</span>
+                                        </li>
+                                        <li className="flex items-start gap-3 text-sm">
+                                            <i data-feather="check" className="w-5 h-5 text-accent shrink-0"></i>
+                                            <span>1年間のカリキュラムに基づく体系的学習</span>
+                                        </li>
+                                    </ul>
+                                    <button className="w-full border border-slate-600 hover:border-slate-400 hover:bg-slate-700 text-white font-bold py-3 rounded transition-colors">
+                                        スタンダードを選択
+                                    </button>
+                                </div>
+
+                                {/* Premium Plan */}
+                                <div className="border border-accent bg-accent/5 p-8 rounded-2xl flex flex-col relative transform md:-translate-y-4 shadow-2xl shadow-accent/10">
+                                    <div className="absolute top-0 right-8 -translate-y-1/2 bg-accent text-white px-3 py-1 text-xs font-bold tracking-wider rounded-sm">
+                                        おすすめ
+                                    </div>
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <h3 className="text-xl font-bold text-accent">プレミアムプラン</h3>
+                                        <i data-feather="star" className="w-4 h-4 text-accent fill-accent"></i>
+                                    </div>
+                                    <p className="text-slate-400 text-sm mb-6 h-10">自院の悩みを直接相談し、最速で結果を出したい方へ。</p>
+                                    <div className="mb-6">
+                                        <span className="text-4xl font-black text-white">¥13,000</span>
+                                        <span className="text-slate-400"> / 月額</span>
+                                    </div>
+                                    <div className="w-full h-px bg-slate-700 mb-6"></div>
+                                    <ul className="space-y-4 mb-8 flex-1">
+                                        <li className="flex items-start gap-3 text-sm">
+                                            <i data-feather="check" className="w-5 h-5 text-accent shrink-0"></i>
+                                            <span>スタンダードプランの全機能</span>
+                                        </li>
+                                        <li className="flex items-start gap-3 text-sm font-bold text-white">
+                                            <i data-feather="check" className="w-5 h-5 text-accent shrink-0"></i>
+                                            <span className="bg-accent/20 px-2 py-0.5 rounded">毎月1回の個別コンサルティング</span>
+                                        </li>
+                                        <li className="flex items-start gap-3 text-sm">
+                                            <i data-feather="check" className="w-5 h-5 text-accent shrink-0"></i>
+                                            <span>自院の数値や課題に合わせた具体策の提示</span>
+                                        </li>
+                                        <li className="flex items-start gap-3 text-sm">
+                                            <i data-feather="check" className="w-5 h-5 text-accent shrink-0"></i>
+                                            <span>優先サポート対応</span>
+                                        </li>
+                                    </ul>
+                                    <button className="w-full bg-gradient-to-r from-accent to-yellow-500 hover:from-yellow-500 hover:to-accent text-white font-bold py-3 rounded shadow-lg shadow-accent/20 transition-colors">
+                                        プレミアムを選択
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* CTA Bottom */}
+                    <section className="py-20 bg-primary relative overflow-hidden">
+                        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
+                        <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
+                            <h2 className="text-3xl font-bold mb-6">あなたの院は、まだ伸びる。</h2>
+                            <p className="text-blue-200 mb-10 leading-relaxed">
+                                年間を通してブレない戦略を手に入れ、競合から一歩抜け出しませんか。<br />
+                                今日からの参加をお待ちしております。
+                            </p>
+                            <button className="bg-white text-primary px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-50 transition-colors shadow-xl">
+                                今すぐ申し込みページへ
+                            </button>
+                        </div>
+                    </section>
+
+                    {/* Footer */}
+                    <footer className="py-8 bg-black text-center text-slate-500 text-sm">
+                        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                            <div>© 2026 整骨院サクセスアカデミー All rights reserved.</div>
+                            <div className="flex gap-6">
+                                <a href="#" className="hover:text-slate-400">利用規約</a>
+                                <a href="#" className="hover:text-slate-400">特定商取引法に基づく表記</a>
+                                <a href="#" className="hover:text-slate-400">プライバシーポリシー</a>
+                            </div>
+                        </div>
                     </footer>
                 </div>
             );
         };
 
-        const FeatureCard = ({ icon, title, jp, desc }) => (
-            <div className="flex flex-col items-center text-center p-2">
-                <div className="mb-2 p-3 bg-white/50 rounded-full text-theme-primary">
-                    {icon}
-                </div>
-                <h3 className="font-serif text-base text-theme-text mb-1">{jp}</h3>
-                <p className="text-[10px] text-theme-text leading-relaxed font-sans">{desc}</p>
-            </div>
-        );
-
-
-        // --- 2. DASHBOARD ---
-        // --- 2. DASHBOARD ---
-        const Dashboard = ({ user, onLogout }) => {
-            const [tab, setTab] = useState('menu');
-            const [answers, setAnswers] = useState(null);
-            const [dogProfile, setDogProfile] = useState(null);
-            const [vaccineData, setVaccineData] = useState(null); // New: Vaccine Record Object
-            const [isProfileOpen, setIsProfileOpen] = useState(false);
-            const [isSyncing, setIsSyncing] = useState(false); // New: Cloud Saving Indicator
-
-            // Load Data from Firestore on Mount
-            useEffect(() => {
-                if (!user || !db) return;
-
-                // Firestore Listen (Realtime Sync)
-                const unsubscribe = db.collection('users').doc(user.uid).onSnapshot(doc => {
-                    if (doc.exists) {
-                        const data = doc.data();
-                        setAnswers(data.answers || null);
-                        setDogProfile(data.dogProfile || null);
-                        setVaccineData(data.vaccineData || null);
-                    } else {
-                        // New user: Set default structure
-                        console.log("New user detected, ready to save.");
-                    }
-                }, error => {
-                    console.error("Error fetching data:", error);
-                    // Fallback to local storage if offline/error? (Logic omitted for simplicity, relying on Auth)
-                });
-
-                return () => unsubscribe();
-            }, [user]);
-
-            // Save Helper
-            const saveToCloud = async (field, data) => {
-                if (!user || !db) return;
-                setIsSyncing(true);
-                try {
-                    await db.collection('users').doc(user.uid).set({
-                        [field]: data
-                    }, { merge: true });
-                } catch (e) {
-                    console.error("Save Error:", e);
-                    alert("保存に失敗しました");
-                } finally {
-                    setTimeout(() => setIsSyncing(false), 500); // Visual delay for UX
-                }
-            };
-
-            // Wrapped Setters
-            const handleProfileSave = (profile) => {
-                // Update local (optimistic) and cloud
-                setDogProfile(profile);
-                saveToCloud('dogProfile', profile);
-                setIsProfileOpen(false);
-            };
-
-            const handleDiagnosisResult = (result) => {
-                setAnswers(result);
-                saveToCloud('answers', result);
-            };
-
-            const handleVaccineSave = (data) => {
-                setVaccineData(data);
-                saveToCloud('vaccineData', data);
-            };
-
-            const renderContent = () => {
-                if (isProfileOpen) return <ProfileEditor current={dogProfile} onSave={handleProfileSave} onCancel={() => setIsProfileOpen(false)} />;
-
-                switch (tab) {
-                    case 'menu': return <HomeMenu onNavigate={setTab} profile={dogProfile} hasDiagnosis={!!answers} onEditProfile={() => setIsProfileOpen(true)} />;
-                    case 'home': return answers ? <FoodResults answers={answers} onReset={() => handleDiagnosisResult(null)} onShowAll={() => setTab('ranking')} /> : <Diagnosis onResult={handleDiagnosisResult} onShowAll={() => setTab('ranking')} onBack={() => setTab('menu')} />;
-                    case 'ranking': return <ProductRanking onBack={() => setTab('home')} />;
-                    case 'record': return <RecordTab data={vaccineData} onSave={handleVaccineSave} onBack={() => setTab('menu')} />;
-                    case 'event': return <EventsTab onBack={() => setTab('menu')} />;
-                    case 'cafe': return <CafeTab onBack={() => setTab('menu')} />;
-                    case 'lost': return <LostTab onBack={() => setTab('menu')} />;
-                    default: return <HomeMenu onNavigate={setTab} profile={dogProfile} hasDiagnosis={!!answers} onEditProfile={() => setIsProfileOpen(true)} />;
-                }
-            };
-
-            return (
-                <div className="min-h-screen bg-theme-base pb-24">
-                    <header className="fixed top-0 w-full max-w-md mx-auto z-40 bg-theme-base/80 backdrop-blur-md px-6 py-4 flex justify-between items-center shadow-sm">
-                        <img loading="lazy" onClick={() => { setTab('menu'); setIsProfileOpen(false); }} src="./images/logo_header.png" className="h-8 cursor-pointer object-contain" alt="PepLab" />
-                        <div className="flex items-center gap-4">
-                            {/* Sync Indicator */}
-                            {isSyncing && <div className="w-2 h-2 rounded-full bg-theme-secondary"></div>}
-
-                            <button onClick={() => setIsProfileOpen(true)} className="w-8 h-8 rounded-full bg-theme-muted overflow-hidden border border-theme-text/10">
-                                {dogProfile?.image ? <img loading="lazy" src={dogProfile.image} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-theme-text"><IconPaw /></div>}
-                            </button>
-                            <button onClick={onLogout} className="text-xs text-theme-text">Log out</button>
-                        </div>
-                    </header>
-                    <main className="pt-20 px-6">
-                        {renderContent()}
-                    </main>
-                    <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/90 backdrop-blur-lg border-t border-theme-muted flex justify-around py-2 pb-safe z-50">
-                        <NavButton active={tab === 'menu'} onClick={() => { setTab('menu'); setIsProfileOpen(false); }} icon={<IconHome active={tab === 'menu'} />} label="ホーム" />
-                        <NavButton active={tab === 'record'} onClick={() => { setTab('record'); setIsProfileOpen(false); }} icon={<IconRecord active={tab === 'record'} />} label="記録" />
-                        <NavButton active={tab === 'event'} onClick={() => { setTab('event'); setIsProfileOpen(false); }} icon={<IconEvent active={tab === 'event'} />} label="イベント" />
-                        <NavButton active={tab === 'cafe'} onClick={() => { setTab('cafe'); setIsProfileOpen(false); }} icon={<IconCafe active={tab === 'cafe'} />} label="カフェ" />
-                        <NavButton active={tab === 'lost'} onClick={() => { setTab('lost'); setIsProfileOpen(false); }} icon={<IconLost active={tab === 'lost'} />} label="迷子" />
-                    </nav>
-                </div>
-            );
-        };
-
-        // --- SHARED COMPONENTS ---
-        const TabbedModal = ({ isOpen, onClose, title, data, onSelect }) => {
-            if (!isOpen) return null;
-            const tabs = Object.keys(data);
-            const [activeTab, setActiveTab] = useState(tabs[0]);
-
-            return (
-                <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center">
-                    <div className="bg-theme-base w-full max-w-md h-[85vh] sm:h-[650px] sm:rounded-3xl rounded-t-3xl shadow-2xl flex flex-col overflow-hidden">
-                        <div className="p-4 border-b border-theme-muted flex justify-between items-center bg-white shrink-0">
-                            <h3 className="font-serif text-lg text-theme-text font-bold text-center w-full">{title}</h3>
-                            <button onClick={onClose} className="absolute right-4 p-2 rounded-full text-theme-text">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                            </button>
-                        </div>
-                        {/* Tabs - Distinct Background */}
-                        <div className="flex flex-wrap gap-2 p-3 border-b border-theme-muted bg-theme-muted/20 shrink-0 justify-center">
-                            {tabs.map(t => (
-                                <button key={t} onClick={() => setActiveTab(t)} className={`px-3 py-2 rounded-lg text-xs font-bold transition-all shadow-sm ${activeTab === t ? 'bg-theme-primary text-white ring-2 ring-theme-primary ring-offset-1' : 'bg-white text-theme-text border border-theme-muted hover:bg-white/80'}`}>
-                                    {t}
-                                </button>
-                            ))}
-                        </div>
-                        {/* Content */}
-                        <div className="flex-1 overflow-y-auto p-4 bg-theme-base scroll-smooth">
-                            <div className="grid grid-cols-1 gap-2 pb-10">
-                                {data[activeTab].map(item => (
-                                    <button key={item} onClick={() => onSelect(item)} className="p-4 bg-white rounded-xl text-left text-theme-text shadow-sm hover:text-theme-secondary font-medium border border-transparent">
-                                        {item}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
-
-        const ProfileEditor = ({ current, onSave, onCancel }) => {
-            const [name, setName] = useState(current?.name || '');
-            const [breed, setBreed] = useState(current?.breed || '');
-            const [age, setAge] = useState(current?.age ? current.age.toString() + '歳' : '');
-            const [image, setImage] = useState(current?.image || null);
-            const [isProcessing, setIsProcessing] = useState(false); // New: Processing state
-
-            const [isBreedOpen, setIsBreedOpen] = useState(false);
-            const [isAgeOpen, setIsAgeOpen] = useState(false);
-
-            // Image Resizer Helper
-            const resizeImage = (file) => {
-                return new Promise((resolve) => {
-                    const MAX_WIDTH = 600;
-                    const MAX_HEIGHT = 600;
-                    const reader = new FileReader();
-                    reader.readAsDataURL(file);
-                    reader.onload = (event) => {
-                        const img = new Image();
-                        img.src = event.target.result;
-                        img.onload = () => {
-                            let width = img.width;
-                            let height = img.height;
-
-                            if (width > height) {
-                                if (width > MAX_WIDTH) {
-                                    height *= MAX_WIDTH / width;
-                                    width = MAX_WIDTH;
-                                }
-                            } else {
-                                if (height > MAX_HEIGHT) {
-                                    width *= MAX_HEIGHT / height;
-                                    height = MAX_HEIGHT;
-                                }
-                            }
-
-                            const canvas = document.createElement('canvas');
-                            canvas.width = width;
-                            canvas.height = height;
-                            const ctx = canvas.getContext('2d');
-                            ctx.drawImage(img, 0, 0, width, height);
-                            // Compress to JPEG 0.8
-                            const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-                            resolve(dataUrl);
-                        };
-                    };
-                });
-            };
-
-            const handleImageConfig = async (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    setIsProcessing(true);
-                    try {
-                        const resizedDataUrl = await resizeImage(file);
-                        setImage(resizedDataUrl);
-                    } catch (error) {
-                        console.error("Image resize error:", error);
-                        alert("画像の処理に失敗しました");
-                    } finally {
-                        setIsProcessing(false);
-                    }
-                }
-            };
-
-            const handleAgeSelect = (val) => {
-                setAge(val);
-                setIsAgeOpen(false);
-            };
-
-            const handleBreedSelect = (val) => {
-                setBreed(val);
-                setIsBreedOpen(false);
-            };
-
-            return (
-                <div className="pt-4">
-                    <TabbedModal isOpen={isBreedOpen} onClose={() => setIsBreedOpen(false)} title="犬種を選択" data={BREEDS_DATA} onSelect={handleBreedSelect} />
-                    <TabbedModal isOpen={isAgeOpen} onClose={() => setIsAgeOpen(false)} title="年齢を選択" data={AGE_DATA} onSelect={handleAgeSelect} />
-
-                    <div className="text-center mb-6">
-                        <h2 className="font-serif text-xl text-theme-text mb-2">My Partner</h2>
-                        <p className="text-xs text-theme-text">愛犬の情報を登録・編集します</p>
-                    </div>
-
-                    <div className="flex flex-col gap-6">
-                        {/* Image Upload */}
-                        <div className="flex justify-center">
-                            <label className="relative w-28 h-28 rounded-full bg-theme-muted border-2 border-theme-muted overflow-hidden flex items-center justify-center cursor-pointer shadow-inner group">
-                                {image ? <img loading="lazy" src={image} className="w-full h-full object-cover" /> : <IconPaw />}
-                                <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0">
-                                    <span className="text-[10px] text-white font-bold bg-black/50 px-2 py-1 rounded">CHANGE</span>
-                                </div>
-                                <input type="file" accept="image/*" className="hidden" onChange={handleImageConfig} />
-                            </label>
-                        </div>
-
-                        {/* Fields */}
-                        <div className="space-y-4">
-                            <div>
-                                <label className="block text-xs font-bold text-theme-text mb-1 tracking-widest uppercase">Name</label>
-                                <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="お名前" className="w-full p-4 rounded-xl bg-white border border-theme-muted outline-none text-theme-text" />
-                            </div>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-xs font-bold text-theme-text mb-1 tracking-widest uppercase">Breed</label>
-                                    <button onClick={() => setIsBreedOpen(true)} className={`w-full p-4 rounded-xl border outline-none transition-colors text-left flex justify-between items-center ${breed ? 'bg-white border-theme-muted text-theme-text' : 'bg-white border-theme-muted text-theme-text'}`}>
-                                        <span className="truncate">{breed || "犬種を選択"}</span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 opacity-50"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
-                                    </button>
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-bold text-theme-text mb-1 tracking-widest uppercase">Age</label>
-                                    <button onClick={() => setIsAgeOpen(true)} className={`w-full p-4 rounded-xl border outline-none transition-colors text-left flex justify-between items-center ${age ? 'bg-white border-theme-muted text-theme-text' : 'bg-white border-theme-muted text-theme-text'}`}>
-                                        <span className="truncate">{age || "年齢"}</span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 opacity-50"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Actions */}
-                        <button onClick={() => !isProcessing && onSave({ name, breed, age: parseInt(age) || 0, image })} disabled={isProcessing} className={`w-full py-4 text-white rounded-xl shadow-lg transition-all font-serif tracking-widest mt-4 ${isProcessing ? 'bg-gray-400 cursor-wait' : 'bg-theme-primary hover:brightness-110'}`}>
-                            {isProcessing ? "PROCESSING..." : "SAVE PROFILE"}
-                        </button>
-                        <button onClick={onCancel} className="w-full py-3 text-theme-text text-xs tracking-widest">
-                            CANCEL
-                        </button>
-                    </div>
-                </div>
-            );
-        };
-
-        const HomeMenu = ({ onNavigate, profile, hasDiagnosis, onEditProfile }) => (
-            <div className="flex flex-col gap-6">
-                {/* Profile Header simulated in Menu */}
-                <div onClick={onEditProfile} className="bg-white p-6 rounded-3xl shadow-sm border border-theme-muted/50 flex items-center gap-4 cursor-pointer">
-                    <div className="w-16 h-16 rounded-full bg-theme-muted overflow-hidden flex-shrink-0 border border-theme-text/5">
-                        {profile?.image ? <img loading="lazy" src={profile.image} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-theme-text scale-150"><IconPaw /></div>}
-                    </div>
-                    <div className="flex-1">
-                        <h2 className="font-serif text-xl text-theme-text">{profile?.name || "No Name"}</h2>
-                        <p className="text-xs text-theme-text">{profile?.breed ? `${profile.breed} / ${profile.age}歳` : "プロフィール未登録"}</p>
-                    </div>
-                    <div className="text-theme-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                    <MenuButton
-                        onClick={() => onNavigate('home')}
-                        icon={<IconFood />}
-                        title="フード診断"
-                        desc={hasDiagnosis ? "診断結果" : "カンタン3問"}
-                    // accent removed
-                    />
-                    <MenuButton onClick={() => onNavigate('record')} icon={<IconHealth />} title="ワクチン記録" desc="記録と期限管理" />
-                    <MenuButton onClick={() => onNavigate('event')} icon={<IconEventNews />} title="イベント" desc="全国版" />
-                    <MenuButton onClick={() => onNavigate('cafe')} icon={<IconCafe />} title="ドッグカフェ検索" desc="マップ連動" />
-                    <MenuButton onClick={() => onNavigate('lost')} icon={<IconLostFound />} title="迷子掲示板" desc="情報はここへ！" />
-                </div>
-            </div>
-        );
-
-        const MenuButton = ({ onClick, icon, title, desc, accent }) => (
-            <button onClick={onClick} className={`p-6 rounded-3xl text-center flex flex-col items-center gap-3 border-2 border-theme-primary/40 ${accent ? 'bg-theme-text text-white shadow-lg' : 'bg-white text-theme-text shadow-sm'}`}>
-                <div className={`p-3 rounded-full ${accent ? 'bg-white/20' : 'bg-theme-primary/20 text-theme-primary'}`}>
-                    {React.cloneElement(icon, { className: `w-8 h-8 ${accent ? 'text-white' : 'text-theme-primary'}` })}
-                </div>
-                <div>
-                    <h3 className="font-serif text-base mb-1">{title}</h3>
-                    <p className={`text-[10px] ${accent ? 'text-white' : 'text-theme-text'}`}>{desc}</p>
-                </div>
-            </button>
-        );
-
-        const NavButton = ({ active, onClick, icon, label }) => (
-            <button onClick={onClick} className={`flex flex-col items-center gap-1 w-16 py-2 ${active ? 'text-theme-primary' : 'text-theme-text'}`}>
-                {icon}
-                <span className="text-[10px] font-medium">{label}</span>
-            </button>
-        );
-
-        // --- DASHBOARD SUB-COMPONENTS (Refined) ---
-        const Diagnosis = ({ onResult, onShowAll, onBack }) => {
-            const [step, setStep] = useState(0);
-            const [answers, setAnswers] = useState({});
-            // New Selectors
-            const [isBreedOpen, setIsBreedOpen] = useState(false);
-            const [isAgeOpen, setIsAgeOpen] = useState(false);
-
-            const submit = (key, val) => {
-                const next = { ...answers, [key]: val };
-                setAnswers(next);
-                key === 'concern' ? onResult(next) : setStep(s => s + 1);
-            };
-
-            const handleAgeSelect = (valStr) => {
-                // Map "5歳" -> "Adult" tag
-                const ageNum = parseInt(valStr);
-                let stage = "Adult"; // Default
-                if (ageNum <= 1) stage = "Puppy";
-                else if (ageNum >= 7) stage = "Senior";
-
-                // Save both specific age and stage
-                const next = { ...answers, age: stage, ageSpecific: valStr };
-                setAnswers(next);
-                setStep(s => s + 1);
-                setIsAgeOpen(false);
-            };
-
-            const InlineSelector = ({ data, onSelect }) => {
-                const isArray = Array.isArray(data);
-                const tabs = isArray ? [] : Object.keys(data);
-                const [activeTab, setActiveTab] = useState(isArray ? null : tabs[0]);
-
-                const items = isArray ? data : data[activeTab];
-
-                return (
-                    <div className="bg-white rounded-3xl shadow-soft overflow-hidden border border-theme-muted/20">
-                        {/* Tabs (Only if not array) */}
-                        {!isArray && (
-                            <div className="flex flex-wrap gap-2 p-4 bg-theme-muted/10 border-b border-theme-muted/20 justify-center">
-                                {tabs.map(t => (
-                                    <button key={t} onClick={() => setActiveTab(t)} className={`px-3 py-2 rounded-lg text-xs font-bold transition-all shadow-sm ${activeTab === t ? 'bg-theme-primary text-white ring-2 ring-theme-primary ring-offset-1' : 'bg-white text-theme-text border border-theme-muted hover:bg-white/80'}`}>
-                                        {t}
-                                    </button>
-                                ))}
-                            </div>
-                        )}
-                        {/* Content List */}
-                        <div className="h-80 overflow-y-auto p-2 scroll-smooth bg-theme-base/30">
-                            <div className="grid grid-cols-1 gap-2">
-                                {items.map(item => (
-                                    <button key={item} onClick={() => onSelect(item)} className="p-4 bg-white rounded-xl text-left text-theme-text shadow-sm hover:text-theme-secondary font-medium border border-transparent flex justify-between items-center group">
-                                        {item}
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-theme-muted opacity-0"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                );
-            };
-
-            const steps = [
-                { t: "犬種をお選びください", c: <InlineSelector data={BREEDS_DATA} onSelect={(val) => submit('breed', val)} /> },
-                { t: "現在の年齢は？", c: <InlineSelector data={AGE_DATA} onSelect={handleAgeSelect} /> },
-                // Changed title for multiple selection
-                { t: "気になることはありますか？ (複数選択可)", c: <ConcernSelector submit={(val) => submit('concern', val)} /> },
-            ];
-
-            return (
-                <div className="h-full flex flex-col pt-4 relative pb-20">
-                    <div className="text-center mb-6 relative px-8">
-                        {/* Back Button */}
-                        <button onClick={() => step > 0 ? setStep(s => s - 1) : onBack()} className="absolute left-0 top-0 p-2 bg-white rounded-full shadow-sm text-theme-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
-                        </button>
-                        <h1 className="font-serif text-2xl md:text-3xl text-theme-text mb-4">愛犬にピッタリの一皿を</h1>
-                        <div className="mb-6 bg-white/50 inline-block px-4 py-2 rounded-full border border-theme-muted/50">
-                            <p className="text-xs text-theme-text font-sans tracking-wide">3つの質問に答えるだけで<br />最新の人気フードを自動でチョイスします</p>
-                        </div>
-                        <h2 className="text-xl font-serif text-theme-text border-b-2 border-theme-primary/40 inline-block pb-1 px-4">{steps[step].t}</h2>
-                    </div>
-                    {steps[step].c}
-
-                    {/* Static Footer Link */}
-                    <div className="mt-12 px-2 pb-8 z-30 max-w-md mx-auto w-full">
-                        <button onClick={onShowAll} className="w-full bg-gradient-to-r from-amber-300 via-orange-400 to-amber-300 text-white py-5 rounded-xl font-serif font-bold tracking-widest shadow-lg bg-[length:200%_100%] flex items-center justify-center gap-2 relative overflow-hidden group">
-                            <span className="relative z-10 flex items-center gap-2 text-lg drop-shadow-sm">
-                                2026年最新プレミアムフード一覧
-                            </span>
-                            <div className="absolute inset-0 bg-white/20"></div>
-                        </button>
-                    </div>
-                </div>
-            );
-        };
-
-        const ConcernSelector = ({ submit }) => {
-            const [selected, setSelected] = useState([]);
-
-            const toggle = (val) => {
-                setSelected(prev => {
-                    if (prev.includes(val)) return prev.filter(v => v !== val);
-                    return [...prev, val];
-                });
-            };
-
-            // Options: Added 'cost'
-            const options = [
-                { l: "Tear Burn", jp: "涙やけ", v: 'tear_burn', icon: <IconEye /> },
-                { l: "Coat", jp: "毛並み", v: 'coat', icon: <IconCoat /> },
-                { l: "Joints", jp: "関節", v: 'joints', icon: <IconBone /> },
-                { l: "Weight", jp: "体重管理", v: 'obesity', icon: <IconWeight /> },
-                { l: "Appetite", jp: "食いつき", v: 'appetite', icon: <IconBowl /> },
-                { l: "Teeth", jp: "歯のケア", v: 'teeth', icon: <IconPaw /> },
-                { l: "Odor", jp: "口臭・ニオイ", v: 'odor', icon: <IconSparkles /> },
-                { l: "Cost", jp: "コスパ", v: 'cost', icon: <span className="text-2xl font-serif">¥</span> } // New
-            ];
-
-            return (
-                <div className="flex flex-col gap-4">
-                    <div className="grid grid-cols-2 gap-3">
-                        {options.map(o => {
-                            const active = selected.includes(o.v);
-                            return (
-                                <button key={o.v} onClick={() => toggle(o.v)} className={`aspect-square rounded-2xl flex flex-col items-center justify-center gap-2 shadow-sm transition-all active:scale-95 border-2 ${active ? 'bg-theme-primary/20 border-theme-primary' : 'bg-white border-transparent hover:shadow-soft'}`}>
-                                    <div className={active ? 'text-theme-primary' : 'text-theme-text'}>{o.icon}</div>
-                                    <span className={`font-serif ${active ? 'text-theme-primary font-bold' : 'text-theme-text'}`}>{o.jp}</span>
-                                    {active && <div className="absolute top-2 right-2 w-3 h-3 bg-theme-primary rounded-full"></div>}
-                                </button>
-                            );
-                        })}
-                    </div>
-                    <button onClick={() => submit(selected)} className="w-full py-4 bg-theme-text text-white rounded-xl shadow-lg font-serif tracking-widest">
-                        診断結果を見る
-                    </button>
-                </div>
-            );
-        };
-
-        const FoodResults = ({ answers, onReset, onShowAll }) => {
-            const results = useMemo(() => {
-                if (!answers) return [];
-                const userAge = answers.age || 'Adult';
-                const userConcerns = answers.concern || []; // Array
-                const userBreed = answers.breed || '';
-                const userSize = BREED_SIZE_MAP[userBreed] || 'medium'; // Default to medium
-
-                return PRODUCTS
-                    .map(p => {
-                        let score = 0;
-
-                        // 0. Size Match (Critical Filter)
-                        const pSizes = p.tags.targetSizes || ['all'];
-                        // If product is specific to a size (not 'all') and doesn't match user's size, exclude it.
-                        if (!pSizes.includes('all') && !pSizes.includes(userSize)) {
-                            return null;
-                        }
-
-                        // 1. Quality/Priority (REMOVED: prioritizing fit over rank)
-                        // score += 0; 
-
-                        // 2. Age Match
-                        const pAge = p.tags.age;
-                        let isAgeMatch = false;
-                        if (pAge === 'all') isAgeMatch = true;
-                        else if (pAge.toLowerCase() === userAge.toLowerCase()) isAgeMatch = true;
-
-                        if (!isAgeMatch) return null;
-
-                        // 3. Concern Match
-                        userConcerns.forEach(c => {
-                            if (c === 'cost') {
-                                if (p.price && p.price !== "¥要確認") {
-                                    const priceNum = parseInt(p.price.replace(/[^0-9]/g, ''));
-                                    if (priceNum < 5000) score += 30;
-                                }
-                            } else {
-                                if (p.tags.concern === c) score += 40;
-                                if (p.tags.secondaryConcern.includes(c)) score += 20;
-                            }
-                        });
-
-                        return { ...p, score };
-                    })
-                    .filter(Boolean)
-                    .sort((a, b) => b.score - a.score)
-                    .slice(0, 5);
-            }, [answers]);
-
-            return (
-                <div className="pb-24">
-                    {/* Header with Back Button */}
-                    <div className="relative mb-6 px-2">
-                        <button onClick={onReset} className="absolute left-0 top-1/2 -translate-y-1/2 p-2 bg-white rounded-full shadow-sm text-theme-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
-                        </button>
-                        <div className="text-center">
-                            <p className="font-serif text-lg">あなたへのベストセレクト</p>
-                            <p className="text-xs text-theme-text font-sans mt-1">
-                                {answers.breed} / {answers.age === 'Puppy' ? '子犬' : answers.age === 'Senior' ? 'シニア' : '成犬'}
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="space-y-8">
-                        {results.map((p, i) => (
-                            <div key={p.id} className="group cursor-pointer" onClick={() => p.link && window.open(p.link, '_blank')}>
-                                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-4 shadow-float">
-                                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full z-10">
-                                        <span className="text-[10px] font-bold tracking-widest uppercase text-theme-text">マッチ度 No.{i + 1}</span>
-                                    </div>
-                                    {p.tags.priority === 'S' && (
-                                        <div className="absolute top-4 right-4 bg-theme-primary/90 backdrop-blur px-3 py-1 rounded-full z-10 text-white">
-                                            <span className="text-[10px] font-bold tracking-widest uppercase">Premium</span>
-                                        </div>
-                                    )}
-                                    <img loading="lazy" src={p.img} className="w-full h-full object-cover" />
-                                </div>
-                                <div className="text-center px-2">
-                                    <span className="text-[10px] text-theme-primary tracking-widest uppercase block mb-2">{p.feature}</span>
-                                    <h3 className="font-serif text-xl text-theme-text mb-2">{p.name}</h3>
-                                    <p className="text-sm text-theme-text leading-relaxed mb-3">{p.description}</p>
-
-                                    <button className="w-full bg-theme-text text-white text-xs px-6 py-4 rounded-xl shadow-lg uppercase tracking-widest">
-                                        公式サイトを見る
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                    <button onClick={onShowAll} className="w-full mt-10 bg-gradient-to-r from-amber-300 via-orange-400 to-amber-300 text-white py-5 rounded-xl font-serif font-bold tracking-widest shadow-lg hover:-translate-y-1 relative overflow-hidden group bg-[length:200%_100%]">
-                        <span className="relative z-10 flex items-center justify-center gap-2 text-lg drop-shadow-sm">
-                            2026年最新プレミアムフード一覧
-                        </span>
-                        <div className="absolute inset-0 bg-white/20"></div>
-                    </button>
-                    <button onClick={onReset} className="w-full mt-4 text-xs text-theme-text tracking-widest uppercase border-t border-theme-muted/30 pt-4">もう一度診断する</button>
-
-                    <div className="mt-8 p-4 bg-gray-50 rounded-xl text-[10px] text-theme-text leading-relaxed text-center">
-                        <p className="font-bold mb-1">※本診断結果・推奨商品はインターネット上の情報を基に作成されています。</p>
-                        <p>愛犬の体質や健康状態には個人差があります。フードの切り替えや摂取量については、各商品のパッケージ記載事項を守り、必要に応じて獣医師にご相談の上ご判断ください。当サービスによって生じたトラブル等に関する責任は負いかねますのでご了承ください。</p>
-                    </div>
-                </div>
-            );
-        };
-
-        const ProductRanking = ({ onBack }) => {
-            // Sort by Priority S -> A -> B
-            const sorted = useMemo(() => {
-                const priorityOrder = { 'S': 3, 'A': 2, 'B': 1 };
-                return [...PRODUCTS].sort((a, b) => priorityOrder[b.tags.priority] - priorityOrder[a.tags.priority]);
-            }, []);
-
-            return (
-                <div className="pb-24 pt-4">
-                    {/* Header with Back Button - Consistent with FoodResults */}
-                    <div className="relative mb-8 px-2">
-                        <button onClick={onBack} className="absolute left-0 top-1/2 -translate-y-1/2 p-2 bg-white rounded-full shadow-sm text-theme-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
-                        </button>
-                        <div className="text-center">
-                            <h2 className="text-xl font-serif text-theme-text">2026年 最新コレクション</h2>
-                            <p className="text-[10px] text-theme-text tracking-widest mt-1">厳選プレミアムドッグフード</p>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                        {sorted.map((p) => (
-                            <div key={p.id} className="bg-white rounded-xl overflow-hidden shadow-sm cursor-pointer" onClick={() => p.link && window.open(p.link, '_blank')}>
-                                <div className="aspect-square relative">
-                                    <img loading="lazy" src={p.img} className="w-full h-full object-cover" />
-                                    {p.tags.priority === 'S' && <span className="absolute top-2 right-2 bg-theme-primary text-white text-[10px] px-2 py-0.5 rounded-full font-bold">Recommended</span>}
-                                </div>
-                                <div className="p-3">
-                                    <h3 className="font-serif text-sm text-theme-text mb-1 line-clamp-1">{p.name}</h3>
-                                    <p className="text-[10px] text-theme-text line-clamp-2">{p.description}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-
-                    <div className="mt-8 p-4 bg-gray-50 rounded-xl text-[10px] text-theme-text leading-relaxed text-center">
-                        <p className="font-bold mb-1">※推奨商品はインターネット上の情報を基に作成されています。</p>
-                        <p>愛犬の体質や健康状態には個人差があります。フードの切り替えや摂取量については、各商品のパッケージ記載事項を守り、必要に応じて獣医師にご相談の上ご判断ください。当サービスによって生じたトラブル等に関する責任は負いかねますのでご了承ください。</p>
-                    </div>
-                </div >
-            );
-        };
-
-        const RecordTab = ({ data, onSave, onBack }) => {
-            // data format: {mixedDate, mixedType, rabiesDate, hospitalMemo}
-            const safeData = data || {};
-
-            const handleChange = (field, value) => {
-                onSave({ ...safeData, [field]: value });
-            };
-
-            const getNextDate = (dateStr) => {
-                if (!dateStr) return null;
-                const d = new Date(dateStr);
-                d.setFullYear(d.getFullYear() + 1);
-                return d.toLocaleDateString();
-            };
-
-            const nextMixed = getNextDate(safeData.mixedDate);
-            const nextRabies = getNextDate(safeData.rabiesDate);
-
-            return (
-                <div className="pt-4 pb-20">
-                    <div className="relative mb-6 px-2">
-                        <button onClick={onBack} className="absolute left-0 top-1/2 -translate-y-1/2 p-2 bg-white rounded-full shadow-sm text-theme-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
-                        </button>
-                        <div className="text-center">
-                            <h2 className="text-xl font-serif text-theme-text">ワクチン管理</h2>
-                            <p className="text-[10px] text-theme-text mt-1">大切な記録をクラウドに保存</p>
-                        </div>
-                    </div>
-
-                    {/* Mixed Vaccine */}
-                    <div className="bg-white p-6 rounded-3xl shadow-sm mb-6 border border-theme-primary/10">
-                        <div className="flex items-center gap-3 mb-4">
-                            <span className="w-8 h-8 rounded-full bg-theme-primary/20 text-theme-primary flex items-center justify-center">
-                                <IconHealth />
-                            </span>
-                            <h3 className="font-serif text-theme-text font-bold">混合ワクチン</h3>
-                        </div>
-                        <div className="grid grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <label className="block text-xs font-bold text-theme-text mb-2">接種日</label>
-                                <input type="date" value={safeData.mixedDate || ''} onChange={(e) => handleChange('mixedDate', e.target.value)} className="w-full bg-theme-base p-3 rounded-xl text-base text-theme-text outline-none focus:ring-theme-primary/20" />
-                            </div>
-                            <div>
-                                <label className="block text-xs font-bold text-theme-text mb-2">種類</label>
-                                <select value={safeData.mixedType || '5種'} onChange={(e) => handleChange('mixedType', e.target.value)} className="w-full bg-theme-base p-3 rounded-xl text-base text-theme-text outline-none focus:ring-theme-primary/20">
-                                    <option>5種</option>
-                                    <option>6種</option>
-                                    <option>7種</option>
-                                    <option>8種</option>
-                                    <option>10種</option>
-                                </select>
-                            </div>
-                        </div>
-                        {nextMixed && (
-                            <div className="text-center bg-theme-primary/5 rounded-xl p-3 mt-2">
-                                <p className="text-xs text-theme-primary mb-1 font-bold">有効期限</p>
-                                <p className="font-serif text-xl text-theme-primary font-bold">{nextMixed}</p>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Rabies Vaccine */}
-                    <div className="bg-white p-6 rounded-3xl shadow-sm mb-6 border border-theme-secondary/10">
-                        <div className="flex items-center gap-3 mb-4">
-                            <span className="w-8 h-8 rounded-full bg-theme-secondary/20 text-theme-secondary flex items-center justify-center">
-                                <IconPaw />
-                            </span>
-                            <h3 className="font-serif text-theme-text font-bold">狂犬病ワクチン</h3>
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-xs font-bold text-theme-text mb-2">接種日</label>
-                            <input type="date" value={safeData.rabiesDate || ''} onChange={(e) => handleChange('rabiesDate', e.target.value)} className="w-full bg-theme-base p-3 rounded-xl text-base text-theme-text outline-none focus:ring-theme-secondary/20" />
-                        </div>
-                        {nextRabies && (
-                            <div className="text-center bg-theme-secondary/5 rounded-xl p-3 mt-2">
-                                <p className="text-xs text-theme-secondary mb-1 font-bold">有効期限</p>
-                                <p className="font-serif text-xl text-theme-secondary font-bold">{nextRabies}</p>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Hospital Memo */}
-                    <div className="bg-white p-6 rounded-3xl shadow-sm border border-theme-muted">
-                        <label className="block text-xs font-bold text-theme-text mb-2">かかりつけ病院メモ</label>
-                        <textarea
-                            value={safeData.hospitalMemo || ''}
-                            onChange={(e) => handleChange('hospitalMemo', e.target.value)}
-                            placeholder="病院名や住所、診察券番号など..."
-                            className="w-full h-24 bg-theme-base p-3 rounded-xl text-sm text-theme-text resize-none outline-none focus:ring-theme-muted/50"
-                        ></textarea>
-                    </div>
-                </div>
-            );
-        };
-
-        const EventsTab = ({ onBack }) => {
-            const sortedEvents = useMemo(() => {
-                const parseDate = (dStr) => {
-                    const match = dStr.match(/(\d+)月(\d+)日/);
-                    if (!match) return 9999;
-                    return parseInt(match[1]) * 100 + parseInt(match[2]);
-                };
-                return [...EVENTS_DATA].sort((a, b) => parseDate(a.date) - parseDate(b.date));
-            }, []);
-
-            return (
-                <div className="pt-4 pb-20">
-                    <div className="relative mb-6 px-2">
-                        <button onClick={onBack} className="absolute left-0 top-1/2 -translate-y-1/2 p-2 bg-white rounded-full shadow-sm text-theme-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
-                        </button>
-                        <div className="text-center">
-                            <h2 className="text-xl font-serif text-theme-text">イベント情報</h2>
-                            <p className="text-[10px] text-theme-text mt-1">週末のお出かけ・イベント検索</p>
-                        </div>
-                    </div>
-                    <div className="space-y-4">
-                        {sortedEvents.map((e, i) => {
-                            // Extract prefecture and simplify
-                            let prefecture = e.place.split(' ')[0] || "関東";
-                            // Remove suffixes
-                            prefecture = prefecture.replace(/(都|府|県)$/, '');
-
-                            return (
-                                <div key={i} className="bg-white rounded-2xl p-4 shadow-sm flex gap-5 items-center cursor-pointer">
-                                    <div className="w-20 h-20 rounded-xl bg-theme-muted/30 flex items-center justify-center flex-shrink-0 border border-theme-muted">
-                                        <span className="font-serif text-lg text-theme-text font-medium writing-vertical-rl tracking-widest leading-none h-12">
-                                            {prefecture}
-                                        </span>
-                                    </div>
-
-                                    <div className="flex-1 min-w-0">
-                                        <span className="text-[10px] font-bold tracking-wider text-theme-primary uppercase mb-1 block">{e.date}</span>
-                                        <h3 className="font-serif text-lg text-theme-text mb-2 leading-tight">{e.title}</h3>
-                                        <div className="flex items-center gap-2 text-xs text-theme-text font-sans truncate">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3 flex-shrink-0">
-                                                <path fillRule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clipRule="evenodd" />
-                                            </svg>
-                                            {e.place}
-                                        </div>
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
-                    {/* Disclaimer */}
-                    <div className="mt-8 text-center px-4">
-                        <p className="text-[10px] text-theme-text leading-relaxed">
-                            ※掲載されているイベント情報はインターネット上の情報を元にまとめています。<br />
-                            天候や主催者の都合により変更になる場合がありますので、<br />
-                            最新情報は必ず公式サイト等でご自身でご確認ください。
-                        </p>
-                    </div>
-                </div>
-            );
-        };
-
-        const LostTab = ({ onBack }) => {
-            return (
-                <div className="pt-4 pb-20">
-                    <div className="relative mb-6 px-2">
-                        <button onClick={onBack} className="absolute left-0 top-1/2 -translate-y-1/2 p-2 bg-white rounded-full shadow-sm text-theme-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
-                        </button>
-                        <div className="text-center">
-                            <h2 className="text-xl font-serif text-theme-text">迷子掲示板</h2>
-                            <p className="text-[10px] text-theme-text mt-1">地域の迷子情報を共有</p>
-                        </div>
-                    </div>
-                    {LOST_DATA.length > 0 ? (
-                        <div className="space-y-4">
-                            {LOST_DATA.map(d => (
-                                <div key={d.id} className="bg-white rounded-2xl p-4 shadow-sm flex gap-4 items-center">
-                                    <img loading="lazy" src={d.img} className="w-12 h-12 rounded-full object-cover" />
-                                    <div>
-                                        <p className="font-serif text-theme-text">{d.name} <span className="text-xs text-theme-text font-sans ml-2">({d.breed})</span></p>
-                                        <p className="text-xs text-theme-text mt-1">📍 {d.place}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="bg-white rounded-3xl p-8 text-center shadow-sm border border-theme-muted">
-                            <div className="w-16 h-16 bg-theme-muted/20 rounded-full flex items-center justify-center mx-auto mb-4 text-theme-text">
-                                <IconLostFound />
-                            </div>
-                            <h3 className="font-serif text-lg text-theme-text mb-2">現在、迷子情報はありません</h3>
-                            <p className="text-xs text-theme-text leading-relaxed">
-                                付近で迷子の目撃情報があった場合、<br />こちらに表示されます。
-                            </p>
-                            <button className="mt-6 w-full py-3 bg-theme-base text-theme-text rounded-xl text-xs font-bold tracking-widest hover:text-theme-secondary">
-                                情報を投稿する
-                            </button>
-                        </div>
-                    )}
-                </div>
-            );
-        };
-
-        const REGIONS = [
-            { id: 'all', name: '全国' },
-            { id: 'hokkaido_tohoku', name: '北海道・東北', prefs: ['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県'] },
-            { id: 'kanto', name: '関東', prefs: ['茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県'] },
-            { id: 'chubu', name: '中部', prefs: ['新潟県', '富山県', '石川県', '福井県', '山梨県', '長野県', '岐阜県', '静岡県', '愛知県'] },
-            { id: 'kinki', name: '近畿', prefs: ['三重県', '滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県'] },
-            { id: 'chugoku_shikoku', name: '中国・四国', prefs: ['鳥取県', '島根県', '岡山県', '広島県', '山口県', '徳島県', '香川県', '愛媛県', '高知県'] },
-            { id: 'kyushu_okinawa', name: '九州・沖縄', prefs: ['福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県'] }
-        ];
-
-        const CafeTab = ({ onBack }) => {
-            const [cafes, setCafes] = useState(INITIAL_CAFE_DATA);
-            const [activeRegion, setActiveRegion] = useState(REGIONS[0]);
-            const [filterPref, setFilterPref] = useState('すべて');
-            const [isModalOpen, setIsModalOpen] = useState(false);
-            const [selectedCafe, setSelectedCafe] = useState(null);
-            const [editingCafe, setEditingCafe] = useState(null);
-
-            // Fetch custom cafes from Firestore
-            useEffect(() => {
-                if (typeof db === 'undefined' || !db) return;
-                const unsubscribe = db.collection('shared_cafes').onSnapshot(snapshot => {
-                    const customCafes = snapshot.docs.map(doc => ({
-                        id: doc.id,
-                        ...doc.data()
-                    }));
-                    // Merge local data and firestore data (put firestore ones first)
-                    setCafes([...customCafes, ...INITIAL_CAFE_DATA]);
-                }, err => console.log('Cafe Load Error', err));
-
-                return () => unsubscribe();
-            }, []);
-
-            const handleRegionClick = (region) => {
-                setActiveRegion(region);
-                setFilterPref('すべて');
-            };
-
-            const filteredCafes = cafes.filter(c => {
-                if (activeRegion.id === 'all') return filterPref === 'すべて' || c.pref === filterPref;
-                if (filterPref !== 'すべて') return c.pref === filterPref;
-                return activeRegion.prefs.includes(c.pref);
-            });
-
-            const openMaps = (cafe) => {
-                const query = encodeURIComponent(`${cafe.name} ${cafe.address}`);
-                window.open(`https://maps.google.com/?q=${query}`, '_blank');
-            };
-
-            const handleEdit = (cafe) => {
-                setSelectedCafe(null);
-                setEditingCafe(cafe);
-                setIsModalOpen(true);
-            };
-
-            const handleCloseModal = () => {
-                setIsModalOpen(false);
-                setEditingCafe(null);
-            };
-
-            return (
-                <div className="pt-4 pb-20 relative min-h-screen">
-                    {/* Header */}
-                    <div className="relative mb-4 px-2 flex justify-between items-center bg-white/50 p-2 rounded-2xl sticky top-20 z-10 backdrop-blur-md">
-                        <button onClick={onBack} className="p-2 bg-white rounded-full shadow-sm text-theme-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
-                        </button>
-                        <div className="text-center">
-                            <h2 className="text-xl font-serif text-theme-text flex items-center justify-center gap-2"><IconCafe />ドッグカフェ</h2>
-                        </div>
-                        <div className="w-9"></div> {/* Spacer to center title */}
-                    </div>
-
-                    {/* Prominent Submit Button */}
-                    <div className="px-2 mb-6">
-                        <button onClick={() => setIsModalOpen(true)} className="w-full bg-theme-primary text-white py-4 rounded-2xl shadow-md flex items-center justify-center gap-3 relative overflow-hidden group">
-                            <div className="absolute inset-0 bg-white/20"></div>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" /><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" /></svg>
-                            <span className="font-bold tracking-widest text-sm">おすすめカフェを投稿する</span>
-                        </button>
-                        <p className="text-[10px] text-theme-text text-center mt-2">ユーザーみんなで日本地図を完成させましょう！画像もアップできます☕️🐾</p>
-                    </div>
-
-                    {/* Region Tabs */}
-                    <div className="flex overflow-x-auto hide-scroll gap-2 px-2 mb-3 snap-x">
-                        {REGIONS.map(r => (
-                            <button
-                                key={r.id}
-                                onClick={() => handleRegionClick(r)}
-                                className={`snap-start px-4 py-2 rounded-full whitespace-nowrap text-xs font-bold transition-colors shrink-0 ${activeRegion.id === r.id ? 'bg-theme-text text-white shadow-md' : 'bg-white text-theme-text border border-theme-muted hover:bg-theme-muted/50'}`}
-                            >
-                                {r.name}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Prefecture Pills for active region */}
-                    {activeRegion.id !== 'all' && (
-                        <div className="flex flex-wrap gap-2 px-2 mb-6 bg-white p-3 rounded-2xl shadow-sm border border-theme-primary/10 mx-2">
-                            <button onClick={() => setFilterPref('すべて')} className={`px-3 py-1.5 rounded-md text-[10px] font-bold transition-colors ${filterPref === 'すべて' ? 'bg-theme-primary text-white' : 'bg-theme-muted/50 text-theme-text hover:bg-theme-muted'}`}>
-                                すべて
-                            </button>
-                            {activeRegion.prefs.map(p => (
-                                <button key={p} onClick={() => setFilterPref(p)} className={`px-3 py-1.5 rounded-md text-[10px] font-bold transition-colors ${filterPref === p ? 'bg-theme-primary text-white' : 'bg-theme-muted/50 text-theme-text hover:bg-theme-muted'}`}>
-                                    {p}
-                                </button>
-                            ))}
-                        </div>
-                    )}
-
-                    {/* List */}
-                    <div className="space-y-4 px-2">
-                        {filteredCafes.map(cafe => (
-                            <div key={cafe.id} onClick={() => setSelectedCafe(cafe)} className="bg-white rounded-2xl overflow-hidden shadow-sm border-2 border-theme-primary/40 cursor-pointer group">
-                                <div className="h-40 w-full overflow-hidden relative bg-theme-base flex items-center justify-center border-b border-theme-primary/10">
-                                    {cafe.img ? (
-                                        <img loading="lazy" src={cafe.img} alt={cafe.name} className="w-full h-full object-cover" />
-                                    ) : (
-                                        <div className="w-full h-full flex flex-col items-center justify-center text-theme-primary gap-2">
-                                            <IconCafe />
-                                            <span className="text-xs font-bold tracking-widest">No Image</span>
-                                        </div>
-                                    )}
-                                    <div className="absolute top-2 right-2 bg-white/90 backdrop-blur w-8 h-8 rounded-full flex items-center justify-center shadow-sm border border-theme-secondary/10 text-theme-secondary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
-                                    </div>
-                                </div>
-                                <div className="p-4">
-                                    <div className="flex gap-2 mb-3">
-                                        <span className="text-[10px] font-bold text-theme-primary bg-theme-primary/20 px-2 py-1 rounded border border-theme-primary/40">{cafe.pref}</span>
-                                        {cafe.city && <span className="text-[10px] font-bold text-theme-secondary bg-theme-secondary/20 px-2 py-1 rounded border border-theme-secondary/40">{cafe.city}</span>}
-                                    </div>
-                                    <div className="flex justify-between items-start mb-2">
-                                        <h3 className="font-serif text-lg text-theme-text font-bold leading-tight">{cafe.name}</h3>
-                                    </div>
-                                    <p className="text-xs text-theme-text min-h-8 mb-2 leading-relaxed">{cafe.desc}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {isModalOpen && <CafeSubmitModal onClose={handleCloseModal} initialData={editingCafe} />}
-                    {selectedCafe && <CafeDetailModal cafe={selectedCafe} onClose={() => setSelectedCafe(null)} onOpenMap={() => openMaps(selectedCafe)} onEdit={() => handleEdit(selectedCafe)} />}
-                </div>
-            );
-        };
-
-        const CafeDetailModal = ({ cafe, onClose, onOpenMap, onEdit }) => {
-            return (
-                <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end justify-center">
-                    <div className="bg-theme-base w-full max-w-md h-[85vh] rounded-t-3xl flex flex-col overflow-hidden relative">
-                        {/* Header Image or Placeholder */}
-                        <div className="h-64 w-full relative shrink-0 bg-theme-muted/30 flex items-center justify-center">
-                            {cafe.img ? (
-                                <img loading="lazy" src={cafe.img} alt={cafe.name} className="w-full h-full object-cover" />
-                            ) : (
-                                <div className="text-theme-primary flex flex-col items-center gap-2">
-                                    <IconCafe />
-                                    <span className="text-sm font-bold tracking-widest">No Image</span>
-                                </div>
-                            )}
-                            <button onClick={onClose} className="absolute top-4 right-4 p-2 bg-black/40 backdrop-blur text-white rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                            </button>
-                        </div>
-
-                        {/* Content */}
-                        <div className="flex-1 overflow-y-auto p-6 pb-32">
-                            <div className="flex gap-2 mb-4">
-                                <span className="text-xs font-bold text-theme-primary bg-theme-primary/20 px-3 py-1 rounded-full border border-theme-primary/40">{cafe.pref}</span>
-                                {cafe.city && <span className="text-xs font-bold text-theme-secondary bg-theme-secondary/20 px-3 py-1 rounded-full border border-theme-secondary/40">{cafe.city}</span>}
-                            </div>
-                            <h2 className="font-serif text-2xl text-theme-text font-bold leading-tight mb-4">{cafe.name}</h2>
-
-                            <div className="bg-white rounded-2xl p-4 shadow-sm border border-theme-primary/10 mb-6 flex gap-3 items-start">
-                                <span className="text-theme-text mt-0.5">📍</span>
-                                <div>
-                                    <p className="text-xs font-bold text-theme-text mb-1">住所</p>
-                                    <p className="text-sm text-theme-text leading-relaxed">{cafe.address}</p>
-                                </div>
-                            </div>
-
-                            <div className="space-y-2">
-                                <h3 className="font-bold text-theme-text text-sm border-l-4 border-theme-secondary pl-2 mb-3">カフェ情報</h3>
-                                <p className="text-sm text-theme-text leading-relaxed whitespace-pre-wrap">{cafe.desc}</p>
-                            </div>
-                        </div>
-
-                        {/* Action Buttons */}
-                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur border-t border-theme-muted z-20 flex gap-2 sm:gap-3">
-                            <button onClick={onClose} className="py-4 px-4 sm:px-6 text-theme-text bg-theme-muted/30 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap">
-                                閉じる
-                            </button>
-                            <button onClick={onEdit} className="py-4 px-4 sm:px-6 text-theme-primary bg-theme-primary/20 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap">
-                                編集する
-                            </button>
-                            <button onClick={onOpenMap} className="flex-1 py-4 text-white rounded-xl shadow-lg font-bold tracking-widest bg-theme-secondary flex justify-center items-center gap-1 sm:gap-2 text-xs sm:text-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 sm:w-5 sm:h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
-                                Mapで見る
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
-
-        const CafeSubmitModal = ({ onClose, initialData }) => {
-            const [formData, setFormData] = useState(
-                initialData || { name: '', pref: '', city: '', address: '', desc: '', img: '' }
-            );
-            const [isSubmitting, setIsSubmitting] = useState(false);
-
-            const resizeImage = (file) => {
-                return new Promise((resolve) => {
-                    const MAX_WIDTH = 800; // slightly larger for locations
-                    const MAX_HEIGHT = 800;
-                    const reader = new FileReader();
-                    reader.readAsDataURL(file);
-                    reader.onload = (event) => {
-                        const img = new Image();
-                        img.src = event.target.result;
-                        img.onload = () => {
-                            let width = img.width;
-                            let height = img.height;
-                            if (width > height) {
-                                if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-                            } else {
-                                if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
-                            }
-                            const canvas = document.createElement('canvas');
-                            canvas.width = width; canvas.height = height;
-                            const ctx = canvas.getContext('2d');
-                            ctx.drawImage(img, 0, 0, width, height);
-                            resolve(canvas.toDataURL('image/jpeg', 0.8));
-                        };
-                    };
-                });
-            };
-
-            const handleImage = async (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    setIsSubmitting(true); // show generic processing
-                    const resized = await resizeImage(file);
-                    setFormData({ ...formData, img: resized });
-                    setIsSubmitting(false);
-                }
-            };
-
-            const handleSubmit = async () => {
-                if (!formData.name || !formData.pref || !formData.address) {
-                    alert('必須項目（店名・県・住所）を入力してください。');
-                    return;
-                }
-                setIsSubmitting(true);
-                try {
-                    if (initialData && initialData.id) {
-                        // Use set with merge: true so that if it's a hardcoded ID that doesn't exist in Firestore yet, it gets created.
-                        await db.collection('shared_cafes').doc(initialData.id).set({
-                            name: formData.name,
-                            pref: formData.pref,
-                            city: formData.city,
-                            address: formData.address,
-                            desc: formData.desc,
-                            img: formData.img,
-                            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                        }, { merge: true });
-                    } else {
-                        // Create new completely
-                        await db.collection('shared_cafes').add({
-                            ...formData,
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                        });
-                    }
-                    onClose();
-                } catch (e) {
-                    alert('保存に失敗しました');
-                    console.error(e);
-                }
-                setIsSubmitting(false);
-            };
-
-            return (
-                <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end justify-center">
-                    <div className="bg-theme-base w-full max-w-md h-[90vh] rounded-t-3xl flex flex-col overflow-hidden relative">
-                        {/* Header */}
-                        <div className="p-4 border-b border-theme-muted flex justify-between items-center bg-white shrink-0 shadow-sm z-10">
-                            <h3 className="font-serif text-lg text-theme-text font-bold">{initialData ? 'お店を編集' : 'お店を登録'}</h3>
-                            <button onClick={onClose} className="p-2 rounded-full text-theme-text">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                            </button>
-                        </div>
-
-                        {/* Form Body */}
-                        <div className="flex-1 overflow-y-auto p-6 space-y-6 pb-32">
-                            {/* Image Upload */}
-                            <div>
-                                <label className="block text-xs font-bold text-theme-text mb-2">カフェの写真 <span className="text-[10px] font-normal text-theme-primary ml-2 border border-theme-primary/30 px-1 rounded">任意</span></label>
-                                <label className="relative w-full h-48 bg-theme-muted/50 border-2 border-dashed border-theme-primary/40 rounded-2xl flex flex-col items-center justify-center cursor-pointer overflow-hidden group">
-                                    {formData.img ? (
-                                        <img loading="lazy" src={formData.img} className="w-full h-full object-cover" />
-                                    ) : (
-                                        <div className="text-theme-primary flex flex-col items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 mb-2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" /></svg>
-                                            <span className="text-xs font-bold">タップして写真を選択</span>
-                                        </div>
-                                    )}
-                                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0">
-                                        <span className="text-xs text-white font-bold bg-black/50 px-3 py-1 rounded-full">CHANGE</span>
-                                    </div>
-                                    <input type="file" accept="image/*" className="hidden" onChange={handleImage} />
-                                </label>
-                            </div>
-
-                            {/* Inputs */}
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="block text-xs font-bold text-theme-text mb-1">店名 *</label>
-                                    <input type="text" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full p-3 rounded-xl bg-white border outline-none text-theme-text input-underline" placeholder="例: パークサイドカフェ 犬の家" />
-                                </div>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="block text-xs font-bold text-theme-text mb-1">都道府県 *</label>
-                                        <select value={formData.pref} onChange={e => setFormData({ ...formData, pref: e.target.value })} className="w-full p-3 rounded-xl bg-white border outline-none text-theme-text input-underline">
-                                            <option value="">選択してください</option>
-                                            {REGIONS.filter(r => r.id !== 'all').flatMap(r => r.prefs).map(p => (
-                                                <option key={p} value={p}>{p}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label className="block text-xs font-bold text-theme-text mb-1">市区町村</label>
-                                        <input type="text" value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value })} className="w-full p-3 rounded-xl bg-white border outline-none text-theme-text input-underline" placeholder="例: 横浜市" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-bold text-theme-text mb-1">詳細な住所 * (GoogleMap検索用)</label>
-                                    <input type="text" value={formData.address} onChange={e => setFormData({ ...formData, address: e.target.value })} className="w-full p-3 rounded-xl bg-white border outline-none text-theme-text input-underline" placeholder="神奈川県横浜市中区..." />
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-bold text-theme-text mb-1">おすすめポイントなど</label>
-                                    <textarea value={formData.desc} onChange={e => setFormData({ ...formData, desc: e.target.value })} className="w-full p-3 rounded-xl bg-white border outline-none text-theme-text input-underline h-24 resize-none" placeholder="大型犬もOKです！など"></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Submit Button (Sticky Bottom) */}
-                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-theme-muted z-20">
-                            <button onClick={handleSubmit} disabled={isSubmitting} className={`w-full py-4 text-white rounded-xl shadow-lg font-serif font-bold tracking-widest ${isSubmitting ? 'bg-gray-400' : 'bg-theme-secondary hover:brightness-110 active:scale-95 transition-all'}`}>
-                                {isSubmitting ? '処理中...' : (initialData ? '変更を保存する' : '登録する')}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
-
-
-
-
-        // --- MAIN ENTRY POINT ---
-        // --- UTILS & GUARDS ---
-        const AppBrowserGuard = ({ children }) => {
-            const [isInApp, setIsInApp] = useState(false);
-            const [isAndroid, setIsAndroid] = useState(false);
-
-            useEffect(() => {
-                const ua = navigator.userAgent || navigator.vendor || window.opera;
-                const isInstagram = ua.indexOf('Instagram') > -1;
-                const isLine = ua.indexOf('Line') > -1;
-                const isFB = ua.indexOf('FBAN') > -1 || ua.indexOf('FBAV') > -1;
-
-                if (isInstagram || isLine || isFB) {
-                    setIsInApp(true);
-                    const android = /android/i.test(ua);
-                    setIsAndroid(android);
-
-                    if (android) {
-                        // Android Auto-Redirect attempt
-                        const url = window.location.href;
-                        const packageUrl = url.replace(/^https?:\/\//, '');
-                        const intent = `intent://${packageUrl}#Intent;scheme=https;package=com.android.chrome;end`;
-                        window.location.href = intent;
-                    }
-                }
-            }, []);
-
-            if (isInApp && !isAndroid) {
-                return (
-                    <div className="fixed inset-0 z-[100] bg-black/80 flex flex-col items-center justify-center p-6 text-white text-center">
-                        <div className="absolute top-4 right-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-10 h-10"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
-                        </div>
-                        <h2 className="text-xl font-bold mb-4 font-serif">ブラウザで開いてください</h2>
-                        <p className="text-sm opacity-80 mb-6">Instagram/LINE等のアプリ内ブラウザでは<br />正常に動作しない場合があります。</p>
-                        <div className="bg-white/10 p-4 rounded-xl border border-white/20 text-xs text-left inline-block">
-                            <p className="mb-2">1. 右上（または右下）のメニュー <span className="inline-block align-middle"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /></svg></span> をタップ</p>
-                            <p>2. <span className="font-bold text-theme-secondary">「ブラウザで開く」</span>を選択</p>
-                        </div>
-                        <button onClick={() => setIsInApp(false)} className="mt-8 text-xs text-white/50 underline">
-                            このまま進む (非推奨)
-                        </button>
-                    </div>
-                );
-            }
-
-            return children;
-        };
-
-        const App = () => {
-            const [user, setUser] = useState(null); // Auth User Object
-            const [isLoading, setIsLoading] = useState(true); // Initial Check
-
-            // Auth Persistence Logic
-            useEffect(() => {
-                if (typeof firebase === 'undefined') return;
-
-                // Infinite persistence (default in Firebase w/ CDN, but explicit here doesn't hurt)
-                // firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-
-                const unsubscribe = firebase.auth().onAuthStateChanged((u) => {
-                    setUser(u); // If logged in, u object exists. If not, null.
-                    setIsLoading(false); // Auth check done
-                });
-                return () => unsubscribe();
-            }, []);
-
-            const handleLogin = () => {
-                if (typeof firebase === 'undefined') {
-                    alert("Firebase SDK not loaded. Check internet connection.");
-                    return;
-                }
-                const auth = firebase.auth();
-                const provider = new firebase.auth.GoogleAuthProvider();
-
-                auth.signInWithPopup(provider).catch((error) => {
-                    console.error("Login failed", error);
-                    alert(`Login Failed: ${error.message}`);
-                });
-            };
-
-            const handleLogout = () => {
-                firebase.auth().signOut();
-            };
-
-            if (isLoading) {
-                return (
-                    <div className="w-full max-w-md mx-auto min-h-screen bg-theme-base flex items-center justify-center">
-                        <div className="text-theme-primary font-serif">Loading PePre...</div>
-                    </div>
-                );
-            }
-
-            return (
-                <div className="w-full max-w-md mx-auto shadow-2xl min-h-screen bg-theme-base overflow-hidden relative">
-                    {user ? <Dashboard user={user} onLogout={handleLogout} /> : <LandingPage onLogin={handleLogin} />}
-                </div>
-            );
-        };
-
         const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<AppBrowserGuard><App /></AppBrowserGuard>);
+        root.render(<App />);
     </script>
 </body>
 
